@@ -1,6 +1,7 @@
-@import url(https://fonts.googleapis.com/css?family=Nnunito );
+@import url(https://fonts.googleapis.com/css?family=Nunito );
+$linkColor: #132c7e;
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Nunito', 'sans - serif';
   height: 100%;
 }
 .logo {
@@ -8,20 +9,29 @@ body {
   width: 150px;
   img {
     width: 150px;
-    margin-left: 20px;
   }
 }
 .navlist {
   display: inline-block;
-  //margin-left: 40%;
+  margin-left: 20%;
 
 }
 
+
 .navlist ul li {
   display: inline-block;
-  margin: 10px;
-  margin: 0 50px 0 0;
+  margin: 30px 20px 0 20px;
   font-size: 20px;
+
+  a {
+    color: #1f5a04;
+    text-decoration: none;
+    transition: ease-in 0.5s;
+  }
+
+  a:hover {
+    color: $linkColor;
+  }
 } 
 
 
@@ -29,6 +39,8 @@ nav {
   margin: 0 auto;
   box-shadow: 0px 0px 8px 2px #000000;
   background: none;
+  z-index: 5;
+  text-align: center;
 }
 // Langing page
 .landing {

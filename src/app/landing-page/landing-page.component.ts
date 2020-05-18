@@ -12,4 +12,8 @@ export class LandingPageComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  Scroll($element: HTMLElement) {
+    console.log($element);
+    $element.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
+  }
 }
