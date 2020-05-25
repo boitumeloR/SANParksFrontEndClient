@@ -3,22 +3,51 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './header/header.component';
-import { LandingPageComponent } from './landing-page/landing-page.component';
-import { AvailabilityBoxComponent } from './availability-box/availability-box.component';
+import { HeaderComponent } from './sub-components/header/header.component';
+import { LandingPageComponent } from './pages/landing-page/landing-page.component';
+import { AvailabilityBoxComponent } from './sub-components/availability-box/availability-box.component';
+import { LoginClientComponent } from './pages/login-client/login-client.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SpinnerComponent } from './sub-components/spinner/spinner.component';
+import { SocialLoginModule, AuthServiceConfig } from 'angularx-social-login';
+import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
+import { environment } from 'src/environments/environment';
+import { AvailableResultsComponent } from './pages/available-results/available-results.component';
+
+
+const config = new AuthServiceConfig([
+  {
+    id: GoogleLoginProvider.PROVIDER_ID,
+    provider: new GoogleLoginProvider(environment.googleApiUrl)
+  }
+]);
+
+export function provideConfig() {
+  return config;
+}
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     LandingPageComponent,
-    AvailabilityBoxComponent
+    AvailabilityBoxComponent,
+    LoginClientComponent,
+    SpinnerComponent,
+    AvailableResultsComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    SocialLoginModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: AuthServiceConfig,
+      useFactory: provideConfig
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

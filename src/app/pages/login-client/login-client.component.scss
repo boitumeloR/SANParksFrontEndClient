@@ -1,0 +1,67 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.loginForm {
+    width: 50%;
+}
+
+.card {
+    margin: 0 auto;
+    box-shadow:  20px 20px 60px #d9d9d9, 
+             -20px -20px 60px #ffffff;
+    border-radius: 30px;
+    text-align: center;
+    margin-top: 70px;
+    width: 450px;
+    .or-label {
+        margin-top: 5px;
+    }
+
+    input {
+        border-radius: 60px;
+    }
+
+    .google {
+        background-color: rgb(236, 236, 236);
+    }
+}
+
+.parent {
+    text-align: center;
+    @media screen and (max-width: 778px) {
+        width: 100%;
+        text-align: center;
+        margin: 0 auto;
+    }
+}
+.child {
+    display: inline-block;
+    @media screen and (max-width: 778px) {
+        width: 90%;
+        display: inline-block;
+    }
+
+}
+
+button {
+    border-radius: 60px;
+    position: relative;
+    svg{
+        width: 20px;
+    }
+}
+
+// Sign Up 
+
+.mod {
+    border-radius: 30px;
+    h1 {
+        text-align: center;
+    }
+
+    .card-mod {
+        margin-top: 30px;
+    }
+}

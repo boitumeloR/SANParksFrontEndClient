@@ -3,8 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
+  googleApiUrl: '349797558572-80qsdeuo7hvrv0rccas8mcd2d7td5uhh.apps.googleusercontent.com',
+  enableDebug: false,
   production: false
 };
+
 
 /*
  * For easier debugging in development mode, you can import the following file

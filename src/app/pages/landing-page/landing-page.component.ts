@@ -7,9 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingPageComponent implements OnInit {
 
+  spin = true;
   constructor() { }
 
   ngOnInit(): void {
+    setTimeout(() => {
+      this.spin = false;
+    }, 1000);
   }
 
   Scroll($element: HTMLElement) {

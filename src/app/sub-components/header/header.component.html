@@ -1,0 +1,85 @@
+<nav class="sticky">
+    <div class="logo">
+        <img src="assets/images/logo.png" alt="">
+    </div>
+    <div class="navlist">
+        <ul>
+            <li>
+              <a [routerLink]="['/']">Home</a>
+            </li>
+            <li>
+              <a href="#">Wildcards</a>
+            </li>
+            <li>
+              <a class="dropdown-toggle" href="#" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Book With Us</a>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Accommodation</a>
+                <a class="dropdown-item" href="#">Activity</a>
+                <a class="dropdown-item" href="#">Day Visit</a>
+              </div>
+            </li>
+            <li>
+              <a class="notify">
+                <span>Itinerary</span>
+                <span class="badge">1</span>
+              </a>
+            </li>
+            <ng-container *ngIf="!loggedIn; else elseTemplate">
+              <li>
+                <a [routerLink]="['/Login']">Login</a>
+              </li>
+            </ng-container>
+            <ng-template #elseTemplate>
+              <li>
+                <a href="#" class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Me</a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <h6>{{googleUser.email}}</h6>
+                  <a class="dropdown-item" href="#">Profile</a>
+                  <a class="dropdown-item" href="#">My Bookings</a>
+                  <a class="dropdown-item" (click)="signOut()">Sign Out</a>
+                </div>
+              </li>
+            </ng-template>
+        </ul>
+    </div>
+    <div id="burger" #burger (click)="toggleBurger()"
+      [ngClass]="{'open': opened}">
+      <span></span> 
+      <span></span>
+      <span></span>
+    </div>
+  </nav>
+  <div   [ngClass]="{'open': opened}">
+    <div class="smallList">
+      <ul>
+        <li>
+          <a [routerLink]="['/']">Home</a>
+        </li>
+        <li>
+          <a href="#">Wildcards</a>
+        </li>
+        <li>
+          <a class="dropdown-toggle" href="#" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Book With Us</a>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#">Accommodation</a>
+            <a class="dropdown-item" href="#">Activity</a>
+            <a class="dropdown-item" href="#">Day Visit</a>
+          </div>
+        </li>
+        <li>
+          <a href="#">Itinerary</a>
+        </li>
+        <ng-container *ngIf="!loggedIn; else elseTemplate">
+          <li>
+            <a [routerLink]="['/Login']">Login</a>
+          </li>
+        </ng-container>
+        <ng-template #elseTemplate>
+          <li>
+            <a [routerLink]="['/Login']">{{googleUser.email}}</a>
+          </li>
+        </ng-template>
+    </ul>
+    </div>
+  </div>
+ 

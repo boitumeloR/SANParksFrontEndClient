@@ -18,23 +18,30 @@ $headColor: rgb(63, 56, 56);
     h1 {
         position: absolute;
         text-align: center;
-        top: 25%;
+        top: 50%;
         left: 50%;
         font-weight: 400;
         font-size: 60px;
         color: $headColor;
         transform: translate(-50%, 50%);
+        @media screen and (max-width: 1202px) {
+            display: none;
+        }
     }
     width: 100%;
     height: 50%;
     z-index: 10;
     .icon-scroll {
+        @media screen and (max-width: 1202px) {
+            display: none;
+        }
         position: absolute;
         width: 40px;
         height: 70px;
         margin-left: -20px;
-        top: 70%;
+        top: 130%;
         left: 50%;
+        transform: translate(-50%, 50%);
         margin-top: -35px;
         box-shadow: inset 0 0 0 1px #fff;
         border-radius: 25px;

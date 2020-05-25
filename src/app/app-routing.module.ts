@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LandingPageComponent } from './landing-page/landing-page.component';
+import { LandingPageComponent } from './pages/landing-page/landing-page.component';
+import { LoginClientComponent } from './pages/login-client/login-client.component';
+import { AvailableResultsComponent } from './pages/available-results/available-results.component';
 
 
 const routes: Routes = [
@@ -11,6 +13,14 @@ const routes: Routes = [
   {
     path: 'Home',
     component: LandingPageComponent
+  },
+  {
+    path: 'Login',
+    component: LoginClientComponent
+  },
+  {
+    path: 'availableResults',
+    component: AvailableResultsComponent
   }
 ];
 
