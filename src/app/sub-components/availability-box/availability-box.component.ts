@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 })
 export class AvailabilityBoxComponent implements OnInit {
 
+  isAccommodation = true;
+  isActivity = true;
   constructor(private router: Router) { }
 
   ngOnInit(): void {
@@ -15,5 +17,13 @@ export class AvailabilityBoxComponent implements OnInit {
 
   CheckAvailability() {
     this.router.navigateByUrl('availableResults');
+  }
+
+  toggleAccommodationCollapse() {
+    this.isAccommodation = !this.isAccommodation;
+  }
+
+  toggleActivityCollapse() {
+    this.isActivity = !this.isActivity;
   }
 }
