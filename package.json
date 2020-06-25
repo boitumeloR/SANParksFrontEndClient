@@ -23,6 +23,7 @@
     "angularx-social-login": "^2.3.1",
     "bootstrap": "^4.4.1",
     "jquery": "^1.12.4",
+    "ngx-bootstrap": "^5.6.1",
     "popper.js": "^1.12.3",
     "primeng": "^9.0.6",
     "rxjs": "~6.5.4",
