@@ -8,17 +8,18 @@ $buttonColor: rgb(61, 116, 61);
                  -10px -10px 60px #e4e4e4;
     width: 50%;
     // height: 500px;
-    height: 500px;
+    height: auto;
+    padding-bottom: 30px;
     top: 250%;
     @media screen and (max-width: 1202px) {
         top: 115%;
         width: 90%;
-        height: 550px;
+        height: auto;
     }
     @media screen and (max-width: 768px) {
         top: 100%;
         width: 90%;
-        height: 550px;
+        height: auto;
     }
     @media screen and (max-width: 768px) {
         top: 90%;
@@ -66,7 +67,7 @@ $buttonColor: rgb(61, 116, 61);
     margin-top: 25px;
     text-align: center;
     .checkbox{
-        width: 33%;
+        width: 33%  ;
         input {
             width: 20px;
             height: 20px;
@@ -89,4 +90,10 @@ $buttonColor: rgb(61, 116, 61);
 
 .dates{
     margin-top: 15px;
+}
+
+.well {
+    text-align: center;
+    border-radius: 12px;
+    background-color: rgb(248, 245, 245);
 }

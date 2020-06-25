@@ -13,6 +13,7 @@ import { SocialLoginModule, AuthServiceConfig } from 'angularx-social-login';
 import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-login';
 import { environment } from 'src/environments/environment';
 import { AvailableResultsComponent } from './pages/available-results/available-results.component';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
 
 
 const config = new AuthServiceConfig([
@@ -37,6 +38,7 @@ export function provideConfig() {
     AvailableResultsComponent
   ],
   imports: [
+    CollapseModule.forRoot(),
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,

@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AvailableResultsComponent implements OnInit {
 
+  isAccommodation = true;
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  toggleAccommodationCollapse() {
+    this.isAccommodation = !this.isAccommodation;
   }
 
 }
