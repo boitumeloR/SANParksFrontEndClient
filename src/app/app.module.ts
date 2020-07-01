@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -14,6 +15,18 @@ import { GoogleLoginProvider, FacebookLoginProvider } from 'angularx-social-logi
 import { environment } from 'src/environments/environment';
 import { AvailableResultsComponent } from './pages/available-results/available-results.component';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { ViewAvailableComponent } from './modals/view-available/view-available.component';
+import { ModalModule, BsModalRef } from 'ngx-bootstrap/modal';
+import {CalendarModule} from 'primeng/calendar';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { ViewAvailableImgComponent } from './modals/view-available-img/view-available-img.component';
+import { AddBookingComponent } from './modals/add-booking/add-booking.component';
+import { ItineraryComponent } from './pages/itinerary/itinerary.component';
+import { RemoveGuestConfirmComponent } from './modals/remove-guest-confirm/remove-guest-confirm.component';
+import { AddGuestComponent } from './modals/add-guest/add-guest.component';
+import { WildcardPricingComponent } from './pages/wildcard-pricing/wildcard-pricing.component';
+
 
 
 const config = new AuthServiceConfig([
@@ -27,6 +40,7 @@ export function provideConfig() {
   return config;
 }
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,16 +49,29 @@ export function provideConfig() {
     AvailabilityBoxComponent,
     LoginClientComponent,
     SpinnerComponent,
-    AvailableResultsComponent
+    AvailableResultsComponent,
+    ViewAvailableComponent,
+    ViewAvailableImgComponent,
+    AddBookingComponent,
+    ItineraryComponent,
+    RemoveGuestConfirmComponent,
+    AddGuestComponent,
+    WildcardPricingComponent
   ],
   imports: [
+    BsDatepickerModule.forRoot(),
+    CarouselModule.forRoot(),
+    ModalModule.forRoot(),
     CollapseModule.forRoot(),
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    SocialLoginModule
+    SocialLoginModule,
+    CalendarModule,
+    CommonModule
   ],
   providers: [
+    BsModalRef,
     {
       provide: AuthServiceConfig,
       useFactory: provideConfig

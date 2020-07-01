@@ -8,7 +8,10 @@
               <a [routerLink]="['/']">Home</a>
             </li>
             <li>
-              <a href="#">Wildcards</a>
+              <a href="#" class="dropdown-toggle" href="#" id="drop" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wildcards</a>
+              <div class="dropdown-menu" aria-labelledby="drop">
+                <a class="dropdown-item" [routerLink]="['/wildcardPricing']">Purchase Wildcard</a>
+              </div>
             </li>
             <li>
               <a class="dropdown-toggle" href="#" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Book With Us</a>
@@ -19,7 +22,7 @@
               </div>
             </li>
             <li>
-              <a class="notify">
+              <a class="notify" [routerLink]="['/itinerary']">
                 <span>Itinerary</span>
                 <span class="badge">1</span>
               </a>
@@ -56,7 +59,10 @@
           <a [routerLink]="['/']">Home</a>
         </li>
         <li>
-          <a href="#">Wildcards</a>
+          <a class="dropdown-toggle" href="#" id="drop" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wildcards</a>
+          <div class="dropdown-menu" aria-labelledby="drop">
+            <a class="dropdown-item" href="#">Purchase Wildcards</a>
+          </div>
         </li>
         <li>
           <a class="dropdown-toggle" href="#" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Book With Us</a>
@@ -67,7 +73,7 @@
           </div>
         </li>
         <li>
-          <a href="#">Itinerary</a>
+          <a [routerLink]="['/itinerary']">Itinerary</a>
         </li>
         <ng-container *ngIf="!loggedIn; else elseTemplate">
           <li>
