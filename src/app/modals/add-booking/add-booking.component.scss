@@ -140,3 +140,13 @@ $buttonColor: rgb(61, 116, 61);
     border-radius: 12px;
     background-color: rgb(248, 245, 245);
 }
+
+:host ::ng-deep {
+    .mat-horizontal-stepper-header-container {
+      position: inherit;
+    }
+  }
+
+.mat-step {
+    font-family: 'Nunito', sans-serif;
+}

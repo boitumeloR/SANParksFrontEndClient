@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,6 +26,8 @@ import { ItineraryComponent } from './pages/itinerary/itinerary.component';
 import { RemoveGuestConfirmComponent } from './modals/remove-guest-confirm/remove-guest-confirm.component';
 import { AddGuestComponent } from './modals/add-guest/add-guest.component';
 import { WildcardPricingComponent } from './pages/wildcard-pricing/wildcard-pricing.component';
+import {MatStepperModule} from '@angular/material/stepper';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -68,8 +70,12 @@ export function provideConfig() {
     BrowserAnimationsModule,
     SocialLoginModule,
     CalendarModule,
-    CommonModule
+    CommonModule,
+    MatStepperModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
+  schemas: [NO_ERRORS_SCHEMA],
   providers: [
     BsModalRef,
     {
