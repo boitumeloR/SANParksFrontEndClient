@@ -1,0 +1,64 @@
+<app-header></app-header>
+<h1>
+    My Itinerary 
+</h1>
+
+<div class="row justfy-content-center">
+    <div class="col-12">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item list-group-item-action"  >
+                <a (click)="openImageModal()"><p class="close"><i class="fa fa-times-circle fa-lg"aria-hidden="true"></i></p></a> <br><br>
+                <p class="dates">01 / 01 / 2020 - 01 / 03 /2020 &nbsp; <i class="fa fa-calendar" aria-hidden="true"></i>
+                <h6><i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;Kruger National Park (Berg En Dal Rest Camp)</h6> <br>
+                <h6> <a ><i class="fa fa-home" aria-hidden="true"></i> Bungalow (CK-6P) X 2 </a></h6> <br>
+                <h6> <i class="fa fa-users" aria-hidden="true"></i> &nbsp; Guests</h6>
+                <div class="list-group guests">    
+                    <li href="#" class="list-group-item list-group-item-action">Boitumelo Rampete <a class="removeGuest"><i class="fa fa-times-circle" aria-hidden="true" (click)="confirmRemoveGuest()"></i></a></li>
+                    <li href="#" class="list-group-item list-group-item-action">Boitumelo Rampete <a class="removeGuest"><i class="fa fa-times-circle" aria-hidden="true" (click)="confirmRemoveGuest()"></i></a></li>
+                    <li href="#" class="list-group-item list-group-item-action">Boitumelo Rampete <a class="removeGuest"><i class="fa fa-times-circle" aria-hidden="true" (click)="confirmRemoveGuest()"></i></a></li>
+                    <li href="#" class="list-group-item list-group-item-action">Boitumelo Rampete <a class="removeGuest"><i class="fa fa-times-circle" aria-hidden="true" (click)="confirmRemoveGuest()"></i></a></li>
+                    <li (click)="addGuestModal()" class="list-group-item list-group-item-action add">Add Guest <a href=""></a><i class="fa fa-plus fa-md" aria-hidden="true"></i></li>
+                  </div>
+                  <p class="dates"><i class="fa fa-money" aria-hidden="true"></i> R 1100 </p>
+            </li>
+        </ul>
+
+    </div>
+</div>
+<div class="row justify-content-center">
+    <h4>Pay Conservation Fee upfront with booking?</h4>
+</div>
+<div class="row justify-content-center">
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+        <label class="form-check-label" for="inlineRadio1">I have a Wildcard</label>
+      </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+        <label class="form-check-label" for="inlineRadio2">I want to pay upfront</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+        <label class="form-check-label" for="inlineRadio2">I'll pay upon checkin</label>
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div>
+        <h3 class="total">Total Due: R 1 100</h3>
+    </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="form-group col-8">
+        <h4 for="formControlRange">Slide to the amount you'd like to pay upfront: R1100</h4>
+        <input type="range" class="form-control-range" id="formControlRange" min="0.3" max="1" step="0.01">
+      </div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="btn-group col-6" role="group" aria-label="Basic example">
+        <button class="btn btn-light round" [routerLink]="['/availableResults']"><i class="fa fa-arrow-left" aria-hidden="true"></i> Add More Bookings</button>
+        <button class="btn btnModal btn-light">Cancel Booking <i class="fa fa-times-circle fa-lg"aria-hidden="true"></i></button>
+        <button class="btn btnModal btn-light round2">Checkout <i class="fa fa-credit-card" aria-hidden="true"></i></button>    
+    </div>
+</div>
