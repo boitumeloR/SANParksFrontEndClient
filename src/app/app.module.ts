@@ -28,6 +28,8 @@ import { AddGuestComponent } from './modals/add-guest/add-guest.component';
 import { WildcardPricingComponent } from './pages/wildcard-pricing/wildcard-pricing.component';
 import {MatStepperModule} from '@angular/material/stepper';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BookingPaymentComponent } from './pages/booking-payment/booking-payment.component';
+import { NgxStripeModule } from 'ngx-stripe';
 
 
 
@@ -58,7 +60,8 @@ export function provideConfig() {
     ItineraryComponent,
     RemoveGuestConfirmComponent,
     AddGuestComponent,
-    WildcardPricingComponent
+    WildcardPricingComponent,
+    BookingPaymentComponent
   ],
   imports: [
     BsDatepickerModule.forRoot(),
@@ -73,7 +76,8 @@ export function provideConfig() {
     CommonModule,
     MatStepperModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxStripeModule.forRoot(environment.stripeKey)
   ],
   schemas: [NO_ERRORS_SCHEMA],
   providers: [

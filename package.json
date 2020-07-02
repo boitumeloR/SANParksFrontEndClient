@@ -32,6 +32,7 @@
     "font-awesome": "^4.7.0",
     "jquery": "^1.12.4",
     "ngx-bootstrap": "^5.6.1",
+    "ngx-stripe": "^9.0.3",
     "popper.js": "^1.12.3",
     "primeng": "^9.0.6",
     "rxjs": "~6.5.4",
