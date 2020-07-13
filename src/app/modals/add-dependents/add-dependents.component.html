@@ -1,0 +1,91 @@
+<div class="modal-header">
+    <h3>Add Dependents</h3>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+    <div class="modal-content">
+        <!--Body-->
+        <div class="modal-body">
+            <mat-horizontal-stepper labelPosition="bottom" #stepper style="font-family: 'Nunito', sans-serif; font-size: 18px;">
+                <mat-step>
+                    <ng-template matStepLabel>Add Adult Details</ng-template>
+                        <h3>Adult Dependents</h3>
+                        <h6>Adult 1</h6>
+                        <div class="col-md-12 keyword">
+                          <label class="start">Dependent ID Number: </label>
+                          <div class="input-group">
+                            <input type="text" class="form-control"/>
+                          </div>
+                        </div>
+                        <div class="col-md-12 keyword">
+                            <label class="start">Dependent Name: </label>
+                            <div class="input-group">
+                              <input type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-12 keyword">
+                            <label class="start">Dependent Surname: </label>
+                            <div class="input-group">
+                              <input type="text" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="col-md-12 keyword">
+                            <label class="start">Dependent Email Address: </label>
+                            <div class="input-group">
+                              <input type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-md-12 keyword">
+                            <label class="start">Dependent Cellphone: </label>
+                            <div class="input-group">
+                              <input type="text" class="form-control" />
+                            </div>
+                        </div>
+                        <button matStepperNext class="btn btn-success btn-block">Next</button>
+                    </mat-step>
+                <mat-step>
+                  <ng-template matStepLabel>Add Child Details</ng-template>
+                  <h3>Child Dependents</h3>
+                  <h6>Child 1</h6>
+                  <div class="col-md-12 keyword">
+                    <label class="start">Dependent ID Number: </label>
+                    <div class="input-group">
+                      <input type="text" class="form-control"/>
+                    </div>
+                  </div>
+                  <div class="col-md-12 keyword">
+                      <label class="start">Dependent Name: </label>
+                      <div class="input-group">
+                        <input type="text" class="form-control" />
+                      </div>
+                  </div>
+                  <div class="col-md-12 keyword">
+                      <label class="start">Dependent Surname: </label>
+                      <div class="input-group">
+                        <input type="text" class="form-control"/>
+                      </div>
+                  </div>
+                    
+                    <div class="modal-footer">
+                        <button class="btn btn-danger" (click)="close()">Cancel</button>
+                        <button type="button" class="btn btn-success">Save and Proceed to Payment</button>
+                    </div>
+                </mat-step>
+              </mat-horizontal-stepper>
+        
+        </div>
+    
+        <!--Body-->
+    </div>
+
+
+
+<!--Stepper-->
+
+
+
+  
+
+
+

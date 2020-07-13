@@ -30,6 +30,8 @@ import {MatStepperModule} from '@angular/material/stepper';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BookingPaymentComponent } from './pages/booking-payment/booking-payment.component';
 import { NgxStripeModule } from 'ngx-stripe';
+import { WildcardFamilyOptionComponent } from './pages/wildcard-family-option/wildcard-family-option.component';
+import { AddDependentsComponent } from './modals/add-dependents/add-dependents.component';
 
 
 
@@ -61,7 +63,9 @@ export function provideConfig() {
     RemoveGuestConfirmComponent,
     AddGuestComponent,
     WildcardPricingComponent,
-    BookingPaymentComponent
+    BookingPaymentComponent,
+    WildcardFamilyOptionComponent,
+    AddDependentsComponent
   ],
   imports: [
     BsDatepickerModule.forRoot(),

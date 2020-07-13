@@ -7,6 +7,7 @@ import { ViewAvailableComponent } from './modals/view-available/view-available.c
 import { ItineraryComponent } from './pages/itinerary/itinerary.component';
 import { WildcardPricingComponent } from './pages/wildcard-pricing/wildcard-pricing.component';
 import { BookingPaymentComponent } from './pages/booking-payment/booking-payment.component';
+import { WildcardFamilyOptionComponent } from './pages/wildcard-family-option/wildcard-family-option.component';
 
 
 const routes: Routes = [
@@ -37,6 +38,10 @@ const routes: Routes = [
   {
     path: 'bookingPayment',
     component: BookingPaymentComponent
+  },
+  {
+    path: 'wildcardFamily',
+    component: WildcardFamilyOptionComponent
   }
 ];
 

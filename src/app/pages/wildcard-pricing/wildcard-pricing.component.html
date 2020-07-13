@@ -1,5 +1,11 @@
 <app-header></app-header>
 <section class="pricing py-5">
+  <div class="head">
+    <h1>Purchase A Wildcard</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore aut nesciunt, laborum 
+      architecto sed modi natus molestias nulla nisi facere sapiente mollitia quas tempore, adipisci 
+      labore reiciendis neque tempora eveniet.</p>
+  </div>
     <div class="container">
       <div class="row">
         <!-- Free Tier -->
@@ -9,8 +15,24 @@
               <h5 class="card-title text-muted text-uppercase text-center">Individual</h5>
               <h6 class="card-price text-center">R100<span class="period">/year</span></h6>
               <hr>
+              <label for="exampleFormControlSelect1">Cluster</label>
+              <select class="form-control" id="exampleFormControlSelect1" aria-placeholder="Park">
+                <option>Cluster A</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+              <hr>
+                <h6>Dependents</h6>
+                <ul class="fa-ul">
+                  <li><span class="fa-li"><i class="fa fa-check"></i></span>Single Dependent</li>
+                </ul>
+              <hr>
+              <h6>Parks Covered</h6>
               <ul class="fa-ul">
-                <li><span class="fa-li"><i class="fa fa-check"></i></span>Single Dependent</li>
+                <li><span class="fa-li"><i class="fa fa-check"></i></span>Addo Elephant Park , 
+                  Kruger National Park</li>
               </ul>
               <a href="#" class="btn btn-block btn-success text-uppercase">Purchase</a>
             </div>
@@ -23,10 +45,26 @@
               <h5 class="card-title text-muted text-uppercase text-center">Family</h5>
               <h6 class="card-price text-center">R900<span class="period">/year</span></h6>
               <hr>
+              <label for="exampleFormControlSelect1">Cluster</label>
+              <select class="form-control" id="exampleFormControlSelect1" aria-placeholder="Park">
+                <option>Cluster A</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+              <hr>
+                <h6>Dependents</h6>
+                <ul class="fa-ul">
+                  <li><span class="fa-li"><i class="fa fa-check"></i></span>7 Dependents</li>
+                </ul>
+              <hr>
+              <h6>Parks Covered</h6>
               <ul class="fa-ul">
-                <li><span class="fa-li"><i class="fa fa-check"></i></span><strong>7 Dependents</strong></li>
+                <li><span class="fa-li"><i class="fa fa-check"></i></span>Addo Elephant Park , 
+                  Kruger National Park</li>
               </ul>
-              <a href="#" class="btn btn-block btn-success text-uppercase">Purchase</a>
+              <a [routerLink]="[ '/wildcardFamily' ]" class="btn btn-block btn-success text-uppercase">Purchase</a>
             </div>
           </div>
         </div>
@@ -37,9 +75,24 @@
               <h5 class="card-title text-muted text-uppercase text-center">Couple</h5>
               <h6 class="card-price text-center">R200<span class="period">/year</span></h6>
               <hr>
+              <label for="exampleFormControlSelect1">Cluster</label>
+              <select class="form-control" id="exampleFormControlSelect1" aria-placeholder="Park">
+                <option>Cluster A</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+              </select>
+              <hr>
+                <h6>Dependents</h6>
+                <ul class="fa-ul">
+                  <li><span class="fa-li"><i class="fa fa-check"></i></span>2 Dependents, Both Adult</li>
+                </ul>
+              <hr>
+              <h6>Parks Covered</h6>
               <ul class="fa-ul">
-                <li><span class="fa-li"><i class="fa fa-check"></i></span><strong>2 Dependents</strong></li>
-                <li><span class="fa-li"><i class="fa fa-check"></i></span>Both Adults</li>
+                <li><span class="fa-li"><i class="fa fa-check"></i></span>Addo Elephant Park , 
+                Kruger National Park</li>
               </ul>
               <a href="#" class="btn btn-block btn-success text-uppercase">Purchase</a>
             </div>
