@@ -4,6 +4,7 @@ import { ViewAvailableImgComponent } from 'src/app/modals/view-available-img/vie
 import { RemoveGuestConfirmComponent } from 'src/app/modals/remove-guest-confirm/remove-guest-confirm.component';
 import { AddBookingComponent } from 'src/app/modals/add-booking/add-booking.component';
 import { AddGuestComponent } from 'src/app/modals/add-guest/add-guest.component';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-itinerary',
@@ -12,13 +13,21 @@ import { AddGuestComponent } from 'src/app/modals/add-guest/add-guest.component'
 })
 export class ItineraryComponent implements OnInit {
 
+  firstFormGroup: FormGroup;
+  secondFormGroup: FormGroup;
   payAmount = 0;
   payPerc = 0;
   bsModalRef: BsModalRef;
-  constructor(private modalService: BsModalService) { }
+  constructor(private modalService: BsModalService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.payAmount = 1;
+    this.firstFormGroup = this.formBuilder.group({
+      firstCtrl: ['', Validators.required]
+    });
+    this.secondFormGroup = this.formBuilder.group({
+      secondCtrl: ['', Validators.required]
+    });
   }
 
   openImageModal() {

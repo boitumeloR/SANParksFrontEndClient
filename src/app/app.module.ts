@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,6 +26,12 @@ import { ItineraryComponent } from './pages/itinerary/itinerary.component';
 import { RemoveGuestConfirmComponent } from './modals/remove-guest-confirm/remove-guest-confirm.component';
 import { AddGuestComponent } from './modals/add-guest/add-guest.component';
 import { WildcardPricingComponent } from './pages/wildcard-pricing/wildcard-pricing.component';
+import {MatStepperModule} from '@angular/material/stepper';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BookingPaymentComponent } from './pages/booking-payment/booking-payment.component';
+import { NgxStripeModule } from 'ngx-stripe';
+import { WildcardFamilyOptionComponent } from './pages/wildcard-family-option/wildcard-family-option.component';
+import { AddDependentsComponent } from './modals/add-dependents/add-dependents.component';
 
 
 
@@ -56,7 +62,10 @@ export function provideConfig() {
     ItineraryComponent,
     RemoveGuestConfirmComponent,
     AddGuestComponent,
-    WildcardPricingComponent
+    WildcardPricingComponent,
+    BookingPaymentComponent,
+    WildcardFamilyOptionComponent,
+    AddDependentsComponent
   ],
   imports: [
     BsDatepickerModule.forRoot(),
@@ -68,8 +77,13 @@ export function provideConfig() {
     BrowserAnimationsModule,
     SocialLoginModule,
     CalendarModule,
-    CommonModule
+    CommonModule,
+    MatStepperModule,
+    FormsModule,
+    ReactiveFormsModule,
+    NgxStripeModule.forRoot(environment.stripeKey)
   ],
+  schemas: [NO_ERRORS_SCHEMA],
   providers: [
     BsModalRef,
     {
