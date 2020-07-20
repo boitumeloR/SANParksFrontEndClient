@@ -9,6 +9,7 @@ import { WildcardPricingComponent } from './pages/wildcard-pricing/wildcard-pric
 import { BookingPaymentComponent } from './pages/booking-payment/booking-payment.component';
 import { WildcardFamilyOptionComponent } from './pages/wildcard-family-option/wildcard-family-option.component';
 import { DependentsComponent } from './pages/dependents/dependents.component';
+import { ViewWildcardComponent } from './pages/view-wildcard/view-wildcard.component';
 
 
 const routes: Routes = [
@@ -47,6 +48,10 @@ const routes: Routes = [
   {
     path: 'Dependents',
     component: DependentsComponent
+  },
+  {
+    path: 'viewWildcard',
+    component: ViewWildcardComponent
   }
 ];
 
