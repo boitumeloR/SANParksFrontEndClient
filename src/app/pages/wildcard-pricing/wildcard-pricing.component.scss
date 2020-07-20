@@ -1,47 +1,79 @@
-section.pricing {
-  background: #C9D6FF;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #E2E2E2, #C9D6FF);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #E2E2E2, #cdd2e2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+//section.pricing {
+  //background: #C9D6FF;  /* fallback for old browsers */
+  //background: -webkit-linear-gradient(to right, #E2E2E2, #C9D6FF);  /* Chrome 10-25, Safari 5.1-6 */
+  //background: linear-gradient(to right, #E2E2E2, #cdd2e2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   
-    height: auto;
-  }
+    //height: auto;
+  //}
   
-  .pricing .card {
+  .cover {
+    //background: url('/src/assets/images/loginback.jpg');
+    //background-position: center;
+    //background-repeat: no-repeat;
+    //background-size: cover;
+    height: 50%;
+    @media screen and (max-width: 768px) {
+        height: 70%;
+    }
+    margin-bottom: 30px;
+    //width: 100%;
+    position: relative;
+    .head {
+        color: rgb(236, 236, 236);
+        z-index: 1;
+        position: absolute;
+        left: 3%;
+        top: 0px;
+        margin-top: 4%;
+        margin-left: 20px;
+        height:200px;
+        width: 50%;
+        text-overflow: ellipsis;
+        //width: 50%
+    }
+    img {
+        filter: brightness(50%);
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+}
+  .card {
     border: none;
     border-radius: 1rem;
     transition: all 0.2s;
     box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
   }
   
-  .pricing hr {
+  hr {
     margin: 1.5rem 0;
   }
   
-  .pricing .card-title {
+  .card-title {
     margin: 0.5rem 0;
     font-size: 0.9rem;
     letter-spacing: .1rem;
     font-weight: bold;
   }
   
-  .pricing .card-price {
+  .card-price {
     font-size: 3rem;
     margin: 0;
   }
   
-  .pricing .card-price .period {
+   .card-price .period {
     font-size: 0.8rem;
   }
   
-  .pricing ul li {
+   ul li {
     margin-bottom: 1rem;
   }
   
-  .pricing .text-muted {
+  .text-muted {
     opacity: 0.7;
   }
   
-  .pricing .btn {
+  .btn {
     font-size: 80%;
     border-radius: 5rem;
     letter-spacing: .1rem;
@@ -54,18 +86,18 @@ section.pricing {
   /* Hover Effects on Card */
   
   @media (min-width: 992px) {
-    .pricing .card:hover {
+    .card:hover {
       margin-top: -.25rem;
       margin-bottom: .25rem;
       box-shadow: 0 1rem 1.2rem 0 rgba(0, 0, 0, 0.3);
     }
-    .pricing .card:hover .btn {
+    .card:hover .btn {
       opacity: 1;
     }
   }
 
   .head {
-    text-align: center;
+    //text-align: center;
     margin: 0 auto;
     width: 50%;
     color: rgb(49, 45, 45);

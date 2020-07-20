@@ -32,6 +32,7 @@ import { BookingPaymentComponent } from './pages/booking-payment/booking-payment
 import { NgxStripeModule } from 'ngx-stripe';
 import { WildcardFamilyOptionComponent } from './pages/wildcard-family-option/wildcard-family-option.component';
 import { AddDependentsComponent } from './modals/add-dependents/add-dependents.component';
+import { DependentsComponent } from './pages/dependents/dependents.component';
 
 
 
@@ -65,7 +66,8 @@ export function provideConfig() {
     WildcardPricingComponent,
     BookingPaymentComponent,
     WildcardFamilyOptionComponent,
-    AddDependentsComponent
+    AddDependentsComponent,
+    DependentsComponent
   ],
   imports: [
     BsDatepickerModule.forRoot(),
