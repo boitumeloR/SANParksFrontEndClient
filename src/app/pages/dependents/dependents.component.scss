@@ -1,0 +1,68 @@
+.cover {
+    //background: url('/src/assets/images/loginback.jpg');
+    //background-position: center;
+    //background-repeat: no-repeat;
+    //background-size: cover;
+    height: 50%;
+    @media screen and (max-width: 768px) {
+        height: 70%;
+    }
+    margin-bottom: 10px;
+    //width: 100%;
+    position: relative;
+    .head {
+        color: rgb(236, 236, 236);
+        z-index: 1;
+        position: absolute;
+        left: 40%;
+        top: 0px;
+        margin-top: 4%;
+        margin-left: 20px;
+        height:200px;
+        width: 50%;
+        text-overflow: ellipsis;
+        //width: 50%
+    }
+    img {
+        filter: brightness(50%);
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+}
+table {
+    box-shadow:  20px 20px 60px #d9d9d9, 
+             -20px -20px 60px #ffffff;
+    margin-right: 10px;
+    width: 100%;
+}
+
+
+
+.first {
+    float: right;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    .child {
+        border-radius: 30px 0 0 30px;
+    }
+    .adult {
+        border-radius: 0 30px 30px 0;
+    }
+
+}
+.parent {
+    text-align: center;
+}
+
+.last {
+    display: inline-block;
+    margin-top: 10px;
+    .child {
+        border-radius: 30px 0 0 30px;
+    }
+    .adult {
+        border-radius: 0 30px 30px 0;
+    }
+    margin-bottom: 20px;
+}
