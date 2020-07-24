@@ -35,6 +35,9 @@ import { AddDependentsComponent } from './modals/add-dependents/add-dependents.c
 import { DependentsComponent } from './pages/dependents/dependents.component';
 import { ViewWildcardComponent } from './pages/view-wildcard/view-wildcard.component';
 import { ViewWildcardDetailsComponent } from './modals/view-wildcard-details/view-wildcard-details.component';
+import { AddChildDependentComponent } from './modals/add-child-dependent/add-child-dependent.component';
+import { PayWildcardComponent } from './pages/pay-wildcard/pay-wildcard.component';
+import { AvailableBoxFixComponent } from './sub-components/available-box-fix/available-box-fix.component';
 
 
 
@@ -71,7 +74,10 @@ export function provideConfig() {
     AddDependentsComponent,
     DependentsComponent,
     ViewWildcardComponent,
-    ViewWildcardDetailsComponent
+    ViewWildcardDetailsComponent,
+    AddChildDependentComponent,
+    PayWildcardComponent,
+    AvailableBoxFixComponent
   ],
   imports: [
     BsDatepickerModule.forRoot(),

@@ -9,8 +9,8 @@
     <img src="assets/images/wc-dependent.jpg" loading = "lazy" alt="">
 </div>
 <div class="btn-group first" role="group" aria-label="Basic example">
-    <button type="button" class="btn btn-success child">Add Child Dependent</button>
-    <button type="button" class="btn btn-success adult">Add AdultDependent</button>
+    <button type="button" class="btn btn-success child" (click)="AddChild()">Add Child Dependent</button>
+    <button type="button" class="btn btn-success adult" (click)="AddAdult()">Add AdultDependent</button>
   </div>
 <table class="table table-hover">
     <thead>
@@ -51,7 +51,7 @@
     <div class="btn-group last mx-auto" role="group" aria-label="Basic example">
         <button type="button" class="btn btn-secondary child"> <i class="fa fa-arrow-left" aria-hidden="true"></i>
             Go Back</button>
-        <button type="button" class="btn btn-success adult">Proceed To Payment <i class="fa fa-credit-card" aria-hidden="true"></i>
+        <button type="button" [routerLink]="[ '/wildcardPayment']" class="btn btn-success adult">Proceed To Payment <i class="fa fa-credit-card" aria-hidden="true"></i>
 
         </button>
     </div>

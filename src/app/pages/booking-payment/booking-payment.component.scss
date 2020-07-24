@@ -1,14 +1,68 @@
 
+.cover {
+  //background: url('/src/assets/images/loginback.jpg');
+  //background-position: center;
+  //background-repeat: no-repeat;
+  //background-size: cover;
+  background: rgb(2,0,36);
+  background: linear-gradient(36deg, rgba(2,0,36,1) 0%, rgba(255,255,255,1) 0%, rgba(232,232,232,1) 100%);
+  height: 40%;
+  @media screen and (max-width: 768px) {
+      height: 70%;
+  }
+  // margin-bottom: 30px;
+  //width: 100%;
+  position: relative;
+  .head {
+      color: rgb(51, 51, 51);
+      z-index: 1;
+      position: absolute;
+      left: 3%;
+      top: 0px;
+      margin-top: 4%;
+      margin-left: 20px;
+      height:200px;
+      width: 45%;
+      @media screen and (max-width: 768px) {
+          width: 80%;
+          font-size: larger;
+          p {
+              display: none;
+          }
+          h1 {
+            display: none;
+          }
+      }
+      text-overflow: ellipsis;
+      //width: 50%
+  }
+  img {
+      opacity: 0.7;
+      filter: brightness(50%);
+      height: 100%;
+      width: 24%;
+      float: right;
+      object-fit: cover;
+      @media screen and (max-width: 768px) {
+          width: 100%;
+          display: block;
+      }
+  }
+}
 .example.example1 {
     z-index: -1;
     background-color: #e7e7e7d2;
     height: 100%;
     h1 {
-        font-size: 59px;
-        text-align: center;
-        margin-bottom: 30px;
-        padding-top: 20px;
-        color: rgb(61, 61, 61);
+        display: none;
+        @media screen and (max-width: 768px) {
+          font-size: 59px;
+          text-align: center;
+          margin-bottom: 30px;
+          padding-top: 20px;
+          color: rgb(61, 61, 61);
+          display: block;
+      }
     }
   }
   
@@ -34,6 +88,7 @@
     -ms-flex-align: center;
     align-items: center;
     margin-left: 15px;
+    width: 98%;
   }
   
   .example.example1 .row + .row {

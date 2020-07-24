@@ -13,9 +13,6 @@ export class AddDependentsComponent implements OnInit {
   constructor(private bsModalRef: BsModalRef, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    this.firstFormGroup = this.formBuilder.group({
-      firstCtrl: ['', Validators.required]
-    });
   }
 
   confirm() {
