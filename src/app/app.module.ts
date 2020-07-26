@@ -17,7 +17,6 @@ import { AvailableResultsComponent } from './pages/available-results/available-r
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { ViewAvailableComponent } from './modals/view-available/view-available.component';
 import { ModalModule, BsModalRef } from 'ngx-bootstrap/modal';
-import {CalendarModule} from 'primeng/calendar';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ViewAvailableImgComponent } from './modals/view-available-img/view-available-img.component';
@@ -38,9 +37,23 @@ import { ViewWildcardDetailsComponent } from './modals/view-wildcard-details/vie
 import { AddChildDependentComponent } from './modals/add-child-dependent/add-child-dependent.component';
 import { PayWildcardComponent } from './pages/pay-wildcard/pay-wildcard.component';
 import { AvailableBoxFixComponent } from './sub-components/available-box-fix/available-box-fix.component';
+import { ResultsFixComponent } from './pages/results-fix/results-fix.component';
+import {MatTreeModule} from '@angular/material/tree';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import { FullCalendarModule } from '@fullcalendar/angular'; // the main connector. must go first
+import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
+import interactionPlugin from '@fullcalendar/interaction'; // a plugin
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
+import { SignUpComponent } from './modals/sign-up/sign-up.component';
 
-
-
+FullCalendarModule.registerPlugins([ // register FullCalendar plugins
+  dayGridPlugin,
+  interactionPlugin,
+  timeGridPlugin,
+  listPlugin
+]);
 const config = new AuthServiceConfig([
   {
     id: GoogleLoginProvider.PROVIDER_ID,
@@ -77,9 +90,15 @@ export function provideConfig() {
     ViewWildcardDetailsComponent,
     AddChildDependentComponent,
     PayWildcardComponent,
-    AvailableBoxFixComponent
+    AvailableBoxFixComponent,
+    ResultsFixComponent,
+    SignUpComponent
   ],
   imports: [
+    FullCalendarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTreeModule,
     BsDatepickerModule.forRoot(),
     CarouselModule.forRoot(),
     ModalModule.forRoot(),
@@ -88,7 +107,6 @@ export function provideConfig() {
     AppRoutingModule,
     BrowserAnimationsModule,
     SocialLoginModule,
-    CalendarModule,
     CommonModule,
     MatStepperModule,
     FormsModule,

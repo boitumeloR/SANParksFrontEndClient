@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService, SocialUser } from 'angularx-social-login';
 import { FacebookLoginProvider, GoogleLoginProvider } from 'angularx-social-login';
 import { Router } from '@angular/router';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { SignUpComponent } from 'src/app/modals/sign-up/sign-up.component';
 
 @Component({
   selector: 'app-login-client',
@@ -12,7 +14,8 @@ export class LoginClientComponent implements OnInit {
 
   private user: SocialUser;
   private loggedIn: boolean;
-  constructor(private authService: AuthService, private router: Router) { }
+  bsModalRef: BsModalRef;
+  constructor(private authService: AuthService, private router: Router, private modalService: BsModalService) { }
 
   ngOnInit(): void {
     this.authService.authState.subscribe((user) => {
@@ -32,4 +35,15 @@ export class LoginClientComponent implements OnInit {
     });
   }
 
+  SignUp(): void {
+    const initialState = {
+      backdrop: 'static'
+    };
+    this.bsModalRef = this.modalService.show(SignUpComponent,
+      {
+        class: 'modal-md modal-dialog-centered',
+        backdrop: 'static'
+      });
+    this.bsModalRef.content.closeBtnName = 'Close';
+  }
 }

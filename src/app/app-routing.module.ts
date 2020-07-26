@@ -11,6 +11,7 @@ import { WildcardFamilyOptionComponent } from './pages/wildcard-family-option/wi
 import { DependentsComponent } from './pages/dependents/dependents.component';
 import { ViewWildcardComponent } from './pages/view-wildcard/view-wildcard.component';
 import { PayWildcardComponent } from './pages/pay-wildcard/pay-wildcard.component';
+import { ResultsFixComponent } from './pages/results-fix/results-fix.component';
 
 
 const routes: Routes = [
@@ -28,7 +29,7 @@ const routes: Routes = [
   },
   {
     path: 'availableResults',
-    component: AvailableResultsComponent
+    component: ResultsFixComponent
   },
   {
     path: 'itinerary',
