@@ -109,6 +109,7 @@
             </mat-icon>
           </button>
           <h3>{{node.name}}</h3>
+          <button class="btn btn-success" data-toggle="modal" data-target="#staticBackdrop">Check Availability </button>
         </div>
         <ul [class.example-tree-invisible]="!treeControl.isExpanded(node)">
           <ng-container matTreeNodeOutlet></ng-container>

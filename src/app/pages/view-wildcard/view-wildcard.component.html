@@ -30,7 +30,7 @@
         <td>
             <div class="btn-group first" role="group" aria-label="Basic example">
                 <button class="btn btn-info view" (click)="viewWildcardDetailsModal()">View</button>
-                <button class="btn btn-success renew" disabled>Renew Wildcard</button>
+                <button class="btn btn-success renew" [routerLink]="[ '/renewWildcard' ]">Renew Wildcard</button>
             </div>
         </td>
       </tr>

@@ -80,6 +80,7 @@ export class ResultsFixComponent implements OnInit {
 
   handleDateSelect(selectInfo: DateSelectArg) {
     const title = prompt('Please enter a new title for your event');
+    console.log(selectInfo);
     const calendarApi = selectInfo.view.calendar;
 
     calendarApi.unselect(); // clear date selection

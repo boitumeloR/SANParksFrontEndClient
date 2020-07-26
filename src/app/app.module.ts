@@ -47,6 +47,9 @@ import interactionPlugin from '@fullcalendar/interaction'; // a plugin
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import { SignUpComponent } from './modals/sign-up/sign-up.component';
+import { RenewWildcardComponent } from './pages/renew-wildcard/renew-wildcard.component';
+import { GlobalConfirmComponent } from './modals/global-confirm/global-confirm.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -92,9 +95,12 @@ export function provideConfig() {
     PayWildcardComponent,
     AvailableBoxFixComponent,
     ResultsFixComponent,
-    SignUpComponent
+    SignUpComponent,
+    RenewWildcardComponent,
+    GlobalConfirmComponent
   ],
   imports: [
+    MatSnackBarModule,
     FullCalendarModule,
     MatButtonModule,
     MatIconModule,

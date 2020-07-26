@@ -12,6 +12,7 @@ import { DependentsComponent } from './pages/dependents/dependents.component';
 import { ViewWildcardComponent } from './pages/view-wildcard/view-wildcard.component';
 import { PayWildcardComponent } from './pages/pay-wildcard/pay-wildcard.component';
 import { ResultsFixComponent } from './pages/results-fix/results-fix.component';
+import { RenewWildcardComponent } from './pages/renew-wildcard/renew-wildcard.component';
 
 
 const routes: Routes = [
@@ -58,6 +59,10 @@ const routes: Routes = [
   {
     path: 'wildcardPayment',
     component: PayWildcardComponent
+  },
+  {
+    path: 'renewWildcard',
+    component: RenewWildcardComponent
   }
 ];
 

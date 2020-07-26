@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { AddBookingComponent } from '../add-booking/add-booking.component';
 
 @Component({
   selector: 'app-sign-up',
@@ -22,7 +23,7 @@ export class SignUpComponent implements OnInit {
   bsValue = new Date();
   bsRangeValue: Date[];
   maxDate = new Date();
-  constructor(private bsModalRef: BsModalRef, private formBuilder: FormBuilder) { }
+  constructor(private bsModalRef: BsModalRef, private formBuilder: FormBuilder, private modalService: BsModalService) { }
 
 
   ngOnInit(): void {
