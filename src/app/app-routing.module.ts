@@ -10,6 +10,9 @@ import { BookingPaymentComponent } from './pages/booking-payment/booking-payment
 import { WildcardFamilyOptionComponent } from './pages/wildcard-family-option/wildcard-family-option.component';
 import { DependentsComponent } from './pages/dependents/dependents.component';
 import { ViewWildcardComponent } from './pages/view-wildcard/view-wildcard.component';
+import { PayWildcardComponent } from './pages/pay-wildcard/pay-wildcard.component';
+import { ResultsFixComponent } from './pages/results-fix/results-fix.component';
+import { RenewWildcardComponent } from './pages/renew-wildcard/renew-wildcard.component';
 
 
 const routes: Routes = [
@@ -27,7 +30,7 @@ const routes: Routes = [
   },
   {
     path: 'availableResults',
-    component: AvailableResultsComponent
+    component: ResultsFixComponent
   },
   {
     path: 'itinerary',
@@ -52,6 +55,14 @@ const routes: Routes = [
   {
     path: 'viewWildcard',
     component: ViewWildcardComponent
+  },
+  {
+    path: 'wildcardPayment',
+    component: PayWildcardComponent
+  },
+  {
+    path: 'renewWildcard',
+    component: RenewWildcardComponent
   }
 ];
 

@@ -17,7 +17,6 @@ import { AvailableResultsComponent } from './pages/available-results/available-r
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { ViewAvailableComponent } from './modals/view-available/view-available.component';
 import { ModalModule, BsModalRef } from 'ngx-bootstrap/modal';
-import {CalendarModule} from 'primeng/calendar';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ViewAvailableImgComponent } from './modals/view-available-img/view-available-img.component';
@@ -35,9 +34,29 @@ import { AddDependentsComponent } from './modals/add-dependents/add-dependents.c
 import { DependentsComponent } from './pages/dependents/dependents.component';
 import { ViewWildcardComponent } from './pages/view-wildcard/view-wildcard.component';
 import { ViewWildcardDetailsComponent } from './modals/view-wildcard-details/view-wildcard-details.component';
+import { AddChildDependentComponent } from './modals/add-child-dependent/add-child-dependent.component';
+import { PayWildcardComponent } from './pages/pay-wildcard/pay-wildcard.component';
+import { AvailableBoxFixComponent } from './sub-components/available-box-fix/available-box-fix.component';
+import { ResultsFixComponent } from './pages/results-fix/results-fix.component';
+import {MatTreeModule} from '@angular/material/tree';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import { FullCalendarModule } from '@fullcalendar/angular'; // the main connector. must go first
+import dayGridPlugin from '@fullcalendar/daygrid'; // a plugin
+import interactionPlugin from '@fullcalendar/interaction'; // a plugin
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
+import { SignUpComponent } from './modals/sign-up/sign-up.component';
+import { RenewWildcardComponent } from './pages/renew-wildcard/renew-wildcard.component';
+import { GlobalConfirmComponent } from './modals/global-confirm/global-confirm.component';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
-
-
+FullCalendarModule.registerPlugins([ // register FullCalendar plugins
+  dayGridPlugin,
+  interactionPlugin,
+  timeGridPlugin,
+  listPlugin
+]);
 const config = new AuthServiceConfig([
   {
     id: GoogleLoginProvider.PROVIDER_ID,
@@ -71,9 +90,21 @@ export function provideConfig() {
     AddDependentsComponent,
     DependentsComponent,
     ViewWildcardComponent,
-    ViewWildcardDetailsComponent
+    ViewWildcardDetailsComponent,
+    AddChildDependentComponent,
+    PayWildcardComponent,
+    AvailableBoxFixComponent,
+    ResultsFixComponent,
+    SignUpComponent,
+    RenewWildcardComponent,
+    GlobalConfirmComponent
   ],
   imports: [
+    MatSnackBarModule,
+    FullCalendarModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTreeModule,
     BsDatepickerModule.forRoot(),
     CarouselModule.forRoot(),
     ModalModule.forRoot(),
@@ -82,7 +113,6 @@ export function provideConfig() {
     AppRoutingModule,
     BrowserAnimationsModule,
     SocialLoginModule,
-    CalendarModule,
     CommonModule,
     MatStepperModule,
     FormsModule,
