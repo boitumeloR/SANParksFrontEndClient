@@ -5,6 +5,7 @@ import { RemoveGuestConfirmComponent } from 'src/app/modals/remove-guest-confirm
 import { AddBookingComponent } from 'src/app/modals/add-booking/add-booking.component';
 import { AddGuestComponent } from 'src/app/modals/add-guest/add-guest.component';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { GlobalConfirmComponent } from 'src/app/modals/global-confirm/global-confirm.component';
 
 @Component({
   selector: 'app-itinerary',
@@ -36,9 +37,14 @@ export class ItineraryComponent implements OnInit {
     const initialState = {
       backdrop: 'static'
     };
-    this.bsModalRef = this.modalService.show(RemoveGuestConfirmComponent,
+    this.bsModalRef = this.modalService.show(GlobalConfirmComponent,
       {
-        class: 'modal-md modal-dialog-centered'
+        class: 'modal-md modal-dialog-centered',
+        initialState: {
+          data: {
+            message: 'Are you sure you want to remove this booking instance?'
+          }
+        }
       });
     this.bsModalRef.content.closeBtnName = 'Close';
   }
@@ -47,9 +53,14 @@ export class ItineraryComponent implements OnInit {
     const initialState = {
       backdrop: 'static'
     };
-    this.bsModalRef = this.modalService.show(RemoveGuestConfirmComponent,
+    this.bsModalRef = this.modalService.show(GlobalConfirmComponent,
       {
-        class: 'modal-md modal-dialog-centered'
+        class: 'modal-md modal-dialog-centered',
+        initialState: {
+          data: {
+          message: 'Are you sure you want to remove this guest?'
+          }
+        }
       });
     this.bsModalRef.content.closeBtnName = 'Close';
   }

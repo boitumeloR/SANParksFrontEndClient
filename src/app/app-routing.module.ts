@@ -13,6 +13,10 @@ import { ViewWildcardComponent } from './pages/view-wildcard/view-wildcard.compo
 import { PayWildcardComponent } from './pages/pay-wildcard/pay-wildcard.component';
 import { ResultsFixComponent } from './pages/results-fix/results-fix.component';
 import { RenewWildcardComponent } from './pages/renew-wildcard/renew-wildcard.component';
+import { MyBookingsComponent } from './pages/my-bookings/my-bookings.component';
+import { UpdateAccommodationComponent } from './pages/update-accommodation/update-accommodation.component';
+import { UpdatedBookingComponent } from './pages/updated-booking/updated-booking.component';
+import { ClaimRefundComponent } from './pages/claim-refund/claim-refund.component';
 
 
 const routes: Routes = [
@@ -63,6 +67,22 @@ const routes: Routes = [
   {
     path: 'renewWildcard',
     component: RenewWildcardComponent
+  },
+  {
+    path: 'myBookings',
+    component: MyBookingsComponent
+  },
+  {
+    path: 'updateAccommodation',
+    component: UpdateAccommodationComponent
+  },
+  {
+    path: 'updatedBooking',
+    component: UpdatedBookingComponent
+  },
+  {
+    path: 'claimRefund',
+    component: ClaimRefundComponent
   }
 ];
 
