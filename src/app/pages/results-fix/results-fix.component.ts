@@ -15,16 +15,14 @@ const TREE_DATA: FoodNode[] = [
     name: 'Berg - En - Dal Rest Camp',
     children: [
       {
-        name: 'Bungalow',
+        name: 'Bungalow CK6P',
         children: [
-          {name: 'Broccoli'},
-          {name: 'Brussels sprouts'},
+          {name: 'Broccoli'}
         ]
       }, {
-        name: 'Chalet',
+        name: 'Chalet BP45',
         children: [
-          {name: 'Pumpkins'},
-          {name: 'Carrots'},
+          {name: 'Pumpkins'}
         ]
       },
     ]
@@ -49,7 +47,7 @@ export class ResultsFixComponent implements OnInit {
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',
-      right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+      right: 'dayGridMonth'
     },
     initialView: 'dayGridMonth',
     initialEvents: INITIAL_EVENTS, // alternatively, use the `events` setting to fetch from a feed

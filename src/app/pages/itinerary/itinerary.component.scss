@@ -1,5 +1,55 @@
 $headColor: rgb(63, 56, 56);
 $buttonColor: rgb(61, 116, 61);
+.cover {
+    //background: url('/src/assets/images/loginback.jpg');
+    //background-position: center;
+    //background-repeat: no-repeat;
+    //background-size: cover;
+    background: rgb(2,0,36);
+    background: linear-gradient(36deg, rgba(2,0,36,1) 0%, rgba(255,255,255,1) 0%, rgba(232,232,232,1) 100%);
+    height: 40%;
+    @media screen and (max-width: 768px) {
+        height: 70%;
+    }
+    // margin-bottom: 30px;
+    //width: 100%;
+    position: relative;
+    .head {
+        color: rgb(51, 51, 51);
+        z-index: 1;
+        position: absolute;
+        left: 3%;
+        top: 0px;
+        margin-top: 4%;
+        margin-left: 20px;
+        height:200px;
+        width: 45%;
+        @media screen and (max-width: 768px) {
+            width: 80%;
+            font-size: larger;
+            p {
+                display: none;
+            }
+            h1 {
+                font-size: 50px;
+            }
+        }
+        text-overflow: ellipsis;
+        //width: 50%
+    }
+    img {
+        opacity: 0.7;
+        filter: brightness(50%);
+        height: 100%;
+        width: 34%;
+        float: right;
+        object-fit: cover;
+        @media screen and (max-width: 768px) {
+            width: 100%;
+            display: block;
+        }
+    }
+  }
 :host {
     background-color: red;
     width: 100%;
@@ -7,12 +57,6 @@ $buttonColor: rgb(61, 116, 61);
 }
 body {
     background-color: green;
-}
-h1 {
-    color: #474747;
-    font-size: 60px;
-    margin-top: 50px;
-    margin-bottom: 60px;
 }
 
 h3 {
@@ -23,21 +67,13 @@ h4 {
     margin-top: 30px;
 }
 
-img {
-    box-shadow:0 0 10px rgba(0,0,0,0.63);
-    width: 20%;
-    height: 12vw;
-    @media screen and (max-width: 768px) {
-        width: 100%;
-        height: auto;
-    }
-}
 
 ul {
+    margin-top: 30px;
     width: 100%;
     border-radius: 10px;
     li {
-        background: linear-gradient(to right, #f2fff6, #efffed);
+        background-color: rgb(245, 245, 245);
         box-shadow:0 0 10px rgba(139, 107, 107, 0.53);
         width: 100%;
         border-radius: 30px;
@@ -75,6 +111,9 @@ i {
 
 .guests {
     width: 40%;
+    @media screen and (max-width: 768px) {
+        width: 90%;
+    }
 }
 
 .removeGuest {

@@ -14,11 +14,6 @@ export class ViewAvailableComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  addToItinerary(template: TemplateRef<any>) {
-    this.modalService.show(template, {
-      backdrop: 'static'
-    });
-  }
 
   close() {
     this.bsModalRef.hide();

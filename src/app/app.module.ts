@@ -50,6 +50,12 @@ import { SignUpComponent } from './modals/sign-up/sign-up.component';
 import { RenewWildcardComponent } from './pages/renew-wildcard/renew-wildcard.component';
 import { GlobalConfirmComponent } from './modals/global-confirm/global-confirm.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { AccordionModule } from 'ngx-bootstrap/accordion';
+import { MyBookingsComponent } from './pages/my-bookings/my-bookings.component';
+import { ViewBookingComponent } from './modals/view-booking/view-booking.component';
+import { UpdateAccommodationComponent } from './pages/update-accommodation/update-accommodation.component';
+import { ClaimRefundComponent } from './pages/claim-refund/claim-refund.component';
+import { UpdatedBookingComponent } from './pages/updated-booking/updated-booking.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -97,7 +103,12 @@ export function provideConfig() {
     ResultsFixComponent,
     SignUpComponent,
     RenewWildcardComponent,
-    GlobalConfirmComponent
+    GlobalConfirmComponent,
+    MyBookingsComponent,
+    ViewBookingComponent,
+    UpdateAccommodationComponent,
+    ClaimRefundComponent,
+    UpdatedBookingComponent
   ],
   imports: [
     MatSnackBarModule,
@@ -105,6 +116,7 @@ export function provideConfig() {
     MatButtonModule,
     MatIconModule,
     MatTreeModule,
+    AccordionModule.forRoot(),
     BsDatepickerModule.forRoot(),
     CarouselModule.forRoot(),
     ModalModule.forRoot(),
