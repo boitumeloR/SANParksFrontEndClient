@@ -94,18 +94,47 @@
 </div>
 
 <h1>
-    Accommodations at Kruger
+    Activities at Kruger
 </h1>
-
+<!--<app-not-found></app-not-found>-->
+<!--<accordion [isAnimated] = "true">
+    <accordion-group>
+      <h5 accordion-heading>Malelane Gate</h5>
+      <button class="btn btn-success" (click)="ViewMore()">View Malelane Gate </button>
+      <div class="alert alert-info">
+        Click on a date to book it
+      </div>
+      <div class="demo-app-main">
+        <full-calendar
+        *ngIf='calendarVisible'
+        [options]='calendarOptions'
+        ></full-calendar>
+      </div>
+    </accordion-group>
+</accordion>-->
 
 <accordion [isAnimated]="true">
   <accordion-group>
     <h5 accordion-heading>Skukuza Rest Camp</h5>
     <accordion-group>
-      <h5 accordion-heading>Campsite CK6P</h5>
+      <h5 accordion-heading>Night Drive</h5>
+      <button class="btn btn-success" (click)="ViewMore()">View Night Drive </button>
+
       <div class="alert alert-info">
         Click and drag on a date range to book it
       </div>
+      <div class="demo-app-main">
+        <full-calendar
+        *ngIf='calendarVisible'
+        [options]='calendarOptions'
+        ></full-calendar>
+      </div>
+    </accordion-group>
+  </accordion-group>
+  <accordion-group>
+    <h5 accordion-heading>Skukuza Rest Camp</h5>
+    <accordion-group>
+      <h5 accordion-heading>Malelane Gate</h5>
       <div class="demo-app-main">
         <full-calendar
         *ngIf='calendarVisible'

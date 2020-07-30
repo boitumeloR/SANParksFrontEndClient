@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { AddGuestComponent } from '../add-guest/add-guest.component';
 
 @Component({
-  selector: 'app-add-booking',
-  templateUrl: './add-booking.component.html',
-  styleUrls: ['./add-booking.component.scss']
+  selector: 'app-add-activity-booking',
+  templateUrl: './add-activity-booking.component.html',
+  styleUrls: ['./add-activity-booking.component.scss']
 })
-export class AddBookingComponent implements OnInit{
-
+export class AddActivityBookingComponent implements OnInit {
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   quantity = 1;
