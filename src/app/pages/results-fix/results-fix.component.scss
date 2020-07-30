@@ -3,6 +3,14 @@ $buttonColor: rgb(61, 116, 61);
 .demo-app-main {
     width: 100%;
 }
+h5 {
+    color: rgb(47, 138, 150);
+    transition: ease-in 0.5s;
+}
+
+h5:hover {
+    color: rgb(49, 82, 87);
+}
 mat-tree {
     margin-bottom: 20px;
     background-color: rgb(240, 255, 239);
@@ -49,7 +57,7 @@ mat-tree {
         opacity: 0.7;
         filter: brightness(50%);
         height: 100%;
-        width: 34%;
+        width: 30%;
         float: right;
         object-fit: cover;
         @media screen and (max-width: 768px) {
