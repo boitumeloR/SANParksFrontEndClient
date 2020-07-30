@@ -4,6 +4,9 @@ import { NestedTreeControl } from '@angular/cdk/tree';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { CalendarOptions, DateSelectArg, EventClickArg, EventApi } from '@fullcalendar/angular';
 import { INITIAL_EVENTS, createEventId } from './event-utils';
+import { ViewAvailableComponent } from 'src/app/modals/view-available/view-available.component';
+import { AddBookingComponent } from 'src/app/modals/add-booking/add-booking.component';
+import { AddActivityBookingComponent } from 'src/app/modals/add-activity-booking/add-activity-booking.component';
 
 interface FoodNode {
   name: string;
@@ -44,6 +47,44 @@ export class ResultsFixComponent implements OnInit {
 
   calendarVisible = true;
   calendarOptions: CalendarOptions = {
+    themeSystem: 'bootstrap',
+    events: [
+      {
+        title: '12 Available',
+        start: '2020-06-28',
+        end: '2020-06-28'
+      },
+      {
+        title: '12 Available',
+        start: '2020-06-29',
+        end: '2020-06-29'
+      },
+      {
+        title: '12 Available',
+        start: '2020-06-30',
+        end: '2020-06-30'
+      },
+      {
+        title: '12 Available',
+        start: '2020-07-01',
+        end: '2020-07-01'
+      },
+      {
+        title: '12 Available',
+        start: '2020-07-02',
+        end: '2020-07-02'
+      },
+      {
+        title: '12 Available',
+        start: '2020-07-03',
+        end: '2020-07-03'
+      },
+      {
+        title: '12 Available',
+        start: '2020-07-04',
+        end: '2020-07-04'
+      }
+    ],
     headerToolbar: {
       left: 'prev,next today',
       center: 'title',
@@ -77,7 +118,10 @@ export class ResultsFixComponent implements OnInit {
   }
 
   handleDateSelect(selectInfo: DateSelectArg) {
-    const title = prompt('Please enter a new title for your event');
+    this.bsModalRef = this.modalService.show(AddActivityBookingComponent, {
+      class: 'modal-lg modal-dialog-centered'
+    });
+    /*
     console.log(selectInfo);
     const calendarApi = selectInfo.view.calendar;
 
@@ -91,7 +135,7 @@ export class ResultsFixComponent implements OnInit {
         end: selectInfo.endStr,
         allDay: selectInfo.allDay
       });
-    }
+    }*/
   }
 
   handleEventClick(clickInfo: EventClickArg) {
@@ -118,5 +162,10 @@ export class ResultsFixComponent implements OnInit {
     this.isAccommodation = !this.isAccommodation;
   }
 
+  ViewMore() {
+    this.bsModalRef = this.modalService.show(ViewAvailableComponent, {
+      class: 'modal-md modal-dialog-centered'
+    });
+  }
   // Calendar Functions
 }

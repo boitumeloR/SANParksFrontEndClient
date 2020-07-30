@@ -56,12 +56,18 @@ import { ViewBookingComponent } from './modals/view-booking/view-booking.compone
 import { UpdateAccommodationComponent } from './pages/update-accommodation/update-accommodation.component';
 import { ClaimRefundComponent } from './pages/claim-refund/claim-refund.component';
 import { UpdatedBookingComponent } from './pages/updated-booking/updated-booking.component';
+import bootstrapPlugin from '@fullcalendar/bootstrap';
+import { AddActivityBookingComponent } from './modals/add-activity-booking/add-activity-booking.component';
+import { BookingSuccessComponent } from './pages/booking-success/booking-success.component';
+import { ClosestGateComponent } from './pages/closest-gate/closest-gate.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
   interactionPlugin,
   timeGridPlugin,
-  listPlugin
+  listPlugin,
+  bootstrapPlugin
 ]);
 const config = new AuthServiceConfig([
   {
@@ -108,7 +114,11 @@ export function provideConfig() {
     ViewBookingComponent,
     UpdateAccommodationComponent,
     ClaimRefundComponent,
-    UpdatedBookingComponent
+    UpdatedBookingComponent,
+    AddActivityBookingComponent,
+    BookingSuccessComponent,
+    ClosestGateComponent,
+    NotFoundComponent
   ],
   imports: [
     MatSnackBarModule,

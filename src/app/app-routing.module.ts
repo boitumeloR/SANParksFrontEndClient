@@ -17,6 +17,8 @@ import { MyBookingsComponent } from './pages/my-bookings/my-bookings.component';
 import { UpdateAccommodationComponent } from './pages/update-accommodation/update-accommodation.component';
 import { UpdatedBookingComponent } from './pages/updated-booking/updated-booking.component';
 import { ClaimRefundComponent } from './pages/claim-refund/claim-refund.component';
+import { BookingSuccessComponent } from './pages/booking-success/booking-success.component';
+import { ClosestGateComponent } from './pages/closest-gate/closest-gate.component';
 
 
 const routes: Routes = [
@@ -83,6 +85,14 @@ const routes: Routes = [
   {
     path: 'claimRefund',
     component: ClaimRefundComponent
+  },
+  {
+    path: 'bookingSuccess',
+    component: BookingSuccessComponent
+  },
+  {
+    path: 'closestGate',
+    component: ClosestGateComponent
   }
 ];
 
