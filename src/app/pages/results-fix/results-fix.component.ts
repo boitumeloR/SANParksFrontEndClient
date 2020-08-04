@@ -41,6 +41,7 @@ const TREE_DATA: FoodNode[] = [
 export class ResultsFixComponent implements OnInit {
   bsModalRef: BsModalRef;
   isAccommodation = true;
+  isActivity = true;
   treeControl = new NestedTreeControl<FoodNode>(node => node.children);
   dataSource = new MatTreeNestedDataSource<FoodNode>();
 
@@ -168,6 +169,10 @@ export class ResultsFixComponent implements OnInit {
       class: 'modal-md modal-dialog-centered'
     });
   }
+  toggleActivityCollapse() {
+    this.isActivity = !this.isActivity;
+  }
+
   // Calendar Functions
 
 }
