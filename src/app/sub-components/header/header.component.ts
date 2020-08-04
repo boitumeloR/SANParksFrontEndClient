@@ -27,6 +27,17 @@ export class HeaderComponent implements OnInit {
     this.opened = !this.opened;
   }
 
+
+
+  payLater(paynow, itin) {
+    if (paynow) {
+      itin.map(zz => zz.amount + 2300 );
+      return itin;
+    } else {
+      return itin;
+    }
+  }
+
   signOut() {
     this.authService.signOut();
     localStorage.removeItem('googleUser');

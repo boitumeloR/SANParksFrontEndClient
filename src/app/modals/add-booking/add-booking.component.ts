@@ -27,12 +27,12 @@ export class AddBookingComponent implements OnInit{
   constructor(private bsModalRef: BsModalRef, private formBuilder: FormBuilder, private service: BsModalService) { }
 
   ngOnInit(): void {
-    this.firstFormGroup = this.formBuilder.group({
-      firstCtrl: ['', Validators.required]
-    });
-    this.secondFormGroup = this.formBuilder.group({
-      secondCtrl: ['', Validators.required]
-    });
+      this.firstFormGroup = this.formBuilder.group({
+        firstCtrl: ['', Validators.required]
+      });
+      this.secondFormGroup = this.formBuilder.group({
+        secondCtrl: ['', Validators.required]
+      });
   }
 
   counter(i: number) {
@@ -48,6 +48,7 @@ export class AddBookingComponent implements OnInit{
   toggleGuest() {
     this.enterGuest = !this.enterGuest;
   }
+
   addGuest() {
     this.guests++;
     this.totalGuests++;
@@ -74,9 +75,9 @@ export class AddBookingComponent implements OnInit{
     this.quantity--;
   }
 
-  AddGuest() {
-    this.bsModalRef = this.service.show(AddGuestComponent, {
-      class: 'modal-md modal-dialog-centered'
-    });
-  }
+    AddGuest() {
+      this.bsModalRef = this.service.show(AddGuestComponent, {
+        class: 'modal-md modal-dialog-centered'
+      });
+    }
 }

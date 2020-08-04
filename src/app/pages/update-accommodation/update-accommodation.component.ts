@@ -4,6 +4,8 @@ import { ViewBookingComponent } from 'src/app/modals/view-booking/view-booking.c
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { Router } from '@angular/router';
 import { AddGuestComponent } from 'src/app/modals/add-guest/add-guest.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { getLocaleDateTimeFormat } from '@angular/common';
 
 @Component({
   selector: 'app-update-accommodation',
@@ -13,7 +15,8 @@ import { AddGuestComponent } from 'src/app/modals/add-guest/add-guest.component'
 export class UpdateAccommodationComponent implements OnInit {
 
   bsModalRef: BsModalRef;
-  constructor(private modalService: BsModalService, private router: Router) { }
+  constructor(private modalService: BsModalService, private router: Router,
+              private snack: MatSnackBar) { }
   quantity = 1;
   ngOnInit(): void {
   }
@@ -46,7 +49,7 @@ export class UpdateAccommodationComponent implements OnInit {
         class: 'modal-md modal-dialog-centered',
         initialState: {
           data: {
-            message: 'Are you sure you would like to update this booking?'
+            message: 'Are you sure you would like to cancel this update?'
           }
         }
       });
@@ -69,6 +72,21 @@ export class UpdateAccommodationComponent implements OnInit {
         }
       });
     this.bsModalRef.content.closeBtnName = 'Close';
+    this.bsModalRef.content.event.subscribe(res => {
+      if (res.data === true) {
+        this.snack.open('Successfully Deleted Guest', 'Okay', {
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom'
+        });
+      }
+    });
+  }
+
+  Message() {
+    this.snack.open('There are no available slots for this date.', 'Okay', {
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
+    });
   }
   addQuantity() {
     this.quantity++;
@@ -76,4 +94,5 @@ export class UpdateAccommodationComponent implements OnInit {
   subtractQuantity() {
     this.quantity--;
   }
+  
 }

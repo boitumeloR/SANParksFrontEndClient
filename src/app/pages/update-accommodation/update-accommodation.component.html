@@ -1,7 +1,7 @@
 <app-header></app-header>
 <div class="cover">
     <div class="head">
-      <h1>Update Accommodation Booking</h1>
+      <h1>Update Activity Booking</h1>
       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore aut nesciunt, laborum 
         architecto sed modi natus molestias nulla nisi facere sapiente mollitia quas tempore, adipisci 
         labore reiciendis neque tempora eveniet.</p>
@@ -12,23 +12,36 @@
 <div class="update">
     <h1>Update information</h1>
     <div class="row justify-content-center">
-        <div class="col-md-12 checks">
-            <label class="end">Accommodation Quantity </label>
-            <div>
-                <button type="button" class="btn btn-success" (click)="subtractQuantity()">-</button>
-                <p>{{quantity}}</p>
-                <button type="button" class="btn btn-success" (click)="addQuantity()">+</button>
-            </div>
-        </div>
-      <div class="col-md-10 dates">
-          <label for="exampleFormControlSelect1">Dates Booked</label>
-          <div class="input-group">
-            <input type="text"
-            placeholder="Pick Dates to filter bookings"
-            class="form-control"
-            bsDaterangepicker>
+      <label for="exampleFormControlSelect1">Night Drive</label>
+      <label class="end">Activity Slot </label>
+      <div class="form-group col-md-12">
+        <select class="form-control" id="exampleFormControlSelect1" aria-placeholder="Park" (click)="Message()">
+        <option>14:00</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        </select>
+    </div>
+        <!--<div class="col-md-12 checks">
+          <label for="exampleFormControlSelect1">Booking Quantity</label>
+          <div>
+              <button type="button" class="btn btn-success" (click)="subtractQuantity()">-</button>
+              <p>{{quantity}}</p>
+              <button type="button" class="btn btn-success" (click)="Message()">+</button>
           </div>
-        </div>
+      </div>-->
+          <div class="col-md-12 dates">
+            <label for="exampleFormControlSelect1">Dates Booked</label>
+            <div class="input-group">
+              <input type="text"
+              placeholder="Pick Dates to filter bookings"
+              class="form-control"
+              bsDaterangepicker>
+            </div>
+          </div>
+
+
 </div>
 </div>
 <div class="btn-group" role="group" aria-label="Basic example">
@@ -73,4 +86,5 @@
   </table>
   <div class="updateBtn">
     <button class="btn btn-success" (click)="Confirm()" >Update Booking</button>
+    <button class="btn btn-danger" (click)="Confirm()" >Cancel</button>
   </div>
