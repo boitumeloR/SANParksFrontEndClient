@@ -25,5 +25,4 @@ export class AvailableBoxFixComponent implements OnInit {
   toggleActivityCollapse() {
     this.isActivity = !this.isActivity;
   }
-
 }

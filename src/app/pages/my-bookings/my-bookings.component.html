@@ -35,7 +35,8 @@
     <button class="btn btn-success view" [routerLink]="[ '/bookingPayment' ]">Pay Booking</button>
     <button class="btn btn-success "  [routerLink]="[ '/availableResults' ]">Add A Booking</button>
     <button class="btn btn-success " disabled [routerLink]="[ '/claimRefund' ]">Claim Refund</button>
-    <button class="btn btn-success renew" (click)="Confirm()" >Cancel Booking</button>
+    <button class="btn btn-success " disabled [routerLink]="[ '/claimRefund' ]">Save Booking Changes</button>
+    <button class="btn btn-success renew" (click)="Cancel()" >Cancel Booking</button>
 </div>
 <table class="table table-hover">
     <thead>

@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { StripeService, Elements, Element as StripeElement, ElementsOptions } from 'ngx-stripe';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-booking-payment',
@@ -25,7 +26,7 @@ export class BookingPaymentComponent implements OnInit {
   onpopstate(event) {
     this.handler.close();
   }
-  constructor(private fb: FormBuilder, private stripeService: StripeService) { }
+  constructor(private fb: FormBuilder, private stripeService: StripeService, private snack: MatSnackBar) { }
 
   ngOnInit(): void {
 
@@ -63,4 +64,10 @@ export class BookingPaymentComponent implements OnInit {
   });
   }
 
+  Success() {
+    this.snack.open('Unsuccessful Payment', 'Okay', {
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
+    });
+  }
 }

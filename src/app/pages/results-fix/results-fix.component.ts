@@ -7,6 +7,7 @@ import { INITIAL_EVENTS, createEventId } from './event-utils';
 import { ViewAvailableComponent } from 'src/app/modals/view-available/view-available.component';
 import { AddBookingComponent } from 'src/app/modals/add-booking/add-booking.component';
 import { AddActivityBookingComponent } from 'src/app/modals/add-activity-booking/add-activity-booking.component';
+import { GlobalConfirmComponent } from 'src/app/modals/global-confirm/global-confirm.component';
 
 interface FoodNode {
   name: string;
@@ -118,7 +119,7 @@ export class ResultsFixComponent implements OnInit {
   }
 
   handleDateSelect(selectInfo: DateSelectArg) {
-    this.bsModalRef = this.modalService.show(AddActivityBookingComponent, {
+    this.bsModalRef = this.modalService.show(AddBookingComponent, {
       class: 'modal-lg modal-dialog-centered'
     });
     /*
@@ -168,4 +169,5 @@ export class ResultsFixComponent implements OnInit {
     });
   }
   // Calendar Functions
+
 }

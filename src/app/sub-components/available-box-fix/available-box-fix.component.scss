@@ -1,5 +1,13 @@
 $headColor: rgb(63, 56, 56);
 $buttonColor: rgb(61, 116, 61);
+span {
+    color: red;
+    font-size: x-small;
+}
+
+.atleast {
+    margin-left: 50px;
+}
 .availability {
     position: absolute;
     border-radius: 50px;

@@ -14,9 +14,9 @@
         <ul class="list-group list-group-flush">
             <li class="list-group-item list-group-item-action"  >
                 <a (click)="openImageModal()"><p class="close"><i class="fa fa-times-circle fa-lg"aria-hidden="true"></i></p></a> <br><br>
-                <p class="dates">01 / 01 / 2020 - 01 / 03 /2020 &nbsp; <i class="fa fa-calendar" aria-hidden="true"></i>
-                <h6><i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;Kruger National Park (Berg En Dal Rest Camp)</h6> <br>
-                <h6> <a ><i class="fa fa-home" aria-hidden="true"></i> Bungalow (CK-6P) X 2 </a></h6> <br>
+                <p class="dates">01 / 01 / 2020 - 01 / 01 /2020 &nbsp; <i class="fa fa-calendar" aria-hidden="true"></i>
+                <h6><i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;Kruger National Park </h6> <br>
+                <h6> <!--<i class="fa fa-home" aria-hidden="true"></i>--> <a >Malelane Gate </a></h6> <br>
                 <h6> <i class="fa fa-users" aria-hidden="true"></i> &nbsp; Guests</h6>
                 <div class="list-group guests">    
                     <li href="#" class="list-group-item list-group-item-action">Boitumelo Rampete <a class="removeGuest"><i class="fa fa-times-circle" aria-hidden="true" (click)="confirmRemoveGuest()"></i></a></li>
@@ -36,7 +36,7 @@
 </div>
 <div class="row justify-content-center">
     <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio1" value="option1" (click)="ConfirmWild()">
         <label class="form-check-label" for="inlineRadio1">I have a Wildcard</label>
       </div>
     <div class="form-check form-check-inline">

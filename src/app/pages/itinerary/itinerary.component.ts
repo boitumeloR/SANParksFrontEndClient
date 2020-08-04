@@ -65,6 +65,18 @@ export class ItineraryComponent implements OnInit {
     this.bsModalRef.content.closeBtnName = 'Close';
   }
 
+  ConfirmWild() {
+    this.bsModalRef = this.modalService.show(GlobalConfirmComponent,
+      {
+        class: 'modal-md modal-dialog-centered',
+        initialState: {
+          data: {
+          message: 'Unsuccessful Payment Transaction'
+          }
+        }
+      });
+    this.bsModalRef.content.closeBtnName = 'Close';
+  }
   changePaymentAmount() {
     this.payAmount = this.payPerc * 1100;
     console.log(this.payAmount);
