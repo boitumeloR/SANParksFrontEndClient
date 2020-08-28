@@ -61,6 +61,8 @@ import { AddActivityBookingComponent } from './modals/add-activity-booking/add-a
 import { BookingSuccessComponent } from './pages/booking-success/booking-success.component';
 import { ClosestGateComponent } from './pages/closest-gate/closest-gate.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -139,7 +141,9 @@ export function provideConfig() {
     MatStepperModule,
     FormsModule,
     ReactiveFormsModule,
-    NgxStripeModule.forRoot(environment.stripeKey)
+    NgxStripeModule.forRoot(environment.stripeKey),
+    BsDropdownModule.forRoot(),
+    NgxIntlTelInputModule
   ],
   schemas: [NO_ERRORS_SCHEMA],
   providers: [

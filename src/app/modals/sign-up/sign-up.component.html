@@ -8,26 +8,66 @@
         </div>
         <div class="modal-body">
           <mat-horizontal-stepper labelPosition="bottom" #stepper style="font-family: 'Nunito', sans-serif; font-size: 18px;">
-            <mat-step [stepControl]="firstFormGroup">
-              <form [formGroup]="firstFormGroup">
+            <mat-step [stepControl]="authGroup" [optional]="false" [editable] = "false" errorMessage="All fields required, in correct format.">
+              <form [formGroup]="authGroup">
                 <ng-template matStepLabel>Authentication Details</ng-template>
-                  <div class="row">
-                    <div class="col-md-12 keyword">
+                  <div class="row justify-content-center">
+                    <div class="col-md-8 alert alert-danger" *ngIf="!authGroup.valid">
+                      {{firstError}}
+                    </div>
+                    <div class="col-md-8 alert alert-success" *ngIf="authGroup.valid">
+                      You may proceed to the next step.
+                    </div>
+                    <div class="col-md-8 keyword">
                         <label class="start">Email Address </label>
                         <div class="input-group">
-                          <input type="text" class="form-control" placeholder="Email Address"/>
+                          <input type="text" class="form-control" placeholder="Email Address" formControlName="email"/>
                         </div>
                       </div>
-                      <div class="col-md-12 keyword">
+
+                      <div class="col-md-8 keyword">
                         <label class="start">Password </label>
                         <div class="input-group">
-                          <input type="text" class="form-control" type="password" placeholder="Password"/>
+                          <input type="text" class="form-control" required type="password" placeholder="Password" formControlName="password"/>
                         </div>
                       </div>
-                      <div class="col-md-12 keyword">
+                      <div class="col-md-8 keyword">
                         <label class="start">Confirm Password </label>
                         <div class="input-group">
-                          <input type="text" class="form-control" type="password" placeholder="Confirm Password"/>
+                          <input type="text" class="form-control" required type="password" placeholder="Confirm Password" formControlName="confirmPassword"/>
+                        </div>
+                      </div>
+                  </div>
+                  <div>
+                    <button class="btn btn-success btnModal" type="submit" (click)="goToPhone(stepper)">Next</button>
+                  </div>
+              </form>
+            </mat-step>
+            <mat-step [stepControl]="numGroup" [editable] = "false">
+              <form [formGroup]="numGroup">
+                <ng-template matStepLabel>Verify Phone Number</ng-template>
+                  <div class="row">
+                    <div class="col-md-12 keyword">
+                        <label class="start">Enter Phone Number </label>
+                        <div class="input-group">
+                          <div class="mb-2">
+                            <ngx-intl-tel-input
+                              [inputId]="'adsasd'"
+                              [cssClass]="'custom'" 
+                              [preferredCountries]="preferredCountries"
+                              [enableAutoCountrySelect]="false" 
+                              [enablePlaceholder]="true" 
+                              [searchCountryFlag]="true"
+                              [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+                              [selectFirstCountry]="false" 
+                              [selectedCountryISO]="CountryISO.India"
+                              [maxLength]="15" 
+                              [tooltipField]="TooltipLabel.Name" 
+                              [phoneValidation]="true" 
+                              [separateDialCode]="separateDialCode"
+                              name="phone">
+                            </ngx-intl-tel-input>
+                          </div>
                         </div>
                       </div>
                   </div>
