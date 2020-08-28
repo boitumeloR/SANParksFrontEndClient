@@ -53,39 +53,89 @@ export class ResultsFixComponent implements OnInit {
     events: [
       {
         title: '12 Available',
-        start: '2020-06-28',
-        end: '2020-06-28'
+        start: '2020-07-26',
+        end: '2020-07-26'
       },
       {
         title: '12 Available',
-        start: '2020-06-29',
-        end: '2020-06-29'
+        start: '2020-07-27',
+        end: '2020-07-27'
       },
       {
         title: '12 Available',
-        start: '2020-06-30',
-        end: '2020-06-30'
+        start: '2020-07-28',
+        end: '2020-07-28'
       },
       {
         title: '12 Available',
-        start: '2020-07-01',
-        end: '2020-07-01'
+        start: '2020-07-29',
+        end: '2020-07-29'
       },
       {
         title: '12 Available',
-        start: '2020-07-02',
-        end: '2020-07-02'
+        start: '2020-07-30',
+        end: '2020-07-30'
       },
       {
         title: '12 Available',
-        start: '2020-07-03',
-        end: '2020-07-03'
+        start: '2020-07-31',
+        end: '2020-07-31'
       },
       {
         title: '12 Available',
-        start: '2020-07-04',
-        end: '2020-07-04'
-      }
+        start: '2020-08-01',
+        end: '2020-08-01'
+      },
+      {
+        title: '12 Available',
+        start: '2020-08-02',
+        end: '2020-08-02'
+      },
+      {
+        title: '12 Available',
+        start: '2020-08-03',
+        end: '2020-08-03'
+      },
+      {
+        title: '12 Available',
+        start: '2020-08-04',
+        end: '2020-08-04'
+      },
+      {
+        title: '12 Available',
+        start: '2020-08-05',
+        end: '2020-08-05'
+      },
+      {
+        title: '12 Available',
+        start: '2020-08-06',
+        end: '2020-08-06'
+      },
+      {
+        title: '12 Available',
+        start: '2020-08-07',
+        end: '2020-08-04'
+      },
+      {
+        title: '12 Available',
+        start: '2020-08-08',
+        end: '2020-08-08'
+      },
+      {
+        title: '12 Available',
+        start: '2020-08-09',
+        end: '2020-08-09'
+      },
+      {
+        title: '8 Available',
+        start: '2020-08-10',
+        end: '2020-08-10'
+      },
+      {
+        title: '12 Available',
+        start: '2020-08-11',
+        end: '2020-08-11'
+      },
     ],
     headerToolbar: {
       left: 'prev,next today',
