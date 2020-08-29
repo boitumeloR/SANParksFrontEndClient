@@ -63,6 +63,7 @@ import { ClosestGateComponent } from './pages/closest-gate/closest-gate.componen
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
+import { HttpClientModule } from '@angular/common/http';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -143,7 +144,8 @@ export function provideConfig() {
     ReactiveFormsModule,
     NgxStripeModule.forRoot(environment.stripeKey),
     BsDropdownModule.forRoot(),
-    NgxIntlTelInputModule
+    NgxIntlTelInputModule,
+    HttpClientModule
   ],
   schemas: [NO_ERRORS_SCHEMA],
   providers: [

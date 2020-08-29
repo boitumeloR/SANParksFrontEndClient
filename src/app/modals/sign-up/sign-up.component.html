@@ -12,11 +12,17 @@
               <form [formGroup]="authGroup">
                 <ng-template matStepLabel>Authentication Details</ng-template>
                   <div class="row justify-content-center">
-                    <div class="col-md-8 alert alert-danger" *ngIf="!authGroup.valid">
+                    <div class="col-md-8 alert alert-danger" *ngIf="!authGroup.valid && !httpError">
                       {{firstError}}
                     </div>
-                    <div class="col-md-8 alert alert-success" *ngIf="authGroup.valid">
+                    <div class="col-md-8 alert alert-success" *ngIf="authGroup.valid && !httpError">
                       You may proceed to the next step.
+                    </div>
+                    <div class="col-md-8 alert alert-warning alert-dismissible fade show" role="alert" *ngIf="httpError">
+                      {{httpMessage}}
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
                     </div>
                     <div class="col-md-8 keyword">
                         <label class="start">Email Address </label>
@@ -39,7 +45,11 @@
                       </div>
                   </div>
                   <div>
-                    <button class="btn btn-success btnModal" type="submit" (click)="goToPhone(stepper)">Next</button>
+                    <button class="btn btn-success btnModal" type="submit" (click)="goToPhone(stepper)">Next &nbsp;
+                      <div class="spinner-border" role="status" *ngIf="loader">
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                    </button>
                   </div>
               </form>
             </mat-step>
