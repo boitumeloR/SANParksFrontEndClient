@@ -30,7 +30,8 @@
             "styles": [
               "node_modules/font-awesome/scss/font-awesome.scss",
               "node_modules/font-awesome/css/font-awesome.min.css",
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/intl-tel-input/build/css/intlTelInput.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",

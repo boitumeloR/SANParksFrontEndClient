@@ -41,7 +41,7 @@ export class LoginClientComponent implements OnInit {
     };
     this.bsModalRef = this.modalService.show(SignUpComponent,
       {
-        class: 'modal-md modal-dialog-centered',
+        class: 'modal-lg modal-dialog-centered',
         backdrop: 'static'
       });
     this.bsModalRef.content.closeBtnName = 'Close';
