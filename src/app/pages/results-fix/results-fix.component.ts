@@ -8,6 +8,7 @@ import { ViewAvailableComponent } from 'src/app/modals/view-available/view-avail
 import { AddBookingComponent } from 'src/app/modals/add-booking/add-booking.component';
 import { AddActivityBookingComponent } from 'src/app/modals/add-activity-booking/add-activity-booking.component';
 import { GlobalConfirmComponent } from 'src/app/modals/global-confirm/global-confirm.component';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 interface FoodNode {
   name: string;
@@ -200,7 +201,9 @@ export class ResultsFixComponent implements OnInit {
     this.currentEvents = events;
   }
 
-  constructor(private modalService: BsModalService) {
+  // New Availability
+
+  constructor(private modalService: BsModalService, private route: ActivatedRoute) {
     this.dataSource.data = TREE_DATA;
    }
 

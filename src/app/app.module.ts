@@ -64,6 +64,8 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { HttpClientModule } from '@angular/common/http';
+import { TableResultsComponent } from './pages/table-results/table-results.component';
+import {TableModule} from 'primeng/table';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -121,7 +123,8 @@ export function provideConfig() {
     AddActivityBookingComponent,
     BookingSuccessComponent,
     ClosestGateComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    TableResultsComponent
   ],
   imports: [
     MatSnackBarModule,
@@ -145,7 +148,8 @@ export function provideConfig() {
     NgxStripeModule.forRoot(environment.stripeKey),
     BsDropdownModule.forRoot(),
     NgxIntlTelInputModule,
-    HttpClientModule
+    HttpClientModule,
+    TableModule
   ],
   schemas: [NO_ERRORS_SCHEMA],
   providers: [

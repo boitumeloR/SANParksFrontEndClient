@@ -1,0 +1,41 @@
+<app-header></app-header>
+<h1>Accommodations At Kruger</h1>
+<p-table [value]="availableResults" >
+    <ng-template pTemplate="caption" >
+        Skukuza Rest Camp
+    </ng-template>
+    <ng-template pTemplate="header">
+        <tr>
+            <th></th>
+            <th>21 February</th>
+            <th>21 February</th>
+            <th>21 February</th>
+            <th>21 February</th>
+            <th>21 February</th>
+            <th>21 February</th>
+            <th>Actions</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-product>
+        <tr>
+            <td><strong>{{product.AccommodationType}} &nbsp; 
+                <div>
+                    <button class="btn btn-success">View more</button>
+                </div>
+            </strong>
+            </td>
+            <td>12 Available</td>
+            <td>12 Available</td>
+            <td>12 Available</td>
+            <td>12 Available</td>
+            <td>12 Available</td>
+            <td>12 Available</td>
+            <td>
+                <button class="btn btn-success">Book This Week</button>
+            </td>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+        Footer
+    </ng-template>
+</p-table>
