@@ -1,8 +1,105 @@
 $tableHeaderBg: #3f5061;
 
-.head {
-    background-color:  #3f5061;
+$headColor: rgb(63, 56, 56);
+$buttonColor: rgb(61, 116, 61);
+span {
+    color: red;
+    font-size: x-small;
 }
+
+.atleast {
+    margin-left: 50px;
+}
+.availability {
+    margin: 0 auto;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    border-radius: 50px;
+    background: #ffffff;
+    box-shadow:  10px 10px 20px #dfdfdf, 
+                 -10px -10px 60px #e4e4e4;
+    width: 80%;
+    // height: 500px;
+    height: auto;
+    padding-bottom: 30px;
+
+    .head {
+        h1{
+            text-align: center;
+            margin-top: 20px;
+            color: $headColor;
+            opacity: 0.9;
+        }
+    }
+    .dropdown {
+        display: block;
+        width: 100%;
+    }
+}
+
+.btnModal {
+    background-color: $buttonColor;
+    border-radius: 60px;
+    outline: $buttonColor;
+    width: 100%;
+    font-size: 22px;
+    text-align: center;
+    margin-top: 45px;
+}
+.form-control {
+    border-radius: 30px;
+}
+.form-group {
+    width: 50%;
+}
+
+.keyword {
+    margin-top: 20px;
+}
+
+.checks {
+    width: 100%;
+    margin-top: 25px;
+    text-align: center;
+    .checkbox{
+        width: 33%  ;
+        input {
+            width: 20px;
+            height: 20px;
+        }
+    }
+    .checkbox3 {
+        text-align: center;
+        margin-left: 8px;
+        input {
+            width: 20px;
+            height: 20px;   
+        }
+
+    }
+}
+
+.start, .end {
+    width: 50%;
+}
+
+.dates{
+    margin-top: 15px;
+}
+
+.well {
+    text-align: center;
+    border-radius: 12px;
+    background-color: rgb(248, 245, 245);
+}
+
+
+
+
+
+
+
+
 ::ng-deep {
     .panel.head {
         background-color: #6d6f70;

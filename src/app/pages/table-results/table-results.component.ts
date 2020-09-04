@@ -7,6 +7,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { AddBookingComponent } from 'src/app/modals/add-booking/add-booking.component';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-table-results',
@@ -15,12 +16,31 @@ import { AddBookingComponent } from 'src/app/modals/add-booking/add-booking.comp
 })
 export class TableResultsComponent implements OnInit {
 
+  availableGroup: FormGroup;
+  isAccommodation: boolean;
+  isActivity: boolean;
 
+  notFound = false;
   // Observables
+  dropDowns$: Observable<any>;
+  parkDrop$: Observable<any>;
+  activityDrop$: Observable<any>;
+  accommodationDrop$: Observable<any>;
+  dayDrop$: Observable<any>;
   checkAvailability$: Observable<any>;
 
+  // Errors
+  httpError = false;
+  httpMessage = '';
+  // Dropdown content
+  parks: any[];
+  camps: any[];
+  activityTypes: any[];
+  accommodationTypes: any[];
+
+  checks = 0;
   tableDates: TableDate[];
-  availableResults: any;
+  availableResults: any[];
   apiData: any;
   searchData: any;
   parkName: string;
@@ -30,23 +50,199 @@ export class TableResultsComponent implements OnInit {
   boundaryDate: Date = new Date(this.placeDate.setMonth(this.placeDate.getMonth() + 11));
   head = 'head';
   loader = false;
-  httpError = false;
-  httpMessage = '';
   isOpen = true;
   bsModalRef: BsModalRef;
   constructor(private router: Router, private serv: AvailabilityService,
               private global: GlobalService, private snack: MatSnackBar,
-              private modalService: BsModalService) { }
+              private modalService: BsModalService, private formBuilder: FormBuilder) { }
+
   ngOnInit(): void {
+    this.notFound = false;
     this.apiData = JSON.parse(localStorage.getItem('availableResults'));
     this.searchData = JSON.parse(localStorage.getItem('searchData'));
     this.availableResults = this.apiData.AvailableResults;
+
+    console.log(this.availableResults);
+    if (this.availableResults.length === 0) {
+      this.notFound = true;
+      this.snack.open(`Nothing was available from your search, try other parameters.`, 'OK', {
+        horizontalPosition: 'center',
+        verticalPosition: 'bottom',
+        duration: 10000
+      }).afterDismissed().subscribe(() => {
+        this.loader = false;
+      });
+    }
+    else {
+      this.notFound = false;
+    }
     console.log(this.availableResults);
     this.tableDates = this.apiData.Dates;
     this.parkName = this.apiData.ParkName;
 
-    console.log(this.tableDates);
+    // populate dropdown park
+    this.dropDowns$ = this.serv.getDropDowns(this.global.GetServer());
+    this.dropDowns$.subscribe(res => {
+      this.parks = res.Parks;
+      this.isAccommodation = true;
+      this.isActivity = true;
+    }, (error: HttpErrorResponse) => {
+      this.httpError = true;
+      this.httpMessage = error.message;
+    });
+
+    // initialise form
+    if (this.searchData) {
+
+      this.isAccommodation = true;
+      this.isActivity = true;
+      console.log(this.isAccommodation, this.isActivity);
+      this.availableGroup = this.formBuilder.group({
+        park: [this.searchData.ParkID, Validators.required],
+        camp: [this.searchData.CampID],
+        activity: [false],
+        accommodation: [false],
+        day: [false],
+        activityType: [this.searchData.ActivityTypeID],
+        accommodationType: [this.searchData.AccommodationTypeID]
+      });
+    }
   }
+
+  // functions for check form
+
+  onChoosePark() {
+    if (this.availableGroup.get('park').valid) {
+      this.parkDrop$ = this.serv.getCamps(this.availableGroup.get('park').value, this.global.GetServer());
+      this.parkDrop$.subscribe(res =>  {
+        this.camps = res;
+      }, (error: HttpErrorResponse) => {
+        this.httpError = true;
+        this.httpMessage = error.message;
+      });
+    }
+    else {
+      this.httpError = true;
+      this.httpMessage = 'Choose a park on this list';
+    }
+  }
+
+  onChooseCamp() {
+    // Assign camp
+  }
+
+  onChooseAct() {
+    if (this.availableGroup.valid) {
+      if (this.availableGroup.get('activity').value === true) {
+        const values = {
+          parkID: this.availableGroup.get('park').value,
+          campID: this.availableGroup.get('camp').value
+        };
+
+        console.log(values);
+        this.activityDrop$ = this.serv.getActivityTypes(values, this.global.GetServer());
+        this.activityDrop$.subscribe(res => {
+          this.activityTypes = res;
+          this.checks++;
+        }, (error: HttpErrorResponse) => {
+          this.httpError = true;
+          this.httpMessage = error.message;
+        });
+      }
+    } else {
+      this.httpError = true;
+      this.httpMessage = 'Make Sure to choose a park before submiting';
+    }
+  }
+
+  onChooseAcc() {
+    if (this.availableGroup.valid) {
+      if (this.availableGroup.get('accommodation').value === true) {
+        const values = {
+          parkID: this.availableGroup.get('park').value,
+          campID: this.availableGroup.get('camp').value
+        };
+
+        this.activityDrop$ = this.serv.getAccommodationTypes(values, this.global.GetServer());
+        this.activityDrop$.subscribe(res => {
+          this.accommodationTypes = res;
+          this.checks++;
+        }, (error: HttpErrorResponse) => {
+          this.httpError = true;
+          this.httpMessage = error.message;
+        });
+      }
+    } else {
+      this.httpError = true;
+      this.httpMessage = 'Make Sure to choose a park before submiting';
+    }
+  }
+
+  onChooseDay() {
+    if (this.availableGroup.valid) {
+      this.checks++;
+    }
+    else {
+      this.httpError = true;
+      this.httpMessage = 'Make Sure to choose a park before submiting';
+    }
+  }
+
+  CheckAvailability() {
+    if (this.availableGroup.valid) {
+        this.loader = true;
+        const availableData = {
+          ParkID: Number(this.availableGroup.get('park').value) ,
+          CampID: this.availableGroup.get('camp').value,
+          AccommodationChecked: this.availableGroup.get('accommodation').value,
+          ActivityChecked: this.availableGroup.get('activity').value,
+          DayVisitChecked: this.availableGroup.get('day').value,
+          AccommodationTypeID: this.availableGroup.get('accommodationType').value,
+          ActivityTypeID: this.availableGroup.get('activityType').value,
+          Forward: true,
+          BaseDate: new Date()
+        };
+
+        console.log(availableData);
+
+        this.checkAvailability$ = this.serv.checkAvailability(availableData, this.global.GetServer());
+        this.checkAvailability$.subscribe(res => {
+          this.loader = false;
+          this.apiData = res;
+          this.availableResults = res.AvailableResults;
+          if (this.availableResults.length === 0) {
+            this.notFound = true;
+          }
+          else {
+            this.notFound = false;
+          }
+          localStorage.setItem('availableResults', JSON.stringify(res));
+          localStorage.setItem('searchData', JSON.stringify(availableData));
+
+          this.searchData = availableData;
+        }, (error: HttpErrorResponse) => {
+          this.httpError = true;
+          this.httpMessage = error.message;
+        });
+        console.log(availableData);
+    }
+    // this.router.navigateByUrl('availableResults');
+  }
+
+  toggleAccommodationCollapse() {
+    this.isAccommodation = !this.isAccommodation;
+  }
+
+  toggleActivityCollapse() {
+    this.isActivity = !this.isActivity;
+  }
+
+  resetHttp() {
+    this.httpError = false;
+    this.httpMessage = '';
+  }
+  // end
+
 
   chooseDate(event: Event) {
     this.searchData.BaseDate = event;
