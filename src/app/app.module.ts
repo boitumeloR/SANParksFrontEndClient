@@ -66,6 +66,7 @@ import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { HttpClientModule } from '@angular/common/http';
 import { TableResultsComponent } from './pages/table-results/table-results.component';
 import {TableModule} from 'primeng/table';
+import {PaginatorModule} from 'primeng/paginator';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -149,7 +150,8 @@ export function provideConfig() {
     BsDropdownModule.forRoot(),
     NgxIntlTelInputModule,
     HttpClientModule,
-    TableModule
+    TableModule,
+    PaginatorModule
   ],
   schemas: [NO_ERRORS_SCHEMA],
   providers: [

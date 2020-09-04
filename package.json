@@ -43,6 +43,7 @@
     "ngx-intl-tel-input": "^2.4.3",
     "ngx-stripe": "^9.0.3",
     "popper.js": "^1.12.3",
+    "primeicons": "^4.0.0",
     "primeng": "^9.0.6",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",

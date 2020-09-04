@@ -1,0 +1,15 @@
+$tableHeaderBg: #3f5061;
+
+.head {
+    background-color:  #3f5061;
+}
+::ng-deep {
+    .panel.head {
+        background-color: #6d6f70;
+        color: #fff;
+        margin-bottom: 40px;
+        }
+}
+button {
+    border-radius: 30px;
+}

@@ -149,12 +149,17 @@ export class AvailableBoxFixComponent implements OnInit {
           DayVisitChecked: this.availableGroup.get('day').value,
           AccommodationTypeID: this.availableGroup.get('accommodationType').value,
           ActivityTypeID: this.availableGroup.get('activityType').value,
+          Forward: true,
+          BaseDate: new Date()
         };
+
+        console.log(availableData);
 
         this.checkAvailability$ = this.serv.checkAvailability(availableData, this.global.GetServer());
         this.checkAvailability$.subscribe(res => {
           this.loader = false;
-          localStorage.setItem('availableResults', JSON.stringify(res.AvailableResults));
+          localStorage.setItem('availableResults', JSON.stringify(res));
+          localStorage.setItem('searchData', JSON.stringify(availableData));
           this.router.navigate(['availableResults']);
         }, (error: HttpErrorResponse) => {
           this.httpError = true;

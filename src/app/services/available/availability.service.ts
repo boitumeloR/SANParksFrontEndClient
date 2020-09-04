@@ -2,6 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+export interface TableDate {
+  DateID: number;
+  Date: Date;
+}
 @Injectable({
   providedIn: 'root'
 })
