@@ -67,6 +67,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { TableResultsComponent } from './pages/table-results/table-results.component';
 import {TableModule} from 'primeng/table';
 import {PaginatorModule} from 'primeng/paginator';
+import { AddChildGuestComponent } from './modals/childGuest/add-child-guest/add-child-guest.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -125,7 +126,8 @@ export function provideConfig() {
     BookingSuccessComponent,
     ClosestGateComponent,
     NotFoundComponent,
-    TableResultsComponent
+    TableResultsComponent,
+    AddChildGuestComponent
   ],
   imports: [
     MatSnackBarModule,

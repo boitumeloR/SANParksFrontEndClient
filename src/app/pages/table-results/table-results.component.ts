@@ -8,6 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { AddBookingComponent } from 'src/app/modals/add-booking/add-booking.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ViewAvailableComponent } from 'src/app/modals/view-available/view-available.component';
 
 @Component({
   selector: 'app-table-results',
@@ -200,7 +201,7 @@ export class TableResultsComponent implements OnInit {
           AccommodationTypeID: this.availableGroup.get('accommodationType').value,
           ActivityTypeID: this.availableGroup.get('activityType').value,
           Forward: true,
-          BaseDate: new Date()
+          BaseDate: this.tableDates[0].Date
         };
 
         console.log(availableData);
@@ -320,7 +321,8 @@ export class TableResultsComponent implements OnInit {
   }
 
 
-  addAccommodationBookingModal(bookingData): void {
+  addAccommodationBookingModal(initialData): void {
+    localStorage.setItem('Dates', JSON.stringify(initialData.Dates));
     const initialState = {
       backdrop: 'static'
     };
@@ -328,10 +330,21 @@ export class TableResultsComponent implements OnInit {
       {
         class: 'modal-lg modal-dialog-centered',
         backdrop: 'static',
-        initialState: bookingData
+        initialState: {initialData}
       });
     this.bsModalRef.content.closeBtnName = 'Close';
     }
+
+    ViewAccommodationModal(): void {
+      const initialState = {
+        backdrop: 'static'
+      };
+      this.bsModalRef = this.modalService.show(ViewAvailableComponent,
+        {
+          class: 'modal-md modal-dialog-centered'
+        });
+      this.bsModalRef.content.closeBtnName = 'Close';
+      }
 
   bookWeek(bookingData, campID) {
     if (this.searchData.AccommodationChecked) {

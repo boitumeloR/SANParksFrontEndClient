@@ -9,11 +9,27 @@
         <div class="modal-body">
           <mat-horizontal-stepper labelPosition="bottom" #stepper style="font-family: 'Nunito', sans-serif; font-size: 18px;">
             <mat-step [stepControl]="firstFormGroup">
-              <form [formGroup]="firstFormGroup">
                 <ng-template matStepLabel>Add Booking Details</ng-template>
+
+                <div class="col-md-12 alert alert-warning alert-dismissible fade show" role="alert" *ngIf="httpError">
+                  {{httpMessage}}
+                  <button type="button" class="close" data-dismiss="alert" (click)="resetHttp()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
                   <div class="row">
                     <div class="col-12">
-                      
+                      <div>
+                        <input type="text" 
+                           placeholder="Pick your date"
+                           class="form-control"
+                           bsDaterangepicker
+                           [minDate]="minDate"
+                           [maxDate]="maxDate"
+                           placement="bottom"
+                           [bsConfig]="{ isAnimated: true, adaptivePosition: true, displayOneMonthRange: true }"
+                           >
+                        </div>
                       <div class="col-md-12 checks">
                           <label class="end">How Many Bungalow's Would You Like To Book? </label>
                           <div>
@@ -43,13 +59,21 @@
                       <button class="btn btn-light btnGuest" matStepperNext >Enter Guest Details</button>
                     </div>
                   </div>
-              </form>
             </mat-step>
             <mat-step>
               <ng-template matStepLabel>Enter Guest Details</ng-template>
+              <div class="col-md-12 alert alert-info alert-dismissible fade show" role="alert">
+                Add {{adultGuests}} Adult/s and {{guests}} child / children.
+                <button type="button" class="close" data-dismiss="alert" (click)="resetHttp()" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
               <h3> Guests</h3>
               <div class="btn-group first" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-success child" (click)="AddGuest()" >Add Guest</button>
+                <button type="button" class="btn btn-success child" (click)="AddGuest()" >Add Adult</button>
+              </div>
+              <div class="btn-group first" role="group" aria-label="Basic example">
+                <button type="button" [disabled]="guests === 0 ? true: false" class="btn btn-success child" (click)="AddGuest()" >Add Child</button>
               </div>
               <table class="table table-hover">
                 <thead>
