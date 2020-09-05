@@ -45,4 +45,8 @@ export class AuthService {
   SaveClient(clientDetails, server) {
     return this.http.post(`${server}/api/Auth/SaveClient`, clientDetails, this.httpOptions);
   }
+
+  GetCountries(server) {
+    return this.http.get(`${server}/api/Auth/GetCountries`);
+  }
 }

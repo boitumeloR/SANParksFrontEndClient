@@ -27,6 +27,7 @@
                            [minDate]="minDate"
                            [maxDate]="maxDate"
                            placement="bottom"
+                           [(ngModel)]="bsRangeValue"
                            [bsConfig]="{ isAnimated: true, adaptivePosition: true, displayOneMonthRange: true }"
                            >
                         </div>
@@ -70,10 +71,10 @@
               </div>
               <h3> Guests</h3>
               <div class="btn-group first" role="group" aria-label="Basic example">
-                <button type="button" class="btn btn-success child" (click)="AddGuest()" >Add Adult</button>
+                <button type="button" class="btn btn-success child" (click)="AddAdultGuest()" >Add Adult</button>
               </div>
               <div class="btn-group first" role="group" aria-label="Basic example">
-                <button type="button" [disabled]="guests === 0 ? true: false" class="btn btn-success child" (click)="AddGuest()" >Add Child</button>
+                <button type="button" [disabled]="guests === 0 ? true: false" class="btn btn-success child" (click)="AddChildGuest()" >Add Child</button>
               </div>
               <table class="table table-hover">
                 <thead>
@@ -96,7 +97,15 @@
                 </tbody>
               </table>
               <div>
-                <button class="btn btn-success btnModal" (click)="close()">Add To Itinerary</button>
+                <button class="btn btn-success btnModal" 
+                [disabled]="totalGuests === bookingGuests.length ? true: false"
+                (click)="addToItinerary()">
+                Add To Itinerary &nbsp;
+
+                <div class="spinner-border" role="status" *ngIf="loader">
+                  <span class="sr-only">Loading...</span>
+                </div>
+                </button>
               </div>
             </mat-step>
           </mat-horizontal-stepper>

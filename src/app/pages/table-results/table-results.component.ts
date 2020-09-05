@@ -347,20 +347,49 @@ export class TableResultsComponent implements OnInit {
       }
 
   bookWeek(bookingData, campID) {
-    if (this.searchData.AccommodationChecked) {
-      bookingData.campID = campID;
-      bookingData.Dates = this.tableDates;
-      bookingData.EndDate = this.boundaryDate;
-      bookingData.StartDate = this.startDate;
-      console.log(bookingData);
+      if (this.searchData.AccommodationChecked) {
+        bookingData.campID = campID;
+        bookingData.Dates = this.tableDates;
+        bookingData.EndDate = this.boundaryDate;
+        bookingData.StartDate = this.startDate;
+        console.log(bookingData);
 
-      this.addAccommodationBookingModal(bookingData);
+        const BookingsItinerary = JSON.parse(localStorage.getItem('itinerary'));
+        if (BookingsItinerary) {
+          // there are bookings in the itinerary already
+          const campIDs: any[] = [];
 
+          campIDs.push(BookingsItinerary.AccommodationBookings.filter(zz => zz.CampID !== bookingData.campID).map(zz => zz.CampID));
+          campIDs.push(BookingsItinerary.ActivityBookings.filter(zz => zz.CampID !== bookingData.campID).map(zz => zz.CampID));
 
-    } else if (this.searchData.ActivityChecked) {
+          console.log(campIDs);
 
-    } else if (this.searchData.DayVisitChecked) {
+          if (campIDs.length !== 0) {
+            const distanceRequest = {
+              CurrentCampID: bookingData.campID,
+              CompareCamps: campIDs
+            };
 
+            this.serv.checkDistances(distanceRequest, this.global.GetServer()).subscribe(res => {
+              if (res === false) {
+                this.addAccommodationBookingModal(bookingData);
+              } else {
+                this.snack.open('You have booked at a camp that is 40KMs away from your other bookings. Unable to book here.', 'OK', {
+                  horizontalPosition: 'center',
+                  verticalPosition: 'bottom',
+                  duration: 5000
+                });
+              }
+            });
+          } else {
+            this.addAccommodationBookingModal(bookingData);
+          }
+
+      } else if (this.searchData.ActivityChecked) {
+
+      } else if (this.searchData.DayVisitChecked) {
+
+      }
     }
   }
 }

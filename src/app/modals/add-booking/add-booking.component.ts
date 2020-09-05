@@ -2,6 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { AddGuestComponent } from '../add-guest/add-guest.component';
+import { AddChildGuestComponent } from '../childGuest/add-child-guest/add-child-guest.component';
+import { AvailabilityService } from 'src/app/services/available/availability.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { GlobalService } from 'src/app/services/global/global.service';
+import { Booking } from 'src/app/services/booking/booking.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-booking',
@@ -16,25 +22,30 @@ export class AddBookingComponent implements OnInit{
   guests = 1;
   adultGuests = 1;
   totalGuests = 2;
-  datesPicked: Date[];
+
   enterGuest = true;
   config = {
     animated: true,
     backdrop: 'static'
   };
   initialData: any;
+  initialDate: Date[];
   bsValue = new Date();
   bsRangeValue: Date[];
   maxDate: Date;
   minDate: Date;
 
-  bookingGuests: any;
+  bookingGuests: any[];
   httpError = false;
   httpMessage = '';
 
+  loader = false;
 
-  constructor(private bsModalRef: BsModalRef, private formBuilder: FormBuilder, private service: BsModalService) {
+
+  constructor(private bsModalRef: BsModalRef, private formBuilder: FormBuilder, private service: BsModalService,
+              private serv: AvailabilityService, private global: GlobalService, private router: Router) {
     const Dates = JSON.parse(localStorage.getItem('Dates'));
+    this.bsRangeValue = Dates;
     this.minDate = this.parseDate(Dates[0].Date);
     this.maxDate = this.parseDate(Dates[Dates.length - 1].Date);
    }
@@ -124,13 +135,65 @@ export class AddBookingComponent implements OnInit{
     }
   }
 
-    AddGuest() {
-      this.bsModalRef = this.service.show(AddGuestComponent, {
-        class: 'modal-md modal-dialog-centered'
-      });
+  AddAdultGuest() {
+    this.bsModalRef = this.service.show(AddGuestComponent, {
+      class: 'modal-md modal-dialog-centered'
+    });
 
-      this.bsModalRef.content.guestDetails.subscribe(res => {
+    this.bsModalRef.content.guestInfo.subscribe(res => {
+      this.bookingGuests.push(res);
+    });
+  }
 
-      });
+  AddChildGuest() {
+    this.bsModalRef = this.service.show(AddChildGuestComponent, {
+      class: 'modal-md modal-dialog-centered'
+    });
+
+    this.bsModalRef.content.guestInfo.subscribe(res => {
+      this.bookingGuests.push(res);
+    });
+  }
+
+  addToItinerary() {
+    const children = this.bookingGuests.filter(zz => zz.GuestAge <= 12).length;
+    const adults = this.bookingGuests.filter(zz => zz.GuestAge >= 13).length;
+
+    if (children === this.guests && adults === this.adultGuests) {
+      const accItin = {
+        AccommodationTypeID: this.initialData.AccommodationTypeID,
+        CampID: this.initialData.campID,
+        BookingQuantity: this.quantity,
+        StartDate: this.bsRangeValue[0],
+        EndDate: this.bsRangeValue[this.bsRangeValue.length - 1 ],
+        Guests: this.bookingGuests
+      };
+
+      console.log(accItin);
+      const BookingsItinerary: Booking = JSON.parse(localStorage.getItem('itinerary'));
+      if (BookingsItinerary) {
+        // there are bookings in the itinerary already
+        BookingsItinerary.AccommodationBookings.push(accItin);
+        localStorage.setItem('itinerary', JSON.stringify(BookingsItinerary));
+        this.router.navigate(['itinerary']);
+      } else {
+        // if theres no bookings in the itinerary
+        const initialItinerary: Booking = {
+          ClientID: null,
+          BookingID: null,
+          EmployeeID: null,
+          paymentToken: null,
+          AccommodationBookings: [],
+          ActivityBookings: [],
+          DayVisits: []
+        };
+
+        initialItinerary.AccommodationBookings.push(accItin);
+        localStorage.setItem('itinerary', JSON.stringify(initialItinerary));
+      }
+    } else {
+      this.httpError = true;
+      this.httpMessage = 'Make sure you enter the correct amount of adult and child guests';
     }
+  }
 }

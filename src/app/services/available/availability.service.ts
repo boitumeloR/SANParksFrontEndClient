@@ -37,4 +37,8 @@ export class AvailabilityService {
   checkAvailability(availableData, server) {
     return this.http.post(`${server}/api/Booking/CheckAvailability`, availableData, this.httpOptions);
   }
+
+  checkDistances(distanceCamps, server) {
+    return this.http.post(`${server}/api/Booking/CheckDistance`, distanceCamps, this.httpOptions);
+  }
 }
