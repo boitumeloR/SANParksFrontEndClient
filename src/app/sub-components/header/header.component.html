@@ -25,7 +25,7 @@
             <li>
               <a class="notify" [routerLink]="['/itinerary']">
                 <span>Itinerary</span>
-                <span class="badge">2</span>
+                <span class="badge" *ngIf="itineraryCount > 0">{{itineraryCount}}</span>
               </a>
             </li>
             <ng-container *ngIf="!loggedIn; else elseTemplate">

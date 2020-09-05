@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SocialUser, AuthService } from 'angularx-social-login';
+import { Booking } from 'src/app/services/booking/booking.service';
 
 @Component({
   selector: 'app-header',
@@ -11,9 +12,16 @@ export class HeaderComponent implements OnInit {
   opened = false;
   googleUser: SocialUser;
   loggedIn = false;
+  itineraryCount = 0;
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
+    const bookings: Booking = JSON.parse(localStorage.getItem('itinerary'));
+    if (bookings) {
+      this.itineraryCount += bookings.AccommodationBookings.length;
+      this.itineraryCount += bookings.ActivityBookings.length;
+      this.itineraryCount += bookings.DayVisits.length;
+    }
     this.opened = false;
     this.googleUser = JSON.parse(localStorage.getItem('googleUser'));
     if (this.googleUser) {
@@ -25,17 +33,6 @@ export class HeaderComponent implements OnInit {
 
   toggleBurger() {
     this.opened = !this.opened;
-  }
-
-
-
-  payLater(paynow, itin) {
-    if (paynow) {
-      itin.map(zz => zz.amount + 2300 );
-      return itin;
-    } else {
-      return itin;
-    }
   }
 
   signOut() {
