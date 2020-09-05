@@ -86,8 +86,13 @@ export class AddBookingComponent implements OnInit{
   }
 
   addGuest() {
-    this.guests++;
-    this.totalGuests++;
+    if ( this.guests < this.initialData.ChildLimit * this.quantity) {
+      this.guests++;
+      this.totalGuests++;
+    } else {
+      this.httpError = true;
+      this.httpMessage = `You may only add ${this.guests} children for your accommodation/s`;
+    }
   }
   subtractGuest() {
     if (this.guests !== 0 ) {
@@ -97,12 +102,12 @@ export class AddBookingComponent implements OnInit{
   }
 
   addAdultGuest() {
-    if (this.adultGuests < this.initialData.AdultLimit) {
+    if (this.adultGuests < this.initialData.AdultLimit * this.quantity) {
       this.adultGuests++;
       this.totalGuests++;
     } else {
       this.httpError = true;
-      this.httpMessage = `You may only add ${this.adultGuests} adults for this accommodation`;
+      this.httpMessage = `You may only add ${this.adultGuests} adults for your accommodation/s`;
     }
 
   }
