@@ -128,5 +128,9 @@ export class AddBookingComponent implements OnInit{
       this.bsModalRef = this.service.show(AddGuestComponent, {
         class: 'modal-md modal-dialog-centered'
       });
+
+      this.bsModalRef.content.guestDetails.subscribe(res => {
+
+      });
     }
 }
