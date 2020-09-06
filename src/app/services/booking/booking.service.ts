@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 export interface Booking {
   ClientID: number;
@@ -12,7 +14,11 @@ export interface Booking {
 
 export interface AccommodationBooking {
   AccommodationTypeID: number;
+  AccommodationTypeName: string;
   CampID: number;
+  ParkName: string;
+  CampName: string;
+  BaseRate: number;
   BookingQuantity: number;
   StartDate: Date;
   EndDate: Date;
@@ -31,5 +37,19 @@ export interface Guest {
 })
 export class BookingService {
 
-  constructor() { }
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
+
+  constructor(private http: HttpClient) { }
+
+  // Comes back with parkName, campName and rate info for accType
+  getItineraryAccommodationData(server: string, accommodationInfo: AccommodationBooking) {
+    return this.http.post<number>(`${server}/api/Booking/AccommodationItinerary`, accommodationInfo, this.httpOptions);
+  }
+  getConservationFees(guests: Guest[], server: string): Observable<any> {
+    return this.http.post(`${server}/api/Booking/GetConservationFees`, guests, this.httpOptions);
+  }
 }

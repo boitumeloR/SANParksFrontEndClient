@@ -9,55 +9,52 @@
     <img src="assets/images/results.svg" loading = "lazy" alt="">
   </div>
   
-<div class="row justfy-content-center">
+<div class="row justfy-content-center" *ngFor="let item of bookingData.AccommodationBookings">
     <div class="col-12">
         <ul class="list-group list-group-flush">
             <li class="list-group-item list-group-item-action"  >
                 <a (click)="openImageModal()"><p class="close"><i class="fa fa-times-circle fa-lg"aria-hidden="true"></i></p></a> <br><br>
-                <p class="dates">01 / 01 / 2020 - 01 / 01 /2020 &nbsp; <i class="fa fa-calendar" aria-hidden="true"></i>
-                <h6><i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;Kruger National Park </h6> <br>
-                <h6> <!--<i class="fa fa-home" aria-hidden="true"></i>--> <a >Malelane Gate </a></h6> <br>
+                <p class="dates">{{item.StartDate |date:'mediumDate'}} - {{item.EndDate |date:'mediumDate'}} &nbsp; <i class="fa fa-calendar" aria-hidden="true"></i>
+                <h6><i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;{{item.ParkName}} </h6><br>
+                <h6><i class="fa fa-home" aria-hidden="true"></i> <a >&nbsp; {{item.CampName}} </a></h6><br>
+                <h6><i class="fa fa-home" aria-hidden="true"></i> <a >&nbsp;{{item.AccommodationTypeName}} </a></h6><br>
                 <h6> <i class="fa fa-users" aria-hidden="true"></i> &nbsp; Guests</h6>
                 <div class="list-group guests">    
-                    <li href="#" class="list-group-item list-group-item-action">Boitumelo Rampete <a class="removeGuest"><i class="fa fa-times-circle" aria-hidden="true" (click)="confirmRemoveGuest()"></i></a></li>
-                    <li href="#" class="list-group-item list-group-item-action">Boitumelo Rampete <a class="removeGuest"><i class="fa fa-times-circle" aria-hidden="true" (click)="confirmRemoveGuest()"></i></a></li>
-                    <li href="#" class="list-group-item list-group-item-action">Boitumelo Rampete <a class="removeGuest"><i class="fa fa-times-circle" aria-hidden="true" (click)="confirmRemoveGuest()"></i></a></li>
-                    <li href="#" class="list-group-item list-group-item-action">Boitumelo Rampete <a class="removeGuest"><i class="fa fa-times-circle" aria-hidden="true" (click)="confirmRemoveGuest()"></i></a></li>
-                    <li (click)="addGuestModal()" class="list-group-item list-group-item-action add">Add Guest <a href=""></a><i class="fa fa-plus fa-md" aria-hidden="true"></i></li>
+                    <li href="#" class="list-group-item list-group-item-action" *ngFor="let guest of item.Guests">{{guest.GuestName}} {{guest.GuestSurname}} <a class="removeGuest"><i class="fa fa-times-circle" aria-hidden="true" (click)="confirmRemoveGuest()"></i></a></li>
                   </div>
-                  <p class="dates"><i class="fa fa-money" aria-hidden="true"></i> R 1100 </p>
+                  <p class="dates"><i class="fa fa-money" aria-hidden="true"></i> {{item.BaseRate*item.BookingQuantity | currency:'ZAR'}} </p>
             </li>
         </ul>
-
     </div>
 </div>
+
 <div class="row justify-content-center">
     <h4>Pay Conservation Fee upfront with booking?</h4>
 </div>
 <div class="row justify-content-center">
     <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio1" value="option1" (click)="ConfirmWild()">
+        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" [(ngModel)]="WCChecked" (click)="ConfirmWild()">
         <label class="form-check-label" for="inlineRadio1">I have a Wildcard</label>
       </div>
     <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" [(ngModel)]="upfrontChecked" (click)="changeUpfront()">
         <label class="form-check-label" for="inlineRadio2">I want to pay upfront</label>
     </div>
     <div class="form-check form-check-inline">
-        <input class="form-check-input" type="checkbox" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option3" [(ngModel)]="laterChecked">
         <label class="form-check-label" for="inlineRadio2">I'll pay upon checkin</label>
     </div>
 </div>
 <div class="row justify-content-center">
     <div>
-        <h3 class="total">Total Due: R 1 100</h3>
+        <h3 class="total">Total Due: {{totalDue | currency: 'ZAR'}}</h3>
     </div>
 </div>
 
 <div class="row justify-content-center">
     <div class="form-group col-8">
-        <h4 for="formControlRange">Slide to the amount you'd like to pay upfront: R1100</h4>
-        <input type="range" class="form-control-range" id="formControlRange" min="0.3" max="1" step="0.01">
+        <h4 for="formControlRange">Slide to the amount you'd like to pay upfront: {{totalDue*payPerc | currency: 'ZAR'}}</h4>
+        <input type="range" class="form-control-range" id="formControlRange" min="0.3" max="1" step="0.01" [(ngModel)]="payPerc">
       </div>
 </div>
 

@@ -348,12 +348,14 @@ export class TableResultsComponent implements OnInit {
       this.bsModalRef.content.closeBtnName = 'Close';
       }
 
-  bookWeek(bookingData, campID) {
+  bookWeek(bookingData, campID) { // For accommodation booking adding
     if (this.searchData.AccommodationChecked) {
       bookingData.campID = campID;
       bookingData.Dates = this.tableDates;
       bookingData.EndDate = this.boundaryDate;
       bookingData.StartDate = this.startDate;
+      bookingData.BaseRate = null;
+
       console.log(bookingData);
 
       const BookingsItinerary: Booking = JSON.parse(localStorage.getItem('itinerary'));

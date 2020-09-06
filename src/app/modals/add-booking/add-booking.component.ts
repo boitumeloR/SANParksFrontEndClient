@@ -6,7 +6,7 @@ import { AddChildGuestComponent } from '../childGuest/add-child-guest/add-child-
 import { AvailabilityService } from 'src/app/services/available/availability.service';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { GlobalService } from 'src/app/services/global/global.service';
-import { Booking } from 'src/app/services/booking/booking.service';
+import { Booking, AccommodationBooking } from 'src/app/services/booking/booking.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -46,7 +46,6 @@ export class AddBookingComponent implements OnInit{
   constructor(private bsModalRef: BsModalRef, private formBuilder: FormBuilder, private service: BsModalService,
               private serv: AvailabilityService, private global: GlobalService, private router: Router) {
     const Dates = JSON.parse(localStorage.getItem('Dates'));
-    this.bsRangeValue = Dates;
     this.minDate = this.parseDate(Dates[0].Date);
     this.maxDate = this.parseDate(Dates[Dates.length - 1].Date);
    }
@@ -54,6 +53,9 @@ export class AddBookingComponent implements OnInit{
   ngOnInit(): void {
     console.log(this.initialData);
 
+    const Dates = JSON.parse(localStorage.getItem('Dates'));
+    this.bsRangeValue = Dates.map(zz => zz.Date);
+    this.bsRangeValue = this.bsRangeValue.map(zz => this.parseDate(zz));
     console.log(this.minDate, this.maxDate);
     this.firstFormGroup = this.formBuilder.group({
       firstCtrl: ['', Validators.required]
@@ -166,15 +168,21 @@ export class AddBookingComponent implements OnInit{
     const children = this.bookingGuests.filter(zz => zz.GuestAge <= 12).length;
     const adults = this.bookingGuests.filter(zz => zz.GuestAge >= 13).length;
     console.log('here1');
+    console.log(children, this.guests);
+    console.log(adults, this.adultGuests);
     if (children === this.guests && adults === this.adultGuests) {
       console.log('here2');
-      const accItin = {
+      const accItin: AccommodationBooking = {
         AccommodationTypeID: this.initialData.AccommodationTypeID,
         CampID: this.initialData.campID,
         BookingQuantity: this.quantity,
         StartDate: this.bsRangeValue[0],
         EndDate: this.bsRangeValue[this.bsRangeValue.length - 1 ],
-        Guests: this.bookingGuests
+        Guests: this.bookingGuests,
+        CampName: this.initialData.CampName,
+        ParkName: this.initialData.ParkName,
+        BaseRate: null,
+        AccommodationTypeName: this.initialData.AccommodationTypeName
       };
 
       console.log(accItin);
@@ -185,6 +193,7 @@ export class AddBookingComponent implements OnInit{
         localStorage.setItem('itinerary', JSON.stringify(BookingsItinerary));
         this.router.navigate(['itinerary']);
         this.close();
+        this.bsModalRef.hide();
       } else {
         // if theres no bookings in the itinerary
         const initialItinerary: Booking = {
@@ -199,6 +208,8 @@ export class AddBookingComponent implements OnInit{
 
         initialItinerary.AccommodationBookings.push(accItin);
         localStorage.setItem('itinerary', JSON.stringify(initialItinerary));
+        this.bsModalRef.hide();
+        this.close();
       }
     } else {
       this.httpError = true;
