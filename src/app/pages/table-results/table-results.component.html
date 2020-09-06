@@ -136,7 +136,11 @@
                         </td>
                         <td *ngFor="let amount of acc.Availability">{{amount.AvailableAmount}} Available</td>
                         <td>
-                            <button class="btn btn-success" (click)="bookWeek(acc, avail.CampID)">Book This Week</button>
+                            <button class="btn btn-success" (click)="bookWeek(acc, avail.CampID)">Book This Week &nbsp;
+                                <div class="spinner-border" role="status" *ngIf="mapLoader">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </button>
                         </td>
                     </tr>
                 </ng-template>
@@ -250,7 +254,8 @@
                         </td>
                         <td *ngFor="let amount of act.Availability">{{amount.AvailableAmount}} Available</td>
                         <td>
-                            <button class="btn btn-success">Book This Week</button>
+                            <button class="btn btn-success">Book This Week &nbsp;
+                            </button>
                         </td>
                     </tr>
                 </ng-template>

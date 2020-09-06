@@ -35,12 +35,13 @@ export class AddBookingComponent implements OnInit{
   maxDate: Date;
   minDate: Date;
 
-  bookingGuests: any[];
+  bookingGuests: any[] = [];
   httpError = false;
   httpMessage = '';
 
   loader = false;
 
+  addModalRef: BsModalRef;
 
   constructor(private bsModalRef: BsModalRef, private formBuilder: FormBuilder, private service: BsModalService,
               private serv: AvailabilityService, private global: GlobalService, private router: Router) {
@@ -141,21 +142,22 @@ export class AddBookingComponent implements OnInit{
   }
 
   AddAdultGuest() {
-    this.bsModalRef = this.service.show(AddGuestComponent, {
+    this.addModalRef = this.service.show(AddGuestComponent, {
       class: 'modal-md modal-dialog-centered'
     });
 
-    this.bsModalRef.content.guestInfo.subscribe(res => {
+    this.addModalRef.content.event.subscribe(res => {
       this.bookingGuests.push(res);
     });
   }
 
   AddChildGuest() {
-    this.bsModalRef = this.service.show(AddChildGuestComponent, {
+    this.addModalRef = this.service.show(AddChildGuestComponent, {
       class: 'modal-md modal-dialog-centered'
     });
 
-    this.bsModalRef.content.guestInfo.subscribe(res => {
+    this.addModalRef.content.event.subscribe(res => {
+      console.log(res);
       this.bookingGuests.push(res);
     });
   }
@@ -163,8 +165,9 @@ export class AddBookingComponent implements OnInit{
   addToItinerary() {
     const children = this.bookingGuests.filter(zz => zz.GuestAge <= 12).length;
     const adults = this.bookingGuests.filter(zz => zz.GuestAge >= 13).length;
-
+    console.log('here1');
     if (children === this.guests && adults === this.adultGuests) {
+      console.log('here2');
       const accItin = {
         AccommodationTypeID: this.initialData.AccommodationTypeID,
         CampID: this.initialData.campID,
@@ -181,6 +184,7 @@ export class AddBookingComponent implements OnInit{
         BookingsItinerary.AccommodationBookings.push(accItin);
         localStorage.setItem('itinerary', JSON.stringify(BookingsItinerary));
         this.router.navigate(['itinerary']);
+        this.close();
       } else {
         // if theres no bookings in the itinerary
         const initialItinerary: Booking = {

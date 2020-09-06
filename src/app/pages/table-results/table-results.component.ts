@@ -9,6 +9,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { AddBookingComponent } from 'src/app/modals/add-booking/add-booking.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ViewAvailableComponent } from 'src/app/modals/view-available/view-available.component';
+import { Booking } from 'src/app/services/booking/booking.service';
 
 @Component({
   selector: 'app-table-results',
@@ -51,6 +52,7 @@ export class TableResultsComponent implements OnInit {
   boundaryDate: Date = new Date(this.placeDate.setMonth(this.placeDate.getMonth() + 11));
   head = 'head';
   loader = false;
+  mapLoader = false;
   isOpen = true;
   bsModalRef: BsModalRef;
   constructor(private router: Router, private serv: AvailabilityService,
@@ -347,49 +349,59 @@ export class TableResultsComponent implements OnInit {
       }
 
   bookWeek(bookingData, campID) {
-      if (this.searchData.AccommodationChecked) {
-        bookingData.campID = campID;
-        bookingData.Dates = this.tableDates;
-        bookingData.EndDate = this.boundaryDate;
-        bookingData.StartDate = this.startDate;
-        console.log(bookingData);
+    if (this.searchData.AccommodationChecked) {
+      bookingData.campID = campID;
+      bookingData.Dates = this.tableDates;
+      bookingData.EndDate = this.boundaryDate;
+      bookingData.StartDate = this.startDate;
+      console.log(bookingData);
 
-        const BookingsItinerary = JSON.parse(localStorage.getItem('itinerary'));
-        if (BookingsItinerary) {
-          // there are bookings in the itinerary already
-          const campIDs: any[] = [];
+      const BookingsItinerary: Booking = JSON.parse(localStorage.getItem('itinerary'));
+      if (BookingsItinerary) {
+        // there are bookings in the itinerary already
+        let campIDs: any[] = [];
+        campIDs = campIDs.concat(BookingsItinerary.AccommodationBookings.filter(zz => zz.CampID !== bookingData.campID)
+                  .map(zz => zz.CampID));
+        const added: any[] = campIDs.concat(BookingsItinerary.ActivityBookings.filter(zz => zz.CampID !== bookingData.campID)
+                              .map(zz => zz.CampID));
+        console.log(added);
 
-          campIDs.push(BookingsItinerary.AccommodationBookings.filter(zz => zz.CampID !== bookingData.campID).map(zz => zz.CampID));
-          campIDs.push(BookingsItinerary.ActivityBookings.filter(zz => zz.CampID !== bookingData.campID).map(zz => zz.CampID));
+        if (added.length !== 0) {
+          this.mapLoader = true;
+          const distanceRequest = {
+            CurrentCampID: bookingData.campID,
+            CompareCamps: added
+          };
 
-          console.log(campIDs);
-
-          if (campIDs.length !== 0) {
-            const distanceRequest = {
-              CurrentCampID: bookingData.campID,
-              CompareCamps: campIDs
-            };
-
-            this.serv.checkDistances(distanceRequest, this.global.GetServer()).subscribe(res => {
-              if (res === false) {
-                this.addAccommodationBookingModal(bookingData);
-              } else {
-                this.snack.open('You have booked at a camp that is 40KMs away from your other bookings. Unable to book here.', 'OK', {
-                  horizontalPosition: 'center',
-                  verticalPosition: 'bottom',
-                  duration: 5000
-                });
-              }
+          this.serv.checkDistances(distanceRequest, this.global.GetServer()).subscribe(res => {
+            if (res === false) {
+              this.addAccommodationBookingModal(bookingData);
+              this.mapLoader = false;
+            } else {
+              this.snack.open('You have booked at a camp that is 40KMs away from your other bookings. Unable to book here.', 'OK', {
+                horizontalPosition: 'center',
+                verticalPosition: 'bottom',
+                duration: 5000
+              });
+            }
+          }, (error: HttpErrorResponse) => {
+            this.mapLoader = false;
+            this.snack.open('An Error occured on our servers, please try again.', 'OK', {
+              horizontalPosition: 'center',
+              verticalPosition: 'bottom',
+              duration: 5000
             });
-          } else {
-            this.addAccommodationBookingModal(bookingData);
-          }
-
-      } else if (this.searchData.ActivityChecked) {
-
-      } else if (this.searchData.DayVisitChecked) {
-
+          });
+        } else {
+          this.addAccommodationBookingModal(bookingData);
+        }
+      } else {
+        this.addAccommodationBookingModal(bookingData);
       }
+    } else if (this.searchData.ActivityChecked) {
+
+    } else if (this.searchData.DayVisitChecked) {
+
     }
   }
 }
