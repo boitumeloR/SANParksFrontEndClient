@@ -145,6 +145,8 @@ export class ItineraryComponent implements OnInit {
               verticalPosition: 'bottom',
               duration: 5000
             });
+
+            sessionStorage.setItem('session', JSON.stringify(result.Session));
           } else {
             this.WCChecked = null;
             const snacker = this.snack.open('You do not have a valid wildcard, choose another option', 'OK', {
@@ -152,6 +154,8 @@ export class ItineraryComponent implements OnInit {
               verticalPosition: 'bottom',
               duration: 5000
             });
+
+            sessionStorage.setItem('session', JSON.stringify(result.Session));
             snacker.afterDismissed().subscribe(() => {
               location.reload();
             });
@@ -362,6 +366,8 @@ export class ItineraryComponent implements OnInit {
         if (this.bookingData.AccommodationBookings.find(z => z === acc).Guests.length > 2) {
           this.bookingData.AccommodationBookings.find(z => z === acc).Guests.splice(indexGuest, 1);
           localStorage.setItem('itinerary', JSON.stringify(this.bookingData));
+
+          this.initialiseAmounts();
         } else {
           this.snack.open('You have the minimum amount of guests for this reservation', 'OK', {
             horizontalPosition: 'center',
@@ -403,6 +409,37 @@ export class ItineraryComponent implements OnInit {
     });
   }
 
+  RemoveActivityGuest(acc, guest) {
+    this.bsModalRef = this.modalService.show(GlobalConfirmComponent,
+      {
+        class: 'modal-md modal-dialog-centered',
+        initialState: {
+          data: {
+          message: 'Are you sure you want to remove this guest?'
+          }
+        }
+      });
+    this.bsModalRef.content.closeBtnName = 'Close';
+
+    this.bsModalRef.content.event.subscribe(res => {
+      if (res.data) {
+        const indexGuest = this.bookingData.ActivityBookings.find(z => z === acc).Guests.indexOf(guest);
+        if (this.bookingData.ActivityBookings.find(z => z === acc).Guests.length > 2) {
+          this.bookingData.ActivityBookings.find(z => z === acc).Guests.splice(indexGuest, 1);
+          localStorage.setItem('itinerary', JSON.stringify(this.bookingData));
+
+          this.initialiseAmounts();
+        } else {
+          this.snack.open('You have the minimum amount of guests for this reservation', 'OK', {
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+            duration: 5000
+          });
+        }
+      }
+    });
+  }
+
   RemoveDayVisits(booking) {
     this.bsModalRef = this.modalService.show(GlobalConfirmComponent,
       {
@@ -431,5 +468,58 @@ export class ItineraryComponent implements OnInit {
         this.initialiseAmounts();
       }
     });
+  }
+
+  RemoveDayVisitGuest(acc, guest) {
+    this.bsModalRef = this.modalService.show(GlobalConfirmComponent,
+      {
+        class: 'modal-md modal-dialog-centered',
+        initialState: {
+          data: {
+          message: 'Are you sure you want to remove this guest?'
+          }
+        }
+      });
+    this.bsModalRef.content.closeBtnName = 'Close';
+
+    this.bsModalRef.content.event.subscribe(res => {
+      if (res.data) {
+        const indexGuest = this.bookingData.DayVisits.find(zz => zz === acc).Guests.indexOf(guest);
+        if (this.bookingData.DayVisits.find(z => z === acc).Guests.length > 2) {
+          this.bookingData.DayVisits.find(z => z === acc).Guests.splice(indexGuest, 1);
+          localStorage.setItem('itinerary', JSON.stringify(this.bookingData));
+
+          this.initialiseAmounts();
+        } else {
+          this.snack.open('You have the minimum amount of guests for this reservation', 'OK', {
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+            duration: 5000
+          });
+        }
+      }
+    });
+  }
+
+  Checkout() {
+    if (this.laterChecked == null &&
+       this.upfrontChecked == null &&
+       this.WCChecked == null
+       ) {
+        this.snack.open('Check one of the radio buttons for your conservation fee option.', 'OK', {
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+          duration: 5000
+        });
+    } else {
+      this.bookingData = JSON.parse(sessionStorage.getItem('itinerary'));
+
+      this.bookingData.ConservationAmount = this.fullConservationAmount;
+      this.bookingData.PaymentAmount = this.totalDue * this.payPerc;
+      this.bookingData.TotalAmount = this.totalDue;
+
+      localStorage.setItem('itinerary', JSON.stringify(this.bookingData));
+      this.router.navigate(['']);
+    }
   }
 }

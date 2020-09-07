@@ -200,6 +200,7 @@ export class AddBookingComponent implements OnInit{
           ClientID: null,
           BookingID: null,
           ConservationAmount: null,
+          PaymentAmount: null,
           TotalAmount: null,
           EmployeeID: null,
           paymentToken: null,

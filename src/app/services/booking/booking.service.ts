@@ -7,6 +7,7 @@ export interface Booking {
   BookingID: number;
   EmployeeID: number;
   paymentToken: any;
+  PaymentAmount: number;
   ConservationAmount: number;
   TotalAmount: number;
   AccommodationBookings: AccommodationBooking[];
