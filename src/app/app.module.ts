@@ -69,6 +69,7 @@ import {TableModule} from 'primeng/table';
 import {PaginatorModule} from 'primeng/paginator';
 import { AddChildGuestComponent } from './modals/childGuest/add-child-guest/add-child-guest.component';
 import { AddDayVisitComponent } from './modals/add-day-visit/add-day-visit.component';
+import { LoginModalComponent } from './modals/login-modal/login-modal.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -129,7 +130,8 @@ export function provideConfig() {
     NotFoundComponent,
     TableResultsComponent,
     AddChildGuestComponent,
-    AddDayVisitComponent
+    AddDayVisitComponent,
+    LoginModalComponent
   ],
   imports: [
     MatSnackBarModule,

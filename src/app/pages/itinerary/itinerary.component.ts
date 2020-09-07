@@ -9,6 +9,10 @@ import { GlobalConfirmComponent } from 'src/app/modals/global-confirm/global-con
 import { Booking, BookingService, Guest } from 'src/app/services/booking/booking.service';
 import { element } from 'protractor';
 import { GlobalService } from 'src/app/services/global/global.service';
+import { LoginModalComponent } from 'src/app/modals/login-modal/login-modal.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-itinerary',
@@ -25,21 +29,17 @@ export class ItineraryComponent implements OnInit {
   bsModalRef: BsModalRef;
   bookingData: Booking;
   conservationCheck = 0;
-  laterChecked = false;
-  upfrontChecked = false;
-  WCChecked = false;
+  laterChecked = null;
+  upfrontChecked = null;
+  WCChecked = null;
   fullConservationAmount = 0;
+  loginRef: BsModalRef;
   constructor(private modalService: BsModalService, private formBuilder: FormBuilder,
-              private serv: BookingService, private global: GlobalService) { }
+              private serv: BookingService, private global: GlobalService,
+              private snack: MatSnackBar, private router: Router) { }
 
   ngOnInit(): void {
     this.bookingData = JSON.parse(localStorage.getItem('itinerary'));
-
-    this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
-    /*
-    this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
-    this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
-    */
     // map BaseRates
     this.bookingData.AccommodationBookings.map((el) => {
       this.serv.getItineraryAccommodationData(this.global.GetServer(), el).subscribe(res => {
@@ -47,14 +47,39 @@ export class ItineraryComponent implements OnInit {
       });
     });
 
+    this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
+    /*
+    this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
+    this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
+    */
+
+    this.payAmount = this.payPerc * this.totalDue;
     console.log(this.bookingData.AccommodationBookings);
-    this.payAmount = 1;
     this.firstFormGroup = this.formBuilder.group({
       firstCtrl: ['', Validators.required]
     });
     this.secondFormGroup = this.formBuilder.group({
       secondCtrl: ['', Validators.required]
     });
+  }
+
+  initialiseAmounts(): void {
+    this.bookingData = JSON.parse(localStorage.getItem('itinerary'));
+    // map BaseRates
+    this.bookingData.AccommodationBookings.map((el) => {
+      this.serv.getItineraryAccommodationData(this.global.GetServer(), el).subscribe(res => {
+        el.BaseRate = res;
+      });
+    });
+
+    this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
+    /*
+    this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
+    this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
+    */
+
+    this.payAmount = this.payPerc * this.totalDue;
+    console.log(this.bookingData.AccommodationBookings);
   }
 
   openImageModal() {
@@ -95,24 +120,120 @@ export class ItineraryComponent implements OnInit {
     return allGuests;
   }
 
+  LoginModal() {
+    this.loginRef = this.modalService.show(LoginModalComponent,
+      {
+        class: 'modal-md modal-dialog-centered',
+        backdrop: 'static',
+        initialState: {
+          data: {
+          message: 'Are you sure you want to remove this guest?'
+          }
+        }
+      });
+    this.loginRef.content.closeBtnName = 'Close';
+    this.loginRef.content.event.subscribe(res => {
+      if (res.result === true) {
+        const session = JSON.parse(sessionStorage.getItem('session'));
+        this.serv.WildcardExists(this.global.GetServer(), session).subscribe(result => {
+          if (result.Exists === true) {
+            this.snack.open('You will be exempt from paying any conservation fees for this booking.', 'OK', {
+              horizontalPosition: 'center',
+              verticalPosition: 'bottom',
+              duration: 5000
+            });
+          } else {
+            this.WCChecked = null;
+            const snacker = this.snack.open('You do not have a valid wildcard, choose another option', 'OK', {
+              horizontalPosition: 'center',
+              verticalPosition: 'bottom',
+              duration: 5000
+            });
+            snacker.afterDismissed().subscribe(() => {
+              location.reload();
+            });
+          }
+        });
+      }
+    });
+  }
   changeWC() {
-    if (this.conservationCheck === 0 ) {
-      // confirm wildard
+    const session = JSON.parse(sessionStorage.getItem('session'));
+
+    if (!session) {
+      this.LoginModal();
+    } else {
+      this.serv.WildcardExists(this.global.GetServer(), session).subscribe(result => {
+        if (result.Session.Error) {
+          const snacker = this.snack.open(result.Session.Error, 'OK', {
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+            duration: 5000
+          });
+
+          snacker.afterDismissed().subscribe(() => {
+            this.router.navigateByUrl('Login');
+          });
+        } else {
+          sessionStorage.setItem('session', JSON.stringify(result.Session));
+        }
+
+        if (result.Exists === true) {
+          this.snack.open('You will be exempt from paying any conservation fees for this booking.', 'OK', {
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+            duration: 5000
+          });
+        } else {
+          this.WCChecked = null;
+          const snacker = this.snack.open('You do not have a valid wildcard, choose another option', 'OK', {
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+            duration: 5000
+          });
+
+          snacker.afterDismissed().subscribe(() => {
+            location.reload();
+          });
+        }
+      }, (error: HttpErrorResponse) => {
+        this.snack.open(error.message, 'OK', {
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+          duration: 5000
+        });
+      });
     }
   }
 
   changeLater() {
-    if (this.conservationCheck === 0 ) {
-      // confirm wildard
+    if (this.fullConservationAmount > 0 ) {
+      this.totalDue -= this.fullConservationAmount;
+      this.fullConservationAmount = 0;
     }
+
+    const guests = this.getAllGuests();
+    this.serv.getConservationFees(guests, this.global.GetServer()).subscribe(res => {
+      this.fullConservationAmount = res.Amount;
+      this.bookingData.ConservationAmount = this.fullConservationAmount;
+
+      localStorage.setItem('itinerary', JSON.stringify(this.bookingData));
+      this.initialiseAmounts();
+    });
   }
 
   changeUpfront() {
     const guests = this.getAllGuests();
-
+    if (this.fullConservationAmount > 0 ) {
+      this.fullConservationAmount = 0;
+    }
     this.serv.getConservationFees(guests, this.global.GetServer()).subscribe(res => {
       this.fullConservationAmount = res.Amount;
       this.totalDue += this.fullConservationAmount;
+      this.bookingData.ConservationAmount = this.fullConservationAmount;
+
+      localStorage.setItem('itinerary', JSON.stringify(this.bookingData));
+      this.initialiseAmounts();
     });
   }
   confirmRemoveGuest() {
@@ -157,5 +278,36 @@ export class ItineraryComponent implements OnInit {
         class: 'modal-md modal-dialog-centered'
       });
     this.bsModalRef.content.closeBtnName = 'Close';
+  }
+  dummy() {
+    const session = JSON.parse(sessionStorage.getItem('session'));
+    this.serv.dummy(this.global.GetServer(), session).subscribe(res => {
+      console.log(res);
+      sessionStorage.setItem('session', JSON.stringify(res.Session));
+    });
+  }
+
+  CancelAll() {
+    this.bsModalRef = this.modalService.show(GlobalConfirmComponent,
+      {
+        class: 'modal-md modal-dialog-centered',
+        initialState: {
+          data: {
+          message: 'Unsuccessful Payment Transaction'
+          }
+        }
+      });
+    this.bsModalRef.content.closeBtnName = 'Close';
+
+    this.bsModalRef.content.event.subscribe(res => {
+      if (res.data) {
+        localStorage.removeItem('itinerary');
+        location.reload();
+      }
+    });
+  }
+
+  RemoveReservation() {
+    
   }
 }

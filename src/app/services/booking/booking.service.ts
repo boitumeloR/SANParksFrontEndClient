@@ -7,6 +7,8 @@ export interface Booking {
   BookingID: number;
   EmployeeID: number;
   paymentToken: any;
+  ConservationAmount: number;
+  TotalAmount: number;
   AccommodationBookings: AccommodationBooking[];
   ActivityBookings: any;
   DayVisits: any;
@@ -51,5 +53,12 @@ export class BookingService {
   }
   getConservationFees(guests: Guest[], server: string): Observable<any> {
     return this.http.post(`${server}/api/Booking/GetConservationFees`, guests, this.httpOptions);
+  }
+
+  dummy(server, session) {
+    return this.http.post<any>(`${server}/api/Booking/dummy`, session, this.httpOptions);
+  }
+  WildcardExists(server: string, session) {
+    return this.http.post<any>(`${server}/api/Booking/WildcardExists`, session, this.httpOptions);
   }
 }

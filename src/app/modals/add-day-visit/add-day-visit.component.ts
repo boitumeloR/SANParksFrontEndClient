@@ -195,6 +195,8 @@ export class AddDayVisitComponent implements OnInit {
         const initialItinerary: Booking = {
           ClientID: null,
           BookingID: null,
+          ConservationAmount: null,
+          TotalAmount: null,
           EmployeeID: null,
           paymentToken: null,
           AccommodationBookings: [],

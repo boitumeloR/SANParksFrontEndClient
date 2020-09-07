@@ -37,10 +37,10 @@
               <li>
                 <a href="#" class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Me</a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <h6>{{googleUser.email}}</h6>
+                  <h6>{{userOnline.Username}}</h6>
                   <a class="dropdown-item" href="#">Profile</a>
                   <a class="dropdown-item" [routerLink]="['/myBookings']">My Bookings</a>
-                  <a class="dropdown-item" (click)="signOut()">Sign Out</a>
+                  <a class="dropdown-item" (click)="Logout()">Sign Out</a>
                 </div>
               </li>
             </ng-template>
