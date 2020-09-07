@@ -41,20 +41,21 @@ export class ItineraryComponent implements OnInit {
   ngOnInit(): void {
     this.bookingData = JSON.parse(localStorage.getItem('itinerary'));
     // map BaseRates
-    this.bookingData.AccommodationBookings.map((el) => {
-      this.serv.getItineraryAccommodationData(this.global.GetServer(), el).subscribe(res => {
-        el.BaseRate = res;
+    if (this.bookingData) {
+      this.bookingData.AccommodationBookings.map((el) => {
+        this.serv.getItineraryAccommodationData(this.global.GetServer(), el).subscribe(res => {
+          el.BaseRate = res;
+        });
       });
-    });
 
-    this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
-    /*
-    this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
-    this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
-    */
+      this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
+      /*
+      this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
+      this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
+      */
 
-    this.payAmount = this.payPerc * this.totalDue;
-    console.log(this.bookingData.AccommodationBookings);
+      this.payAmount = this.payPerc * this.totalDue;
+    }
     this.firstFormGroup = this.formBuilder.group({
       firstCtrl: ['', Validators.required]
     });
@@ -66,19 +67,21 @@ export class ItineraryComponent implements OnInit {
   initialiseAmounts(): void {
     this.bookingData = JSON.parse(localStorage.getItem('itinerary'));
     // map BaseRates
-    this.bookingData.AccommodationBookings.map((el) => {
-      this.serv.getItineraryAccommodationData(this.global.GetServer(), el).subscribe(res => {
-        el.BaseRate = res;
+    if (this.bookingData) {
+      this.bookingData.AccommodationBookings.map((el) => {
+        this.serv.getItineraryAccommodationData(this.global.GetServer(), el).subscribe(res => {
+          el.BaseRate = res;
+        });
       });
-    });
 
-    this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
-    /*
-    this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
-    this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
-    */
+      this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
+      /*
+      this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
+      this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
+      */
 
-    this.payAmount = this.payPerc * this.totalDue;
+      this.payAmount = this.payPerc * this.totalDue;
+    }
     console.log(this.bookingData.AccommodationBookings);
   }
 
@@ -219,6 +222,8 @@ export class ItineraryComponent implements OnInit {
 
       localStorage.setItem('itinerary', JSON.stringify(this.bookingData));
       this.initialiseAmounts();
+      console.log('amounts');
+      console.log(this.fullConservationAmount);
     });
   }
 
@@ -234,6 +239,8 @@ export class ItineraryComponent implements OnInit {
 
       localStorage.setItem('itinerary', JSON.stringify(this.bookingData));
       this.initialiseAmounts();
+      console.log('amounts');
+      console.log(this.fullConservationAmount);
     });
   }
   confirmRemoveGuest() {
@@ -293,7 +300,7 @@ export class ItineraryComponent implements OnInit {
         class: 'modal-md modal-dialog-centered',
         initialState: {
           data: {
-          message: 'Unsuccessful Payment Transaction'
+          message: 'Are you sure you want to cancel all your reservations?'
           }
         }
       });
@@ -307,7 +314,122 @@ export class ItineraryComponent implements OnInit {
     });
   }
 
-  RemoveReservation() {
-    
+  RemoveAccommodationBooking(booking) {
+    this.bsModalRef = this.modalService.show(GlobalConfirmComponent,
+      {
+        class: 'modal-md modal-dialog-centered',
+        initialState: {
+          data: {
+          message: 'Are you sure you want to cancel this reservation?'
+          }
+        }
+      });
+    this.bsModalRef.content.closeBtnName = 'Close';
+
+    this.bsModalRef.content.event.subscribe(res => {
+      if (res.data) {
+        const index = this.bookingData.AccommodationBookings.indexOf(booking);
+        this.bookingData.AccommodationBookings.splice(index, 1);
+        localStorage.setItem('itinerary', JSON.stringify(this.bookingData));
+
+        if (
+          this.bookingData.AccommodationBookings.length === 0 &&
+          this.bookingData.ActivityBookings.length === 0 &&
+          this.bookingData.DayVisits.length === 0
+        ) {
+          localStorage.removeItem('itinerary');
+        }
+        this.initialiseAmounts();
+      }
+    });
+  }
+
+  RemoveAccommodationGuest(acc, guest) {
+    this.bsModalRef = this.modalService.show(GlobalConfirmComponent,
+      {
+        class: 'modal-md modal-dialog-centered',
+        initialState: {
+          data: {
+          message: 'Are you sure you want to remove this guest?'
+          }
+        }
+      });
+    this.bsModalRef.content.closeBtnName = 'Close';
+
+    this.bsModalRef.content.event.subscribe(res => {
+      if (res.data) {
+        const indexGuest = this.bookingData.AccommodationBookings.find(z => z === acc).Guests.indexOf(guest);
+        if (this.bookingData.AccommodationBookings.find(z => z === acc).Guests.length > 2) {
+          this.bookingData.AccommodationBookings.find(z => z === acc).Guests.splice(indexGuest, 1);
+          localStorage.setItem('itinerary', JSON.stringify(this.bookingData));
+        } else {
+          this.snack.open('You have the minimum amount of guests for this reservation', 'OK', {
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+            duration: 5000
+          });
+        }
+      }
+    });
+  }
+
+  RemoveActivityBooking(booking) {
+    this.bsModalRef = this.modalService.show(GlobalConfirmComponent,
+      {
+        class: 'modal-md modal-dialog-centered',
+        initialState: {
+          data: {
+          message: 'Are you sure you want to cancel this reservation?'
+          }
+        }
+      });
+    this.bsModalRef.content.closeBtnName = 'Close';
+
+    this.bsModalRef.content.event.subscribe(res => {
+      if (res.data) {
+        const index = this.bookingData.ActivityBookings.indexOf(booking);
+        this.bookingData.ActivityBookings.splice(index, 1);
+        localStorage.setItem('itinerary', JSON.stringify(this.bookingData));
+
+        if (
+          this.bookingData.AccommodationBookings.length === 0 &&
+          this.bookingData.ActivityBookings.length === 0 &&
+          this.bookingData.DayVisits.length === 0
+        ) {
+          localStorage.removeItem('itinerary');
+        }
+        this.initialiseAmounts();
+      }
+    });
+  }
+
+  RemoveDayVisits(booking) {
+    this.bsModalRef = this.modalService.show(GlobalConfirmComponent,
+      {
+        class: 'modal-md modal-dialog-centered',
+        initialState: {
+          data: {
+          message: 'Are you sure you want to cancel this reservation?'
+          }
+        }
+      });
+    this.bsModalRef.content.closeBtnName = 'Close';
+
+    this.bsModalRef.content.event.subscribe(res => {
+      if (res.data) {
+        const index = this.bookingData.DayVisits.indexOf(booking);
+        this.bookingData.DayVisits.splice(index, 1);
+        localStorage.setItem('itinerary', JSON.stringify(this.bookingData));
+        if (
+          this.bookingData.AccommodationBookings.length === 0 &&
+          this.bookingData.ActivityBookings.length === 0 &&
+          this.bookingData.DayVisits.length === 0
+        ) {
+          localStorage.removeItem('itinerary');
+        }
+
+        this.initialiseAmounts();
+      }
+    });
   }
 }

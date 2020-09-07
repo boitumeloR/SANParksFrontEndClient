@@ -13,14 +13,14 @@
         <div class="col-12">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item list-group-item-action"  >
-                    <a (click)="openImageModal()"><p class="close"><i class="fa fa-times-circle fa-lg"aria-hidden="true"></i></p></a> <br><br>
+                    <a (click)="RemoveAccommodationBooking(item)"><p class="close"><i class="fa fa-times-circle fa-lg"aria-hidden="true"></i></p></a> <br><br>
                     <p class="dates">{{item.StartDate |date:'mediumDate'}} - {{item.EndDate |date:'mediumDate'}} &nbsp; <i class="fa fa-calendar" aria-hidden="true"></i>
                     <h6><i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;{{item.ParkName}} </h6><br>
                     <h6><i class="fa fa-home" aria-hidden="true"></i> <a >&nbsp; {{item.CampName}} </a></h6><br>
                     <h6><i class="fa fa-home" aria-hidden="true"></i> <a >&nbsp;{{item.AccommodationTypeName}} </a></h6><br>
                     <h6><i class="fa fa-users" aria-hidden="true"></i> &nbsp; Guests</h6>
                     <div class="list-group guests">    
-                        <li href="#" class="list-group-item list-group-item-action" *ngFor="let guest of item.Guests">{{guest.GuestName}} {{guest.GuestSurname}} <a class="removeGuest"><i class="fa fa-times-circle" aria-hidden="true" (click)="confirmRemoveGuest()"></i></a></li>
+                        <li href="#" class="list-group-item list-group-item-action" *ngFor="let guest of item.Guests">{{guest.GuestName}} {{guest.GuestSurname}} <a class="removeGuest" ><i class="fa fa-times-circle" aria-hidden="true" (click)="RemoveAccommodationGuest(item, guest)"></i></a></li>
                       </div>
                       <p class="dates"><i class="fa fa-money" aria-hidden="true"></i> {{item.BaseRate*item.BookingQuantity | currency:'ZAR'}} </p>
                 </li>
@@ -41,7 +41,7 @@
             <label class="form-check-label" for="inlineRadio2">I want to pay upfront</label>
         </div>
         <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option3" [(ngModel)]="laterChecked">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option3" [(ngModel)]="laterChecked" (click)="changeLater()">
             <label class="form-check-label" for="inlineRadio2">I'll pay upon checkin</label>
         </div>
     </div>
