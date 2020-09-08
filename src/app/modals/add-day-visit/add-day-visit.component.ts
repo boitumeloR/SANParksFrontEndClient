@@ -1,20 +1,19 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { AvailabilityService } from 'src/app/services/available/availability.service';
+import { GlobalService } from 'src/app/services/global/global.service';
+import { Router } from '@angular/router';
 import { AddGuestComponent } from '../add-guest/add-guest.component';
 import { AddChildGuestComponent } from '../childGuest/add-child-guest/add-child-guest.component';
-import { AvailabilityService } from 'src/app/services/available/availability.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { GlobalService } from 'src/app/services/global/global.service';
-import { Booking, AccommodationBooking } from 'src/app/services/booking/booking.service';
-import { Router } from '@angular/router';
+import { AccommodationBooking, Booking } from 'src/app/services/booking/booking.service';
 
 @Component({
-  selector: 'app-add-booking',
-  templateUrl: './add-booking.component.html',
-  styleUrls: ['./add-booking.component.scss']
+  selector: 'app-add-day-visit',
+  templateUrl: './add-day-visit.component.html',
+  styleUrls: ['./add-day-visit.component.scss']
 })
-export class AddBookingComponent implements OnInit{
+export class AddDayVisitComponent implements OnInit {
 
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
@@ -54,7 +53,7 @@ export class AddBookingComponent implements OnInit{
     console.log(this.initialData);
 
     const Dates = JSON.parse(localStorage.getItem('Dates'));
-    this.bsRangeValue = Dates.map(zz => zz.Date);
+    this.bsRangeValue = Dates;
     this.bsRangeValue = this.bsRangeValue.map(zz => this.parseDate(zz));
     console.log(this.minDate, this.maxDate);
     this.firstFormGroup = this.formBuilder.group({
@@ -168,8 +167,6 @@ export class AddBookingComponent implements OnInit{
     const children = this.bookingGuests.filter(zz => zz.GuestAge <= 12).length;
     const adults = this.bookingGuests.filter(zz => zz.GuestAge >= 13).length;
     console.log('here1');
-    console.log(children, this.guests);
-    console.log(adults, this.adultGuests);
     if (children === this.guests && adults === this.adultGuests) {
       console.log('here2');
       const accItin: AccommodationBooking = {
@@ -193,7 +190,6 @@ export class AddBookingComponent implements OnInit{
         localStorage.setItem('itinerary', JSON.stringify(BookingsItinerary));
         this.router.navigate(['itinerary']);
         this.close();
-        this.bsModalRef.hide();
       } else {
         // if theres no bookings in the itinerary
         const initialItinerary: Booking = {
@@ -211,8 +207,6 @@ export class AddBookingComponent implements OnInit{
 
         initialItinerary.AccommodationBookings.push(accItin);
         localStorage.setItem('itinerary', JSON.stringify(initialItinerary));
-        this.bsModalRef.hide();
-        this.close();
       }
     } else {
       this.httpError = true;

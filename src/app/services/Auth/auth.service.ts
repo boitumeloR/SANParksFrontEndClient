@@ -18,6 +18,16 @@ export interface SMSResult {
   Error: boolean;
   Message: string;
 }
+
+export interface Session {
+  Username: string;
+  Password: string;
+  SessionID: string;
+  UserSecret: string;
+  Error: string;
+  SessionExpiry: Date;
+  RoleID: number;
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -44,5 +54,17 @@ export class AuthService {
 
   SaveClient(clientDetails, server) {
     return this.http.post(`${server}/api/Auth/SaveClient`, clientDetails, this.httpOptions);
+  }
+
+  GetCountries(server) {
+    return this.http.get(`${server}/api/Auth/GetCountries`);
+  }
+
+  Login(loginDetails: Session, server) {
+    return this.http.post<Session>(`${server}/api/Auth/Login`, loginDetails, this.httpOptions);
+  }
+
+  LogOut(loginDetails: Session, server) {
+    return this.http.post<Session>(`${server}/api/Auth/Logout`, loginDetails, this.httpOptions);
   }
 }

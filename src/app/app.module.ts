@@ -64,6 +64,12 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 import { HttpClientModule } from '@angular/common/http';
+import { TableResultsComponent } from './pages/table-results/table-results.component';
+import {TableModule} from 'primeng/table';
+import {PaginatorModule} from 'primeng/paginator';
+import { AddChildGuestComponent } from './modals/childGuest/add-child-guest/add-child-guest.component';
+import { AddDayVisitComponent } from './modals/add-day-visit/add-day-visit.component';
+import { LoginModalComponent } from './modals/login-modal/login-modal.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -121,7 +127,11 @@ export function provideConfig() {
     AddActivityBookingComponent,
     BookingSuccessComponent,
     ClosestGateComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    TableResultsComponent,
+    AddChildGuestComponent,
+    AddDayVisitComponent,
+    LoginModalComponent
   ],
   imports: [
     MatSnackBarModule,
@@ -145,7 +155,9 @@ export function provideConfig() {
     NgxStripeModule.forRoot(environment.stripeKey),
     BsDropdownModule.forRoot(),
     NgxIntlTelInputModule,
-    HttpClientModule
+    HttpClientModule,
+    TableModule,
+    PaginatorModule
   ],
   schemas: [NO_ERRORS_SCHEMA],
   providers: [

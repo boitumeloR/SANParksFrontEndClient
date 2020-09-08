@@ -1,7 +1,9 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { StripeService, Elements, Element as StripeElement, ElementsOptions } from 'ngx-stripe';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Booking, BookingService } from 'src/app/services/booking/booking.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-booking-payment',
@@ -16,6 +18,7 @@ export class BookingPaymentComponent implements OnInit {
   elements: Elements;
   card: StripeElement;
 
+  bookingInfo: Booking;
   stripeTest: FormGroup;
   // optional parameters
   elementsOptions: ElementsOptions = {
@@ -26,10 +29,17 @@ export class BookingPaymentComponent implements OnInit {
   onpopstate(event) {
     this.handler.close();
   }
-  constructor(private fb: FormBuilder, private stripeService: StripeService, private snack: MatSnackBar) { }
+  constructor(private fb: FormBuilder, private stripeService: StripeService,
+              private snack: MatSnackBar, private router: Router,
+              private serv: BookingService) { }
 
   ngOnInit(): void {
 
+    this.stripeTest = this.fb.group({
+      name: ['' , Validators.required]
+    });
+    this.bookingInfo = JSON.parse(localStorage.getItem('itinerary'));
+    this.amount = this.bookingInfo.PaymentAmount;
     this.stripeService.elements(this.elementsOptions)
     .subscribe(elements => {
       this.elements = elements;
@@ -64,6 +74,25 @@ export class BookingPaymentComponent implements OnInit {
   });
   }
 
+  handlePayment() {
+    const name = this.stripeTest.get('name').value;
+    this.stripeService
+      .createToken(this.card, {})
+      .subscribe(result => {
+        if (result) {
+          // Use the token to create a charge or a customer
+          // https://stripe.com/docs/charges
+          console.log(result);
+          /*
+          this.serv.SaveBooking(result.token).subscribe(data => {
+            console.log(data);
+          });*/
+        } else if (result.error) {
+          // Error creating the token
+          console.log(result.error.message);
+        }
+      });
+  }
   Success() {
     this.snack.open('Unsuccessful Payment', 'Okay', {
       horizontalPosition: 'center',

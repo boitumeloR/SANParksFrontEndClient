@@ -19,6 +19,7 @@ import { UpdatedBookingComponent } from './pages/updated-booking/updated-booking
 import { ClaimRefundComponent } from './pages/claim-refund/claim-refund.component';
 import { BookingSuccessComponent } from './pages/booking-success/booking-success.component';
 import { ClosestGateComponent } from './pages/closest-gate/closest-gate.component';
+import { TableResultsComponent } from './pages/table-results/table-results.component';
 
 
 const routes: Routes = [
@@ -36,7 +37,7 @@ const routes: Routes = [
   },
   {
     path: 'availableResults',
-    component: ResultsFixComponent
+    component: TableResultsComponent
   },
   {
     path: 'itinerary',

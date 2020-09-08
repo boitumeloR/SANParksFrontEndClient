@@ -23,6 +23,7 @@ export class GlobalConfirmComponent implements OnInit {
     this.event.emit({data: false});
     this.bsModalRef.hide();
   }
+
   confirm() {
     this.event.emit({data: true});
     this.bsModalRef.hide();
