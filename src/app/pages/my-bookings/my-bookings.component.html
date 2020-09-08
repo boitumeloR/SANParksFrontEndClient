@@ -1,0 +1,81 @@
+<app-header></app-header>
+<div class="cover">
+    <div class="head">
+      <h1>My Bookings</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore aut nesciunt, laborum 
+        architecto sed modi natus molestias nulla nisi facere sapiente mollitia quas tempore, adipisci 
+        labore reiciendis neque tempora eveniet.</p>
+    </div>
+    <img src="assets/images/results.svg" loading = "lazy" alt="">
+</div>
+
+<h1>Booking Details</h1>
+<div class="row">
+    <div class="form-group col-md-4">
+        <label for="exampleFormControlSelect1">Camp</label>
+        <select class="form-control" id="exampleFormControlSelect1" aria-placeholder="Park">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        </select>
+    </div>
+    <div class="col-md-4 dates">
+        <label for="exampleFormControlSelect1">Date Range</label>
+        <div class="input-group">
+        <input type="text"
+        placeholder="Pick Dates to filter bookings"
+        class="form-control"
+        bsDaterangepicker>
+        </div>
+    </div>
+</div>
+<div class="btn-group first" role="group" aria-label="Basic example">
+    <button class="btn btn-success view" [routerLink]="[ '/bookingPayment' ]">Pay Booking</button>
+    <button class="btn btn-success "  [routerLink]="[ '/availableResults' ]">Add A Booking</button>
+    <button class="btn btn-success " disabled [routerLink]="[ '/claimRefund' ]">Claim Refund</button>
+    <button class="btn btn-success " disabled [routerLink]="[ '/claimRefund' ]">Save Booking Changes</button>
+    <button class="btn btn-success renew" (click)="Cancel()" >Cancel Booking</button>
+</div>
+<table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Park</th>
+        <th scope="col">Camp</th>
+        <th scope="col">Booking Type</th>
+        <th scope="col">Date Range</th>
+        <th scope="col">Payment Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Kruger National Park</td>
+        <td>Skukuza Rest Camp</td>
+        <td>Activity</td>
+        <td>20 February - 22 February</td>
+        <td>Payment Outstanding</td>
+        <td>
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button class="btn btn-info view" (click)="viewBooking()">View More</button>
+                <button class="btn btn-info renew" [routerLink]="[ '/updateAccommodation' ]">Update Booking</button>
+            </div>
+        </td>
+      </tr>
+      <tr>
+        <td>Kruger National Park</td>
+        <td>Skukuza Rest Camp</td>
+        <td>Accommodation</td>
+        <td>20 February - 22 February</td>
+        <td>Payment Outstanding</td>
+        <td>
+            <div class="btn-group " role="group" aria-label="Basic example">
+                <button class="btn btn-info view" (click)="viewBooking()">View More</button>
+                <button class="btn btn-info renew" [routerLink]="[ '/renewWildcard' ]">Update Booking</button>
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <h1 class="outstanding">Outstanding Amount: R 1400.00</h1>

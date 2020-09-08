@@ -1,0 +1,215 @@
+
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Sign Up</h3>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+          <mat-horizontal-stepper labelPosition="bottom" #stepper style="font-family: 'Nunito', sans-serif; font-size: 18px;">
+            <mat-step [stepControl]="authGroup" [optional]="false" [editable] = "false" errorMessage="All fields required, in correct format.">
+              <form [formGroup]="authGroup">
+                <ng-template matStepLabel>Authentication Details</ng-template>
+                  <div class="row justify-content-center">
+                    <div class="col-md-8 alert alert-danger" *ngIf="!authGroup.valid && !httpError">
+                      {{firstError}}
+                    </div>
+                    <div class="col-md-8 alert alert-success" *ngIf="authGroup.valid && !httpError">
+                      You may proceed to the next step.
+                    </div>
+                    <div class="col-md-8 alert alert-warning alert-dismissible fade show" role="alert" *ngIf="httpError">
+                      {{httpMessage}}
+                      <button type="button" class="close" data-dismiss="alert" (click)="resetHttp()" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="col-md-8 keyword">
+                        <label class="start">Email Address </label>
+                        <div class="input-group">
+                          <input type="text" class="form-control" placeholder="Email Address" formControlName="email"/>
+                        </div>
+                      </div>
+
+                      <div class="col-md-8 keyword">
+                        <label class="start">Password </label>
+                        <div class="input-group">
+                          <input type="text" class="form-control" required type="password" placeholder="Password" formControlName="password"/>
+                        </div>
+                      </div>
+                      <div class="col-md-8 keyword">
+                        <label class="start">Confirm Password </label>
+                        <div class="input-group">
+                          <input type="text" class="form-control" required type="password" placeholder="Confirm Password" formControlName="confirmPassword"/>
+                        </div>
+                      </div>
+                  </div>
+                  <div>
+                    <button class="btn btn-success btnModal" type="submit" (click)="goToPhone(stepper)">Next &nbsp;
+                      <div class="spinner-border" role="status" *ngIf="loader">
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                    </button>
+                  </div>
+              </form>
+            </mat-step>
+            <mat-step [stepControl]="numGroup" [editable] = "false">
+              <form [formGroup]="numGroup">
+                <div class="col-md-12 alert alert-warning alert-dismissible fade show" role="alert" *ngIf="httpError">
+                  {{httpMessage}}
+                  <button type="button" class="close" data-dismiss="alert" (click)="resetHttp()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <ng-template matStepLabel>Verify Phone Number</ng-template>
+                  <div class="row">
+                    <div class="col-md-12 phone">
+                        <label class="start">Enter Phone Number </label>
+                        <div class="input-group">
+                          <div class="">
+                            <ngx-intl-tel-input
+                              [inputId]="'adsasd'"
+                              [cssClass]="'custom'" 
+                              [preferredCountries]="preferredCountries"
+                              [enableAutoCountrySelect]="false" 
+                              [enablePlaceholder]="true" 
+                              [searchCountryFlag]="true"
+                              [searchCountryField]="[SearchCountryField.Iso2, SearchCountryField.Name]"
+                              [selectFirstCountry]="false" 
+                              [selectedCountryISO]="CountryISO.SouthAfrica"
+                              [maxLength]="15" 
+                              [tooltipField]="TooltipLabel.Name" 
+                              [phoneValidation]="true" 
+                              [separateDialCode]="separateDialCode"
+                              formControlName = "number"
+                              name="phone">
+                            </ngx-intl-tel-input>
+                          </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-secondary" (click)="sendSMS()">Send SMS Verification
+                      <div class="spinner-border" role="status" *ngIf="loader">
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                    </button>
+                  </div>
+                </form>
+                <form [formGroup]="verifyGroup">
+                  <div class="row justify-content-center">
+                    <div id="collapseBasic" [collapse]="collapseDiv" [isAnimated]="true">
+                      <div class="well well-lg card card-block card-header d-flex justify-content-center">
+                        <div class="row">
+                          <div class="col-md-12 keyword">
+                            <label class="start">Enter 6 Digit Verification Code </label>
+                            <div class="input-group">
+                              <input type="text" class="form-control" required type="text" placeholder="Confirm Password" formControlName="code"/>
+                            </div>
+                          </div>
+                          <button class="btn btn-success btnModal" (click)="verifySMS(stepper)">Confirm Code &nbsp;
+                            <div class="spinner-border" role="status" *ngIf="loader2">
+                              <span class="sr-only">Loading...</span>
+                            </div>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+                  <div>
+                    <!--was button-->
+                  </div>
+            </mat-step>
+            <mat-step>
+              <ng-template matStepLabel>Client Information</ng-template>
+              <h3>Client Information</h3>
+              <form [formGroup]="clientGroup">
+                <div class="row">
+                  <div class="col-md-12 alert alert-warning alert-dismissible fade show" role="alert" *ngIf="httpError">
+                    {{httpMessage}}
+                    <button type="button" class="close" data-dismiss="alert" (click)="resetHttp()" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="col-md-12 keyword">
+                      <label class="start">Client Title </label>
+                      <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Title" formControlName="title"/>
+                      </div>
+                    </div>
+                    <div class="col-md-12 keyword">
+                      <label class="start">Client Name </label>
+                      <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Name" formControlName="name"/>
+                      </div>
+                    </div>
+                    <div class="col-md-12 keyword">
+                      <label class="start">Client Surname </label>
+                      <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Surname" formControlName="surname"/>
+                      </div>
+                    </div>
+                    <div class="col-md-12 keyword">
+                      <label class="start">Client ID Number</label>
+                      <div class="input-group">
+                        <input type="text" class="form-control" placeholder="ID Number" formControlName="id"/>
+                      </div>
+                    </div>
+                    <div class="col-lg-12 justify-content-center"> 
+                      <label for="exampleFormControlSelect1">Client Nationality</label>
+                      <select class="form-control" id="exampleFormControlSelect1" aria-placeholder="Park" formControlName="countryId">
+                        <option *ngFor="let item of countries" value="{{item.CountryID}}">{{item.CountryName}}</option>
+                      </select>
+                  </div>
+                    <div class="col-md-12 keyword">
+                      <label class="start">   Address Line 1 </label>
+                      <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Address Line 1" formControlName="address1"/>
+                      </div>
+                    </div>
+  
+                    <div class="col-md-12 keyword">
+                      <label class="start">   Address Line 2 </label>
+                      <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Address Line 2" formControlName="address2"/>
+                      </div>
+                    </div>
+  
+                    <div class="col-md-12 keyword">
+                      <label class="start">Postal Code </label>
+                      <div class="input-group">
+                        <input type="text" class="form-control" placeholder="0000" formControlName="post"/>
+                      </div>
+                    </div>
+                    <div class="col-md-12 keyword">
+                      <label class="start">Age </label>
+                      <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Age" type="number" formControlName="age"/>
+                      </div>
+                    </div>
+                </div>
+                <div>
+                  <button class="btn btn-success btnModal" (click)="SignUpClient()">Sign Up &nbsp;
+                    <div class="spinner-border" role="status" *ngIf="loader2">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  </button>
+                </div>
+              </form>
+            </mat-step>
+          </mat-horizontal-stepper>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="container">
+          
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Stepper-->
+
+    
+
+      
+
+

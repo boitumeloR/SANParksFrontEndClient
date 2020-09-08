@@ -103,7 +103,6 @@ body {
   background-color: white;
   display: none;
   transition: 0.2s ease-in-out;
-
 }
 .smallList ul li {
   display: block;
@@ -150,10 +149,11 @@ body {
 nav {
   margin: 0 auto;
   box-shadow: 0px 0px 9px 1px #7c7c7c;
-  background: none;
+  background: white;
   z-index: 5;
   text-align: center;
-
+  // position: sticky;
+  width: 100%;
   .navlist {
     transition: 05s ease-out;
 
@@ -181,6 +181,7 @@ nav {
 .dropdown-menu {
   border-radius: 21px;
   width: 400px;
+  z-index: 100;
   text-align: center;
   a {
     border-radius: 21px;
@@ -202,3 +203,4 @@ nav {
     color: white;
   }
 }
+

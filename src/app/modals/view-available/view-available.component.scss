@@ -1,0 +1,25 @@
+$buttonColor: rgb(61, 116, 61);
+img {
+    border-radius:9px;
+    box-shadow:0 0 10px rgba(0,0,0,0.63);
+    margin: auto;
+    margin-bottom: 30px;
+    height: 17vw;
+    @media screen and (max-width: 768px) {
+        height: auto;
+    }
+}
+
+.btnModal {
+    background-color: $buttonColor;
+    border-radius: 60px;
+    outline: $buttonColor;
+    width: 95%;
+    font-size: 20px;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 15px;
+}
+h4 {
+    text-align: center;
+}

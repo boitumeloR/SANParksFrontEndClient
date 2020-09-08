@@ -1,0 +1,90 @@
+<app-header></app-header>
+<div class="cover">
+    <div class="head">
+      <h1>Update Activity Booking</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore aut nesciunt, laborum 
+        architecto sed modi natus molestias nulla nisi facere sapiente mollitia quas tempore, adipisci 
+        labore reiciendis neque tempora eveniet.</p>
+    </div>
+    <img src="assets/images/update.svg" loading = "lazy" alt="">
+</div>
+
+<div class="update">
+    <h1>Update information</h1>
+    <div class="row justify-content-center">
+      <label for="exampleFormControlSelect1">Night Drive</label>
+      <label class="end">Activity Slot </label>
+      <div class="form-group col-md-12">
+        <select class="form-control" id="exampleFormControlSelect1" aria-placeholder="Park" (click)="Message()">
+        <option>14:00</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        </select>
+    </div>
+        <!--<div class="col-md-12 checks">
+          <label for="exampleFormControlSelect1">Booking Quantity</label>
+          <div>
+              <button type="button" class="btn btn-success" (click)="subtractQuantity()">-</button>
+              <p>{{quantity}}</p>
+              <button type="button" class="btn btn-success" (click)="Message()">+</button>
+          </div>
+      </div>-->
+          <div class="col-md-12 dates">
+            <label for="exampleFormControlSelect1">Dates Booked</label>
+            <div class="input-group">
+              <input type="text"
+              placeholder="Pick Dates to filter bookings"
+              class="form-control"
+              bsDaterangepicker>
+            </div>
+          </div>
+
+
+</div>
+</div>
+<div class="btn-group" role="group" aria-label="Basic example">
+    <button class="btn btn-success pay" (click)="addGuest()">Add Guest</button>
+</div>
+<table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Guest Name</th>
+        <th scope="col">Guest Surname</th>
+        <th scope="col">Guest ID Number</th>
+        <th scope="col">Guest Age</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Boitumelo </td>
+        <td>Rampete</td>
+        <td>999999999999</td>
+        <td>21</td>
+        <td>
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button class="btn btn-info view"  (click)="addGuest()">Update Guest</button>
+                <button class="btn btn-info renew"(click)="removeGuest()">Remove Guest</button>
+            </div>
+        </td>
+      </tr>
+      <tr>
+        <td>Boitumelo </td>
+        <td>Rampete</td>
+        <td>999999999999</td>
+        <td>21</td>
+        <td>
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button class="btn btn-info view" (click)="addGuest()">Update Guest</button>
+                <button class="btn btn-info renew" (click)="removeGuest()">Remove Guest</button>
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="updateBtn">
+    <button class="btn btn-success" (click)="Confirm()" >Update Booking</button>
+    <button class="btn btn-danger" (click)="Confirm()" >Cancel</button>
+  </div>

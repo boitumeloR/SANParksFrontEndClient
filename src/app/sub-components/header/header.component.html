@@ -8,7 +8,11 @@
               <a [routerLink]="['/']">Home</a>
             </li>
             <li>
-              <a href="#">Wildcards</a>
+              <a href="#" class="dropdown-toggle" href="#" id="drop" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wildcards</a>
+              <div class="dropdown-menu" aria-labelledby="drop">
+                <a class="dropdown-item" [routerLink]="['/wildcardPricing']">Purchase Wildcard Membership</a>
+                <a class="dropdown-item" [routerLink]="['/viewWildcard']">View My Wildcard Membership</a>
+              </div>
             </li>
             <li>
               <a class="dropdown-toggle" href="#" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Book With Us</a>
@@ -19,9 +23,9 @@
               </div>
             </li>
             <li>
-              <a class="notify">
+              <a class="notify" [routerLink]="['/itinerary']">
                 <span>Itinerary</span>
-                <span class="badge">1</span>
+                <span class="badge" *ngIf="itineraryCount > 0">{{itineraryCount}}</span>
               </a>
             </li>
             <ng-container *ngIf="!loggedIn; else elseTemplate">
@@ -33,10 +37,10 @@
               <li>
                 <a href="#" class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Me</a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <h6>{{googleUser.email}}</h6>
+                  <h6>{{userOnline.Username}}</h6>
                   <a class="dropdown-item" href="#">Profile</a>
-                  <a class="dropdown-item" href="#">My Bookings</a>
-                  <a class="dropdown-item" (click)="signOut()">Sign Out</a>
+                  <a class="dropdown-item" [routerLink]="['/myBookings']">My Bookings</a>
+                  <a class="dropdown-item" (click)="Logout()">Sign Out</a>
                 </div>
               </li>
             </ng-template>
@@ -56,7 +60,10 @@
           <a [routerLink]="['/']">Home</a>
         </li>
         <li>
-          <a href="#">Wildcards</a>
+          <a class="dropdown-toggle" href="#" id="drop" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Wildcards</a>
+          <div class="dropdown-menu" aria-labelledby="drop">
+            <a class="dropdown-item" href="#">Purchase Wildcards</a>
+          </div>
         </li>
         <li>
           <a class="dropdown-toggle" href="#" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Book With Us</a>
@@ -67,7 +74,10 @@
           </div>
         </li>
         <li>
-          <a href="#">Itinerary</a>
+          <a class="notify" [routerLink]="['/itinerary']">
+            <span>Itinerary</span>
+            <span class="badge" *ngIf="itineraryCount > 0">{{itineraryCount}}</span>
+          </a>
         </li>
         <ng-container *ngIf="!loggedIn; else elseTemplate">
           <li>

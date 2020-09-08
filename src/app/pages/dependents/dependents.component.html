@@ -1,0 +1,58 @@
+<app-header></app-header>
+<div class="cover">
+    <div class="head">
+        <h1>Add Your Wildcard Dependents</h1>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quos hic
+             provident enim temporibus excepturi! Similique, debitis, porro dolore eligendi,
+             laudantium ex eveniet blanditiis maxime incidunt ullam cum dicta fugit.</p>    
+    </div>
+    <img src="assets/images/wc-dependent.jpg" loading = "lazy" alt="">
+</div>
+<div class="btn-group first" role="group" aria-label="Basic example">
+    <button type="button" class="btn btn-success child" (click)="AddChild()">Add Child Dependent</button>
+    <button type="button" class="btn btn-success adult" (click)="AddAdult()">Add AdultDependent</button>
+  </div>
+<table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">ID Number</th>
+        <th scope="col">Cellphone Number</th>
+        <th scope="col">Email Address</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">Mark</th>
+        <td>Otto</td>
+        <td>9999999999999</td>
+        <td>079999999</td>
+        <td>mark@otto.com</td>
+      </tr>
+      <tr>
+        <th scope="row">Mark</th>
+        <td>Otto</td>
+        <td>9999999999999</td>
+        <td>079999999</td>
+        <td>mark@otto.com</td>
+      </tr>
+      <tr>
+        <th scope="row">Mark</th>
+        <td>Otto</td>
+        <td>9999999999999</td>
+        <td>079999999</td>
+        <td>mark@otto.com</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="parent">
+    <div class="btn-group last mx-auto" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-secondary child"> <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            Go Back</button>
+        <button type="button" [routerLink]="[ '/wildcardPayment']" class="btn btn-success adult">Proceed To Payment <i class="fa fa-credit-card" aria-hidden="true"></i>
+
+        </button>
+    </div>
+  </div>
