@@ -18,7 +18,7 @@
               <h6 class="card-price text-center">{{ item.DefaultRate | currency:'ZAR' }}<span class="period">/year</span></h6>
               <hr>
               <label for="exampleFormControlSelect1">Cluster</label>
-              <select class="form-control" id="exampleFormControlSelect1" aria-placeholder="Park" [(ngModel)]="selectedClusterID" (change)="ChangeAmount()">
+              <select class="form-control" id="exampleFormControlSelect1" aria-placeholder="Park" [(ngModel)]="selectedCluster" (change)="ChangeAmount(item)">
                 <option *ngFor="let clust of item.Clusters" value="{{clust.WildcardClusterID}}">{{clust.WildcardClusterName}}</option>
               </select>
               <hr>

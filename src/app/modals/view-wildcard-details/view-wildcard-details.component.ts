@@ -9,6 +9,7 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 export class ViewWildcardDetailsComponent implements OnInit {
 
   bsModalRef: BsModalRef;
+  wildcard: any;
   constructor() { }
 
   ngOnInit(): void {
