@@ -202,7 +202,8 @@ export class AddDayVisitComponent implements OnInit {
           paymentToken: null,
           AccommodationBookings: [],
           ActivityBookings: [],
-          DayVisits: []
+          DayVisits: [],
+          Session: null
         };
 
         initialItinerary.AccommodationBookings.push(accItin);

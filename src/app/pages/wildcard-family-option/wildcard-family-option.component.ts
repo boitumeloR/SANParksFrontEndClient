@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { AddDependentsComponent } from 'src/app/modals/add-dependents/add-dependents.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-wildcard-family-option',
@@ -10,7 +11,7 @@ import { AddDependentsComponent } from 'src/app/modals/add-dependents/add-depend
 export class WildcardFamilyOptionComponent implements OnInit {
 
   bsModalRef: BsModalRef;
-  constructor(private modalService: BsModalService) { }
+  constructor(private modalService: BsModalService, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -24,5 +25,15 @@ export class WildcardFamilyOptionComponent implements OnInit {
         class: 'modal-md modal-dialog-centered'
       });
     this.bsModalRef.content.closeBtnName = 'Close';
+  }
+
+  FirstOption() {
+    localStorage.setItem('dependents', JSON.stringify({children: 2, adults: 5}));
+    this.router.navigateByUrl('dependents');
+  }
+
+  SecondOption() {
+    localStorage.setItem('dependents', JSON.stringify({children: 1, adults: 6}));
+    this.router.navigateByUrl('dependents');
   }
 }

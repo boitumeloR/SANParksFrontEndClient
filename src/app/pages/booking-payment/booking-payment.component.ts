@@ -4,6 +4,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Booking, BookingService } from 'src/app/services/booking/booking.service';
 import { Router } from '@angular/router';
+import { GlobalService } from 'src/app/services/global/global.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-booking-payment',
@@ -31,7 +33,7 @@ export class BookingPaymentComponent implements OnInit {
   }
   constructor(private fb: FormBuilder, private stripeService: StripeService,
               private snack: MatSnackBar, private router: Router,
-              private serv: BookingService) { }
+              private serv: BookingService, private global: GlobalService) { }
 
   ngOnInit(): void {
 
@@ -39,6 +41,14 @@ export class BookingPaymentComponent implements OnInit {
       name: ['' , Validators.required]
     });
     this.bookingInfo = JSON.parse(localStorage.getItem('itinerary'));
+    this.serv.getClientFromSession(JSON.parse(sessionStorage.getItem('session')),
+                                  this.global.GetServer()).subscribe(res => {
+                                    console.log(res);
+                                    this.bookingInfo.ClientID = res.ClientID;
+                                    localStorage.setItem('itinerary', JSON.stringify(this.bookingInfo));
+                                    console.log(this.bookingInfo);
+                                    sessionStorage.setItem('session', JSON.stringify(res.Session)); },
+                                    (error: HttpErrorResponse) => this.openSnack(error));
     this.amount = this.bookingInfo.PaymentAmount;
     this.stripeService.elements(this.elementsOptions)
     .subscribe(elements => {
@@ -74,7 +84,21 @@ export class BookingPaymentComponent implements OnInit {
   });
   }
 
+  openSnack(message) {
+    this.snack.open(message, 'Okay', {
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
+    });
+  }
+
   handlePayment() {
+    this.serv.getClientFromSession(JSON.parse(sessionStorage.getItem('session')), this.global.GetServer()).subscribe(res => {
+      console.log(res);
+      this.bookingInfo.ClientID = res.ClientID;
+      localStorage.setItem('itinerary', JSON.stringify(this.bookingInfo));
+      console.log(this.bookingInfo);
+      sessionStorage.setItem('session', JSON.stringify(res.Session)); },
+      (error: HttpErrorResponse) => this.openSnack(error.message));
     const name = this.stripeTest.get('name').value;
     this.stripeService
       .createToken(this.card, {})
@@ -82,14 +106,43 @@ export class BookingPaymentComponent implements OnInit {
         if (result) {
           // Use the token to create a charge or a customer
           // https://stripe.com/docs/charges
-          console.log(result);
-          /*
-          this.serv.SaveBooking(result.token).subscribe(data => {
-            console.log(data);
-          });*/
+          this.bookingInfo = JSON.parse(localStorage.getItem('itinerary'));
+          this.bookingInfo.paymentToken = result.token.id;
+          console.log(this.bookingInfo.paymentToken);
+          const sess = JSON.parse(sessionStorage.getItem('session'));
+          this.bookingInfo.Session = sess;
+          localStorage.setItem('itinerary', JSON.stringify(this.bookingInfo));
+          this.serv.SaveBooking(this.bookingInfo , this.global.GetServer()).subscribe(data => {
+            if (data.Success) {
+              console.log('Success!!')
+              sessionStorage.setItem('session', JSON.stringify(data.Session));
+              this.snack.open('You have successfully made a booking', 'OK', {
+                horizontalPosition: 'center',
+                verticalPosition: 'bottom',
+                duration: 5000
+              });
+              localStorage.removeItem('itinerary');
+              this.router.navigateByUrl('bookingSuccess');
+            } else {
+              if (data.Session.Error) {
+                const login = this.snack.open(data.Session.Error, 'Okay', {
+                  horizontalPosition: 'center',
+                  verticalPosition: 'bottom'
+                });
+
+                login.afterDismissed().subscribe(() => this.router.navigateByUrl('Login'));
+              } else {
+                this.openSnack(data.Message);
+              }
+            }
+          });
         } else if (result.error) {
           // Error creating the token
-          console.log(result.error.message);
+          this.snack.open(result.error.message, 'OK', {
+            duration: 5000,
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom'
+          });
         }
       });
   }
