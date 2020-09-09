@@ -9,8 +9,12 @@
     <img src="assets/images/wc-dependent.jpg" loading = "lazy" alt="">
 </div>
 <div class="btn-group first" role="group" aria-label="Basic example">
-    <button type="button" class="btn btn-success child" (click)="AddChild()">Add Child Dependent</button>
-    <button type="button" class="btn btn-success adult" (click)="AddAdult()">Add AdultDependent</button>
+    <button type="button" class="btn btn-success child" (click)="AddChild()"
+    [disabled]="childLimit==0 ? true: false"
+    >Add Child Dependent</button>
+    <button type="button" class="btn btn-success adult" (click)="AddAdult()"
+    [disabled]="adultLimit==0 ? true: false"
+    >Add AdultDependent</button>
   </div>
 <table class="table table-hover">
     <thead>
@@ -23,26 +27,12 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <th scope="row">Mark</th>
-        <td>Otto</td>
-        <td>9999999999999</td>
-        <td>079999999</td>
-        <td>mark@otto.com</td>
-      </tr>
-      <tr>
-        <th scope="row">Mark</th>
-        <td>Otto</td>
-        <td>9999999999999</td>
-        <td>079999999</td>
-        <td>mark@otto.com</td>
-      </tr>
-      <tr>
-        <th scope="row">Mark</th>
-        <td>Otto</td>
-        <td>9999999999999</td>
-        <td>079999999</td>
-        <td>mark@otto.com</td>
+      <tr *ngFor="let item of Dependents">
+        <th scope="row">{{item.DependentName}}</th>
+        <td>{{item.DependentSurname}}</td>
+        <td>{{item.DependentIDCode}}</td>
+        <td>{{item.DependentCellphone}}</td>
+        <td>{{item.DependentEmailAddress}}</td>
       </tr>
     </tbody>
   </table>
@@ -51,7 +41,9 @@
     <div class="btn-group last mx-auto" role="group" aria-label="Basic example">
         <button type="button" class="btn btn-secondary child"> <i class="fa fa-arrow-left" aria-hidden="true"></i>
             Go Back</button>
-        <button type="button" [routerLink]="[ '/wildcardPayment']" class="btn btn-success adult">Proceed To Payment <i class="fa fa-credit-card" aria-hidden="true"></i>
+        <button type="button" (click)="PayWildcard()" class="btn btn-success adult"
+        [disabled] = "Dependents.length == adultLimit + childLimit ? false: true"
+        >Proceed To Payment <i class="fa fa-credit-card" aria-hidden="true"></i>
 
         </button>
     </div>

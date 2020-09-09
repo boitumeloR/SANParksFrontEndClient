@@ -1,6 +1,12 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { StripeService, Elements, Element as StripeElement, ElementsOptions } from 'ngx-stripe';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { BookingService } from 'src/app/services/booking/booking.service';
+import { GlobalService } from 'src/app/services/global/global.service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { WildcardService, Wildcard } from 'src/app/services/Wildcard/wildcard.service';
 
 @Component({
   selector: 'app-pay-wildcard',
@@ -9,12 +15,15 @@ import { StripeService, Elements, Element as StripeElement, ElementsOptions } fr
 })
 export class PayWildcardComponent implements OnInit {
 
-  amount = 500;
+  amount: any;
   handler: any;
 
   elements: Elements;
   card: StripeElement;
+  loader: boolean;
 
+  toUpdate = false;
+  wildcardInfo: Wildcard;
   stripeTest: FormGroup;
   // optional parameters
   elementsOptions: ElementsOptions = {
@@ -25,10 +34,21 @@ export class PayWildcardComponent implements OnInit {
   onpopstate(event) {
     this.handler.close();
   }
-  constructor(private fb: FormBuilder, private stripeService: StripeService) { }
+  constructor(private fb: FormBuilder, private stripeService: StripeService,
+              private snack: MatSnackBar, private router: Router,
+              private serv: WildcardService, private global: GlobalService) { }
 
   ngOnInit(): void {
+    this.loader = false;
+    const wc: Wildcard = JSON.parse(localStorage.getItem('wildcard'));
+    const update: boolean = JSON.parse(localStorage.getItem('update'));
+    if (wc) {
+      this.amount = wc.Amount;
+    }
 
+    if (update) {
+      this.toUpdate = true;
+    }
     this.stripeService.elements(this.elementsOptions)
     .subscribe(elements => {
       this.elements = elements;
@@ -61,5 +81,107 @@ export class PayWildcardComponent implements OnInit {
         // registerElements([this.card], 'example1');
     }
   });
+  }
+
+  handlePayment() {
+    this.loader = true;
+    this.stripeService
+    .createToken(this.card, {})
+    .subscribe(result => {
+      if (result) {
+        // Use the token to create a charge or a customer
+        // https://stripe.com/docs/charges
+        this.wildcardInfo = JSON.parse(localStorage.getItem('wildcard'));
+        this.wildcardInfo.paymentToken = result.token.id;
+        console.log(this.wildcardInfo.paymentToken);
+        const sess = JSON.parse(sessionStorage.getItem('session'));
+        this.wildcardInfo.Session = sess;
+        localStorage.setItem('wildcard', JSON.stringify(this.wildcardInfo));
+        this.serv.SaveWildcard(this.wildcardInfo , this.global.GetServer()).subscribe(data => {
+          if (data.Success) {
+            this.loader = false;
+            console.log('Success!!');
+            sessionStorage.setItem('session', JSON.stringify(data.Session));
+            this.snack.open('You have successfully purchased a wildcard for a year', 'OK', {
+              horizontalPosition: 'center',
+              verticalPosition: 'bottom',
+              duration: 5000
+            });
+            localStorage.removeItem('wildcard');
+            this.router.navigateByUrl('');
+          } else {
+            if (data.Session.Error) {
+              this.loader = false;
+              const login = this.snack.open(data.Session.Error, 'Okay', {
+                horizontalPosition: 'center',
+                verticalPosition: 'bottom'
+              });
+
+              login.afterDismissed().subscribe(() => this.router.navigateByUrl('Login'));
+            } else {
+              this.loader = false;
+              this.openSnack(data.Message);
+            }
+          }
+        }, (error: HttpErrorResponse) => {
+          this.openSnack(error.message);
+        });
+      }
+    });
+  }
+
+  handleUpdate() {
+    this.loader = true;
+    this.stripeService
+    .createToken(this.card, {})
+    .subscribe(result => {
+      if (result) {
+        // Use the token to create a charge or a customer
+        // https://stripe.com/docs/charges
+        this.wildcardInfo = JSON.parse(localStorage.getItem('wildcard'));
+        this.wildcardInfo.paymentToken = result.token.id;
+        console.log(this.wildcardInfo.paymentToken);
+        const sess = JSON.parse(sessionStorage.getItem('session'));
+        this.wildcardInfo.Session = sess;
+        localStorage.setItem('wildcard', JSON.stringify(this.wildcardInfo));
+        this.serv.RenewWildcard(this.wildcardInfo , this.global.GetServer()).subscribe(data => {
+          if (data.Success) {
+            this.loader = false;
+            console.log('Success!!');
+            sessionStorage.setItem('session', JSON.stringify(data.Session));
+            this.snack.open('You have successfully purchased a wildcard for a year', 'OK', {
+              horizontalPosition: 'center',
+              verticalPosition: 'bottom',
+              duration: 5000
+            });
+            localStorage.removeItem('wildcard');
+            localStorage.removeItem('update');
+            this.router.navigateByUrl('');
+          } else {
+            if (data.Session.Error) {
+              this.loader = false;
+              const login = this.snack.open(data.Session.Error, 'Okay', {
+                horizontalPosition: 'center',
+                verticalPosition: 'bottom'
+              });
+
+              login.afterDismissed().subscribe(() => this.router.navigateByUrl('Login'));
+            } else {
+              this.loader = false;
+              this.openSnack(data.Message);
+            }
+          }
+        }, (error: HttpErrorResponse) => {
+          this.openSnack(error.message);
+        });
+      }
+    });
+  }
+
+  openSnack(message: string) {
+    this.snack.open(message, 'OK', {
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
+    });
   }
 }
