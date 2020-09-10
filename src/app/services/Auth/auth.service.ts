@@ -67,4 +67,12 @@ export class AuthService {
   LogOut(loginDetails: Session, server) {
     return this.http.post<Session>(`${server}/api/Auth/Logout`, loginDetails, this.httpOptions);
   }
+
+  GetClientInfo(server, session) {
+    return this.http.post<any>(`${server}/api/Auth/GetClient`, session, this.httpOptions);
+  }
+
+  UpdateClient(server, Client) {
+    return this.http.post<any>(`${server}/api/Auth/UpdateClient`, Client, this.httpOptions);
+  }
 }

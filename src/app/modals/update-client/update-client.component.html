@@ -1,0 +1,69 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h3>Sign Up</h3>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <h3>Client Information</h3>
+        <div class="col-md-12 alert alert-warning alert-dismissible fade show" role="alert" *ngIf="httpError">
+            {{httpMessage}}
+            <button type="button" class="close" data-dismiss="alert" (click)="resetHttp()" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <form [formGroup]="clientGroup">
+            <div class="row">
+                <div class="col-md-12 keyword">
+                    <label class="start">Client Name </label>
+                    <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Name" formControlName="name"/>
+                    </div>
+                </div>
+                <div class="col-md-12 keyword">
+                    <label class="start">Client Surname </label>
+                    <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Surname" formControlName="surname"/>
+                    </div>
+                </div>
+                <div class="col-md-12 keyword">
+                    <label class="start">Client ID Number</label>
+                    <div class="input-group">
+                    <input type="text" class="form-control" placeholder="ID Number" formControlName="id"/>
+                    </div>
+                </div>
+                <div class="col-md-12 keyword">
+                    <label class="start">   Address Line 1 </label>
+                    <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Address Line 1" formControlName="address1"/>
+                    </div>
+                </div>
+
+                <div class="col-md-12 keyword">
+                    <label class="start">   Address Line 2 </label>
+                    <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Address Line 2" formControlName="address2"/>
+                    </div>
+                </div>
+
+                <div class="col-md-12 keyword">
+                    <label class="start">Postal Code </label>
+                    <div class="input-group">
+                    <input type="text" class="form-control" placeholder="0000" formControlName="post"/>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button class="btn btn-success btnModal" (click)="Update()">Update &nbsp;
+                <div class="spinner-border" role="status" *ngIf="loader2">
+                    <span class="sr-only">Loading...</span>
+                </div>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!--Stepper-->

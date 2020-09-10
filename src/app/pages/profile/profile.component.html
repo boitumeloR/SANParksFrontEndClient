@@ -1,0 +1,19 @@
+  
+    <app-header></app-header>
+
+    <div class="profile">
+        <ul class="list-group list-group-flush  list-group-item-action">
+            <li class="list-group-item">
+                <div class="card">
+                    <img src="https://cdn.elextensions.com/wp-content/uploads/2018/10/Choosing-Perfect-WordPress-User-Role-Profile-Builder-Banner.png" class="card-img-top" alt="...">
+                    <div class="card-body">
+                      <h5 class="card-title"> {{clientInfo.ClientName}} {{clientInfo.ClientSurname}}</h5>
+                      <a class="btn btn-success" (click)="UpdateClient()">Update Profile</a>
+                    </div>
+                  </div>
+            </li>
+            <li class="list-group-item"> <strong>Email Address:</strong> {{clientInfo.ClientEmail}}</li>
+            <li class="list-group-item"><strong>Cellphone Number: {{clientInfo.CellPhone}}</strong></li>
+            <li class="list-group-item"><strong>ID Number: {{clientInfo.ClientIDCode}}</strong> </li>
+          </ul>
+    </div>

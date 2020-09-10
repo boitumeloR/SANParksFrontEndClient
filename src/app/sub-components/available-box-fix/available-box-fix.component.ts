@@ -139,40 +139,32 @@ export class AvailableBoxFixComponent implements OnInit {
 
   CheckAvailability() {
     if (this.availableGroup.valid) {
-      if (this.checks === 1) {
-        this.loader = true;
-        const availableData = {
-          ParkID: Number(this.availableGroup.get('park').value) ,
-          CampID: this.availableGroup.get('camp').value,
-          AccommodationChecked: this.availableGroup.get('accommodation').value,
-          ActivityChecked: this.availableGroup.get('activity').value,
-          DayVisitChecked: this.availableGroup.get('day').value,
-          AccommodationTypeID: this.availableGroup.get('accommodationType').value,
-          ActivityTypeID: this.availableGroup.get('activityType').value,
-          Forward: true,
-          BaseDate: new Date()
-        };
+      this.loader = true;
+      const availableData = {
+        ParkID: Number(this.availableGroup.get('park').value) ,
+        CampID: this.availableGroup.get('camp').value,
+        AccommodationChecked: this.availableGroup.get('accommodation').value,
+        ActivityChecked: this.availableGroup.get('activity').value,
+        DayVisitChecked: this.availableGroup.get('day').value,
+        AccommodationTypeID: this.availableGroup.get('accommodationType').value,
+        ActivityTypeID: this.availableGroup.get('activityType').value,
+        Forward: true,
+        BaseDate: new Date()
+      };
 
-        console.log(availableData);
+      console.log(availableData);
 
-        this.checkAvailability$ = this.serv.checkAvailability(availableData, this.global.GetServer());
-        this.checkAvailability$.subscribe(res => {
-          this.loader = false;
-          localStorage.setItem('availableResults', JSON.stringify(res));
-          localStorage.setItem('searchData', JSON.stringify(availableData));
-          this.router.navigate(['availableResults']);
-        }, (error: HttpErrorResponse) => {
-          this.httpError = true;
-          this.httpMessage = error.message;
-        });
-        console.log(availableData);
-      } else if (this.checks > 1) {
+      this.checkAvailability$ = this.serv.checkAvailability(availableData, this.global.GetServer());
+      this.checkAvailability$.subscribe(res => {
+        this.loader = false;
+        localStorage.setItem('availableResults', JSON.stringify(res));
+        localStorage.setItem('searchData', JSON.stringify(availableData));
+        this.router.navigate(['availableResults']);
+      }, (error: HttpErrorResponse) => {
         this.httpError = true;
-        this.httpMessage = 'Choose only one booking type to check availability';
-      } else if (this.checks < 1) {
-        this.httpError = true;
-        this.httpMessage = 'Check ONE booking type';
-      }
+        this.httpMessage = error.message;
+      });
+      console.log(availableData);
     }
     // this.router.navigateByUrl('availableResults');
   }

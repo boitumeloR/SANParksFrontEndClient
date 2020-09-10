@@ -46,6 +46,7 @@ export class LoginModalComponent implements OnInit {
     this.httpMessage = '';
   }
   close() {
+    this.event.emit({result: false});
     this.loginRef.hide();
   }
 
@@ -76,7 +77,7 @@ export class LoginModalComponent implements OnInit {
           this.loader = false;
           sessionStorage.setItem('session', JSON.stringify(res));
           this.event.emit({result: true});
-          this.close();
+          this.loginRef.hide();
           this.myGroup.reset();
         } else {
           this.httpError = true;

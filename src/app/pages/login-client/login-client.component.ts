@@ -68,6 +68,11 @@ export class LoginClientComponent implements OnInit {
           this.loader = false;
           sessionStorage.setItem('session', JSON.stringify(res));
           this.formGroup.reset();
+          this.snack.open('Login success, you may now create or finalise your booking', 'OK', {
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+            duration: 5000
+          });
         } else {
           this.snack.open(res.Error, 'OK', {
             horizontalPosition: 'center',
@@ -75,10 +80,11 @@ export class LoginClientComponent implements OnInit {
             duration: 5000
           });
           this.loader = false;
+          this.formGroup.reset();
         }
       }, (error: HttpErrorResponse) => {
         this.loader = false;
-        this.snack.open(error.message, 'OK', {
+        this.snack.open(`${error.message}. Try again later`, 'OK', {
           horizontalPosition: 'center',
           verticalPosition: 'bottom',
           duration: 5000

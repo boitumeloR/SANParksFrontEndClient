@@ -38,7 +38,7 @@
                 <a href="#" class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Me</a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <h6>{{userOnline.Username}}</h6>
-                  <a class="dropdown-item" href="#">Profile</a>
+                  <a class="dropdown-item" [routerLink]="['/profile']">Profile</a>
                   <a class="dropdown-item" [routerLink]="['/myBookings']">My Bookings</a>
                   <a class="dropdown-item" (click)="Logout()">Sign Out</a>
                 </div>
@@ -87,7 +87,13 @@
         <!--Test-->
         <ng-template #elseTemplate>
           <li>
-            <a [routerLink]="['/Login']">{{googleUser.email}}</a>
+            <a href="#" class="dropdown-toggle" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Me</a>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <h6>{{userOnline.Username}}</h6>
+              <a class="dropdown-item" [routerLink]="['/profile']">Profile</a>
+              <a class="dropdown-item" [routerLink]="['/myBookings']">My Bookings</a>
+              <a class="dropdown-item" (click)="Logout()">Sign Out</a>
+            </div>
           </li>
         </ng-template>
     </ul>

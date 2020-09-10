@@ -1,18 +1,20 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Session } from '../Auth/auth.service';
 
 export interface Booking {
   ClientID: number;
   BookingID: number;
   EmployeeID: number;
-  paymentToken: any;
+  paymentToken: string;
   PaymentAmount: number;
   ConservationAmount: number;
   TotalAmount: number;
   AccommodationBookings: AccommodationBooking[];
   ActivityBookings: any;
   DayVisits: any;
+  Session: Session;
 }
 
 export interface AccommodationBooking {
@@ -61,5 +63,13 @@ export class BookingService {
   }
   WildcardExists(server: string, session) {
     return this.http.post<any>(`${server}/api/Booking/WildcardExists`, session, this.httpOptions);
+  }
+
+  SaveBooking(bookingData, server) {
+    return this.http.post<any>(`${server}/api/Booking/SaveBooking`, bookingData, this.httpOptions);
+  }
+
+  getClientFromSession(Session, server) {
+    return this.http.post<any>(`${server}/api/Booking/GetClientID`, Session, this.httpOptions);
   }
 }

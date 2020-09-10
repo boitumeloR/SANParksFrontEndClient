@@ -70,7 +70,9 @@
 
 
       
-      <button class="btn btn-success btnModal" (click)="CheckAvailability()">Check Availability &nbsp;
+      <button class="btn btn-success btnModal" (click)="CheckAvailability()"
+      [disabled] = "availableGroup.valid ? false: true"
+      >Check Availability &nbsp;
         <div class="spinner-border" role="status" *ngIf="loader">
           <span class="sr-only">Loading...</span>
         </div>

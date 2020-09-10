@@ -9,7 +9,8 @@
     <img src="assets/images/view-wc.svg" loading = "lazy" alt="">
 </div>
 
-<h1>Membership Details</h1>
+<div *ngIf="Wildcards.length > 0">
+  <h1>Membership Details</h1>
 
 <table class="table table-hover">
     <thead>
@@ -22,17 +23,18 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <th scope="row">Mark</th>
-        <td>Otto</td>
-        <td>9999999999999</td>
-        <td>079999999</td>
+      <tr *ngFor="let item of Wildcards">
+        <td>{{item.WildcardID}}</td>
+        <td>{{item.WildcardCategory}}</td>
+        <td>{{item.WildcardCluster}}</td>
+        <td>{{item.WildcardStatus}}</td>
         <td>
             <div class="btn-group first" role="group" aria-label="Basic example">
-                <button class="btn btn-info view" (click)="viewWildcardDetailsModal()">View</button>
-                <button class="btn btn-success renew" [routerLink]="[ '/renewWildcard' ]">Renew Wildcard</button>
+                <button class="btn btn-info view" (click)="viewWildcardDetailsModal(item)">View</button>
+                <button class="btn btn-success renew" (click)="RenewWildcard(item)">Renew Wildcard</button>
             </div>
         </td>
       </tr>
     </tbody>
   </table>
+</div>

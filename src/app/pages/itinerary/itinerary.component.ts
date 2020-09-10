@@ -512,16 +512,26 @@ export class ItineraryComponent implements OnInit {
           duration: 5000
         });
     } else {
-      this.bookingData = JSON.parse(localStorage.getItem('itinerary'));
-      console.log(this.totalDue);
-      if (this.bookingData) {
-        this.bookingData.ConservationAmount = this.fullConservationAmount;
-        this.bookingData.PaymentAmount = this.totalDue * this.payPerc;
-        this.bookingData.TotalAmount = this.totalDue;
+      const sess = JSON.parse(sessionStorage.getItem('session'));
+      if (sess) {
+        this.bookingData = JSON.parse(localStorage.getItem('itinerary'));
         console.log(this.totalDue);
-        localStorage.setItem('itinerary', JSON.stringify(this.bookingData));
+        if (this.bookingData) {
+          this.bookingData.ConservationAmount = this.fullConservationAmount;
+          this.bookingData.PaymentAmount = this.totalDue * this.payPerc;
+          this.bookingData.TotalAmount = this.totalDue;
+          console.log(this.totalDue);
+          localStorage.setItem('itinerary', JSON.stringify(this.bookingData));
+          this.router.navigate(['bookingPayment']);
+        }
+      } else {
+        const snackBar = this.snack.open('Login before you checkout.', 'OK', {
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+          duration: 5000
+        });
+        snackBar.afterDismissed().subscribe(() => this.router.navigate(['Login']));
       }
-      this.router.navigate(['bookingPayment']);
     }
   }
 }
