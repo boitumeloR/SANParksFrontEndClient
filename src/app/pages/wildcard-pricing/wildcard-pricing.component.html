@@ -23,13 +23,13 @@
               </select>
               <hr>
                 <h6>Dependents</h6>
-                <ul class="fa-ul" *ngIf="item.WildcardName === 'Individual'">
+                <ul class="fa-ul" *ngIf="item.WildcardCategoryName === 'Individual'">
                   <li><span class="fa-li"><i class="fa fa-check"></i></span>Single Dependent</li>
                 </ul>
-                <ul class="fa-ul" *ngIf="item.WildcardName === 'Family'">
+                <ul class="fa-ul" *ngIf="item.WildcardCategoryName === 'Family'">
                   <li><span class="fa-li"><i class="fa fa-check"></i></span>7 Dependents</li>
                 </ul>
-                <ul class="fa-ul" *ngIf="item.WildcardName === 'Couple'">
+                <ul class="fa-ul" *ngIf="item.WildcardCategoryName === 'Couple'">
                   <li><span class="fa-li"><i class="fa fa-check"></i></span>2 Dependents, Both Adult</li>
                 </ul>
               <hr>
