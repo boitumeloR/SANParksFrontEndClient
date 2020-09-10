@@ -1,0 +1,50 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h3>Add Child Dependent</h3>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+            <!--Body-->
+            <div class="modal-body">
+              <form [formGroup]="firstFormGroup">
+                <div class="col-md-12 keyword">
+                  <label class="start">Dependent ID Number: </label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" formControlName = "DependentIDCode"/>
+                  </div>
+                </div>
+                <div class="col-md-12 keyword">
+                    <label class="start">Dependent Name: </label>
+                    <div class="input-group">
+                      <input type="text" class="form-control" formControlName = "DependentIDCode"/>
+                    </div>
+                </div>
+                <div class="col-md-12 keyword">
+                    <label class="start">Dependent Surname: </label>
+                    <div class="input-group"> 
+                      <input type="text" class="form-control" formControlName = "DependentSurname"/>
+                    </div>
+                </div>
+                  
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-success" (click)="Save()"
+                      [disabled]="firstFormGroup.valid ? false: true"
+                      >Save</button>
+                  </div>
+              </form>
+            </div>
+    </div>   
+            <!--Body-->
+    
+    
+    
+    <!--Stepper-->
+    
+    
+    
+      
+    
+    
+    
+    

@@ -1,0 +1,40 @@
+<app-header></app-header>
+<div class="cover">
+    <div class="head">
+      <h1>View Wildcard Membership</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore aut nesciunt, laborum 
+        architecto sed modi natus molestias nulla nisi facere sapiente mollitia quas tempore, adipisci 
+        labore reiciendis neque tempora eveniet.</p>
+    </div>
+    <img src="assets/images/view-wc.svg" loading = "lazy" alt="">
+</div>
+
+<div *ngIf="Wildcards.length > 0">
+  <h1>Membership Details</h1>
+
+<table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Wildcard ID</th>
+        <th scope="col">Wildcard Category</th>
+        <th scope="col">Wildcard Cluster</th>
+        <th scope="col">Wildcard Status</th>
+        <th scope="col">View</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of Wildcards">
+        <td>{{item.WildcardID}}</td>
+        <td>{{item.WildcardCategory}}</td>
+        <td>{{item.WildcardCluster}}</td>
+        <td>{{item.WildcardStatus}}</td>
+        <td>
+            <div class="btn-group first" role="group" aria-label="Basic example">
+                <button class="btn btn-info view" (click)="viewWildcardDetailsModal(item)">View</button>
+                <button class="btn btn-success renew" (click)="RenewWildcard(item)">Renew Wildcard</button>
+            </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

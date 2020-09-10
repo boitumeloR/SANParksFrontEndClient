@@ -1,0 +1,105 @@
+<app-header></app-header>
+<div class="cover">
+    <div class="head">
+      <h1>My Itinerary</h1>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore aut nesciunt, laborum 
+        architecto sed modi natus molestias nulla nisi facere sapiente mollitia quas tempore, adipisci 
+        labore reiciendis neque tempora eveniet.</p>
+    </div>
+    <img src="assets/images/results.svg" loading = "lazy" alt="">
+  </div>
+  <div *ngIf="bookingData">
+    <div class="row justfy-content-center" *ngFor="let item of bookingData.AccommodationBookings">
+        <div class="col-12">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item list-group-item-action"  >
+                    <a (click)="RemoveAccommodationBooking(item)"><p class="close"><i class="fa fa-times-circle fa-lg"aria-hidden="true"></i></p></a> <br><br>
+                    <p class="dates">{{item.StartDate |date:'mediumDate'}} - {{item.EndDate |date:'mediumDate'}} &nbsp; <i class="fa fa-calendar" aria-hidden="true"></i>
+                    <h6><i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;{{item.ParkName}} </h6><br>
+                    <h6><i class="fa fa-home" aria-hidden="true"></i> <a >&nbsp; {{item.CampName}} </a></h6><br>
+                    <h6><i class="fa fa-home" aria-hidden="true"></i> <a >&nbsp;{{item.AccommodationTypeName}} x {{item.BookingQuantity}}</a></h6><br>
+                    <h6><i class="fa fa-users" aria-hidden="true"></i> &nbsp; Guests</h6>
+                    <div class="list-group guests">    
+                        <li href="#" class="list-group-item list-group-item-action" *ngFor="let guest of item.Guests">{{guest.GuestName}} {{guest.GuestSurname}} <a class="removeGuest" ><i class="fa fa-times-circle" aria-hidden="true" (click)="RemoveAccommodationGuest(item, guest)"></i></a></li>
+                      </div>
+                      <p class="dates"><i class="fa fa-money" aria-hidden="true"></i> {{item.BaseRate*item.BookingQuantity | currency:'ZAR'}} </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row justfy-content-center" *ngFor="let item of bookingData.DayVisits">
+        <div class="col-12">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item list-group-item-action"  >
+                    <a (click)="RemoveDayVisits(item)"><p class="close"><i class="fa fa-times-circle fa-lg"aria-hidden="true"></i></p></a> <br><br>
+                    <p class="dates">{{item.Date |date:'mediumDate'}}  &nbsp; <i class="fa fa-calendar" aria-hidden="true"></i>
+                    <h6><i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;{{item.ParkName}} </h6><br>
+                    <h6> &nbsp; Day Visit </h6><br>
+                    <h6><i class="fa fa-home" aria-hidden="true"></i> &nbsp;{{item.ParkGateName}}</h6><br>
+                    <h6><i class="fa fa-users" aria-hidden="true"></i> &nbsp; Guests</h6>
+                    <div class="list-group guests">    
+                        <li href="#" class="list-group-item list-group-item-action" *ngFor="let guest of item.Guests">{{guest.GuestName}} {{guest.GuestSurname}} <a class="removeGuest" ><i class="fa fa-times-circle" aria-hidden="true" (click)="RemoveDayVisitGuest(item, guest)"></i></a></li>
+                      </div>
+                      <p class="dates"><i class="fa fa-money" aria-hidden="true"></i> {{item.Rate | currency:'ZAR'}} </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row justfy-content-center" *ngFor="let item of bookingData.ActivityBookings">
+        <div class="col-12">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item list-group-item-action"  >
+                    <a (click)="RemoveActivityBooking(item)"><p class="close"><i class="fa fa-times-circle fa-lg"aria-hidden="true"></i></p></a> <br><br>
+                    <p class="dates">{{item.StartDate |date:'mediumDate'}}  &nbsp; <i class="fa fa-calendar" aria-hidden="true"></i>
+                    <h6><i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;{{item.ParkName}} </h6><br>
+                    <h6><i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;{{item.CampName}} </h6><br>
+                    <h6> &nbsp;{{item.ActivityName}}</h6><br>
+                    <h6><i class="fa fa-users" aria-hidden="true"></i> &nbsp; Guests</h6>
+                    <div class="list-group guests">    
+                        <li href="#" class="list-group-item list-group-item-action" *ngFor="let guest of item.Guests">{{guest.GuestName}} {{guest.GuestSurname}} <a class="removeGuest" ><i class="fa fa-times-circle" aria-hidden="true" (click)="RemoveActivityGuest(item, guest)"></i></a></li>
+                      </div>
+                      <p class="dates"><i class="fa fa-money" aria-hidden="true"></i> {{item.ActivityRate | currency:'ZAR'}} </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+    <div class="row justify-content-center">
+        <h4>Pay Conservation Fee upfront with booking?</h4>
+    </div>
+    <div class="row justify-content-center">
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" [(ngModel)]="WCChecked" (click)="changeWC()">
+            <label class="form-check-label" for="inlineRadio1">I have a Wildcard</label>
+          </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" [(ngModel)]="upfrontChecked" (click)="changeUpfront()">
+            <label class="form-check-label" for="inlineRadio2">I want to pay upfront</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option3" [(ngModel)]="laterChecked" (click)="changeLater()">
+            <label class="form-check-label" for="inlineRadio2">I'll pay upon checkin</label>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div>
+            <h3 class="total">Total Due: {{totalDue | currency: 'ZAR'}}</h3>
+        </div>
+    </div>
+    
+    <div class="row justify-content-center">
+        <div class="form-group col-8">
+            <h4 for="formControlRange">Slide to the amount you'd like to pay upfront: {{totalDue*payPerc | currency: 'ZAR'}}</h4>
+            <input type="range" class="form-control-range" id="formControlRange" min="0.3" max="1" step="0.01" [(ngModel)]="payPerc">
+          </div>
+    </div>
+    
+    <div class="row justify-content-center">
+        <div class="btn-group col-6" role="group" aria-label="Basic example">
+            <button class="btn btn-light round" [routerLink]="['/availableResults']"><i class="fa fa-arrow-left" aria-hidden="true"></i> Add More Reservations</button>
+            <button class="btn btnModal btn-light" (click)="CancelAll()">Cancel Booking <i class="fa fa-times-circle fa-lg"aria-hidden="true"></i></button>
+            <button class="btn btnModal btn-light round2" (click)="Checkout()">Checkout <i class="fa fa-credit-card" aria-hidden="true"></i></button>    
+        </div>
+    </div>
+  </div>
+
