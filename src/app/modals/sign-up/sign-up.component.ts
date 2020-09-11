@@ -64,6 +64,8 @@ export class SignUpComponent implements OnInit {
 
   // Dropdown
   countries: CountryDropdown[];
+  titles: any;
+  selectedTitle: number;
   firstError = 'Enter all fields correctly & make sure your password matches in both fields';
   constructor(private bsModalRef: BsModalRef, private formBuilder: FormBuilder,
               private modalService: BsModalService, private serv: AuthService,
@@ -87,11 +89,11 @@ export class SignUpComponent implements OnInit {
     });
 
     this.clientGroup = this.formBuilder.group({
-      title: ['', Validators.required],
       name: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
       surname: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
       id: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
       countryId: ['', Validators.required],
+      title: [0, Validators.required],
       address1: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
       address2: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
       post: ['', Validators.compose([Validators.required, Validators.maxLength(10)])],
