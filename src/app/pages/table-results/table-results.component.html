@@ -130,7 +130,7 @@
                     <tr>
                         <td><strong>{{acc.AccommodationTypeName}} &nbsp; 
                             <div>
-                                <button class="btn btn-success" (click)="ViewAccommodationModal()">View more</button>
+                                <button class="btn btn-success" (click)="ViewAccommodationModal(acc)">View more</button>
                             </div>
                         </strong>
                         </td>
@@ -191,13 +191,13 @@
                 <tr>
                     <td><strong>{{day.ParkGate}} &nbsp; 
                         <div>
-                            <button class="btn btn-success">View more</button>
+                            <!--<button class="btn btn-success">View more</button>-->
                         </div>
                     </strong>
                     </td>
                     <td *ngFor="let amount of day.Dates">{{amount.SlotsAvailable}} Available</td>
                     <td>
-                        <button class="btn btn-success">Book This Week</button>
+                        <button class="btn btn-success"  (click)="bookDayVisit(day)">Book This Week</button>
                     </td>
                 </tr>
             </ng-template>
@@ -248,13 +248,15 @@
                     <tr>
                         <td><strong>{{act.ActivityName}} &nbsp; 
                             <div>
-                                <button class="btn btn-success">View more</button>
+                                <!--<button class="btn btn-success" (click)="ViewActivityModal(act)">View more</button>-->
                             </div>
                         </strong>
                         </td>
                         <td *ngFor="let amount of act.Availability">{{amount.AvailableAmount}} Available</td>
                         <td>
-                            <button class="btn btn-success">Book This Week &nbsp;
+                            <button class="btn btn-success"
+                            (click)="bookActivity(act)"
+                            >Book This Week &nbsp;
                             </button>
                         </td>
                     </tr>

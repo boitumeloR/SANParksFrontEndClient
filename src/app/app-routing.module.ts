@@ -20,6 +20,7 @@ import { ClaimRefundComponent } from './pages/claim-refund/claim-refund.componen
 import { BookingSuccessComponent } from './pages/booking-success/booking-success.component';
 import { ClosestGateComponent } from './pages/closest-gate/closest-gate.component';
 import { TableResultsComponent } from './pages/table-results/table-results.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 
 const routes: Routes = [
@@ -94,6 +95,10 @@ const routes: Routes = [
   {
     path: 'closestGate',
     component: ClosestGateComponent
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent
   }
 ];
 

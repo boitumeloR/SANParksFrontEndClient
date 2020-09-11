@@ -1,38 +1,37 @@
-
-    <div class="modal-content">
-      <div class="modal-header">
-          <h3>View Bungalow CK6P</h3>
-          <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
-              <span aria-hidden="true">&times;</span>
-          </button>
+<div class="modal-content">
+  <div class="modal-header">
+      <h3>View {{accommodation.AccommodationTypeName}}</h3>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <div class="modal-body">
+      <div class="row justify-content-center">
+        <div class="col-md-10 align-items-center">
+          <!--<img src="https://lh3.googleusercontent.com/proxy/tgFK8KbSiCTtgVxASC50wpVnCD2SererY9casCOF_NKdpD5gDaStkdom_7zVETlI2F4gvA5rbqdvyi34nhgOAl36X4QMQokuBLra7SRFfKywz5E" alt=""> -->
+          <img src="{{accommodation.Image}}" class="card-img-top" alt="..." >
+        </div>
+        <h4>Base Rate: {{accommodation.BaseRate | currency:'ZAR' }} / Person</h4>
+        <div class="col-12">
+          <h5>Details</h5>
+        </div>
+        <div class="col-12">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item list-group-item-action">Description: {{accommodation.AccommodationTypeDescription}}</li>
+          </ul>
+        </div>
+        <div class="col-12">
+          <h5>Restrictions</h5>
+        </div>
+        <div class="col-12">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item list-group-item-action">Maximum Adult: {{accommodation.AdultLimit}} adults</li>
+            <li class="list-group-item list-group-item-action">Maximum Children: {{accommodation.ChildLimit}} children</li>
+          </ul>
+        </div>
       </div>
-      <div class="modal-body">
-          <div class="row justify-content-center">
-            <div class="col-md-10 align-items-center">
-              <!--<img src="https://lh3.googleusercontent.com/proxy/tgFK8KbSiCTtgVxASC50wpVnCD2SererY9casCOF_NKdpD5gDaStkdom_7zVETlI2F4gvA5rbqdvyi34nhgOAl36X4QMQokuBLra7SRFfKywz5E" alt=""> -->
-              <img src="https://r-cf.bstatic.com/images/hotel/max1024x768/128/128638499.jpg" class="card-img-top" alt="..." >
-            </div>
-            <h4>Base Rate Rate: R550 / Person</h4>
-            <div class="col-12">
-              <h5>Details</h5>
-            </div>
-            <div class="col-12">
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item list-group-item-action">Description: Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium totam voluptate iure dolor distinctio. Explicabo sint asperiores expedita odit, molestiae nisi, eius, corrupti ipsum odio laborum iure illum rem atque!</li>
-              </ul>
-            </div>
-            <div class="col-12">
-              <h5>Restrictions</h5>
-            </div>
-            <div class="col-12">
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item list-group-item-action">Maximum: 8 people</li>
-                <li class="list-group-item list-group-item-action">Minimum : 2 people</li>
-              </ul>
-            </div>
-          </div>
-      </div>
-    </div>
+  </div>
+</div>
     
     
 

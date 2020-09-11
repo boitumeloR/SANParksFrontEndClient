@@ -42,7 +42,7 @@
         <button type="button" class="btn btn-secondary child"> <i class="fa fa-arrow-left" aria-hidden="true"></i>
             Go Back</button>
         <button type="button" (click)="PayWildcard()" class="btn btn-success adult"
-        [disabled] = "Dependents.length == adultLimit + childLimit ? false: true"
+        [disabled] = "Dependents.length == adultLimit + childLimit ? true: false"
         >Proceed To Payment <i class="fa fa-credit-card" aria-hidden="true"></i>
 
         </button>

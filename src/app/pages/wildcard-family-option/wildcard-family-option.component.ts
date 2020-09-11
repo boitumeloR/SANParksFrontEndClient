@@ -29,11 +29,11 @@ export class WildcardFamilyOptionComponent implements OnInit {
 
   FirstOption() {
     localStorage.setItem('dependents', JSON.stringify({children: 2, adults: 5}));
-    this.router.navigateByUrl('dependents');
+    this.router.navigateByUrl('Dependents');
   }
 
   SecondOption() {
     localStorage.setItem('dependents', JSON.stringify({children: 1, adults: 6}));
-    this.router.navigateByUrl('dependents');
+    this.router.navigateByUrl('Dependents');
   }
 }

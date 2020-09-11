@@ -15,7 +15,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class ViewWildcardComponent implements OnInit {
 
   bsModalRef: BsModalRef;
-  Wildcards: any[];
+  Wildcards: any[] = [];
   constructor(private modalService: BsModalService, private serv: WildcardService,
               private snack: MatSnackBar, private router: Router,
               private global: GlobalService) { }
@@ -24,6 +24,7 @@ export class ViewWildcardComponent implements OnInit {
     const sess = JSON.parse(sessionStorage.getItem('session'));
     this.serv.SearchWildcard(sess, this.global.GetServer()).subscribe(res => {
       if (res.Success) {
+        console.log(res);
         this.Wildcards = res.Wildcards;
         sessionStorage.setItem('session', JSON.parse(res.Session));
       } else {

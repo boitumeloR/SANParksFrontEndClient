@@ -25,7 +25,7 @@ export class DependentsComponent implements OnInit {
 
   childLimit: number;
   adultLimit: number;
-  Dependents: Dependent[];
+  Dependents: Dependent[] = [];
   ngOnInit(): void {
     const obj = JSON.parse(localStorage.getItem('dependents'));
     this.childLimit = obj.children;
@@ -42,7 +42,8 @@ export class DependentsComponent implements OnInit {
       });
     this.bsModalRef.content.closeBtnName = 'Close';
     this.bsModalRef.content.event.subscribe(res => {
-      this.Dependents.push(res);
+      console.log(this.Dependents);
+      this.Dependents.push(res.FormSubmit);
       this.adultLimit--;
     });
   }
