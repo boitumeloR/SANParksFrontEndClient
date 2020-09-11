@@ -31,7 +31,7 @@ export class AddGuestComponent implements OnInit {
       CountryID: [1, Validators.required],
       GuestName: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
       GuestSurname: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
-      GuestAge: [null, Validators.compose([Validators.required, Validators.max(100), Validators.min(13)])],
+      GuestAge: [null, Validators.compose([Validators.required, Validators.max(100)])],
       GuestIDCode: ['', Validators.compose([Validators.maxLength(20), Validators.required])]
     });
   }

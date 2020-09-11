@@ -48,11 +48,19 @@ export class ItineraryComponent implements OnInit {
         });
       });
 
+      this.bookingData.ActivityBookings.map((el) => {
+        this.serv.getItineraryActivityData(this.global.GetServer(), el).subscribe(res => {
+          if (res === null) {
+            el.ActivityRate = 0;
+          } else {
+            el.ActivityRate = res;
+          }
+        });
+      });
+
       this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
-      /*
-      this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
-      this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
-      */
+      this.totalDue += this.bookingData.DayVisits.map(zz => zz.Rate).reduce((index, accum) => index + accum);
+      this.totalDue += this.bookingData.ActivityBookings.map(zz => zz.ActivityRate).reduce((index, accum) => index + accum);
 
       this.payAmount = this.payPerc * this.totalDue;
     }
@@ -74,11 +82,19 @@ export class ItineraryComponent implements OnInit {
         });
       });
 
+      this.bookingData.ActivityBookings.map((el) => {
+        this.serv.getItineraryActivityData(this.global.GetServer(), el).subscribe(res => {
+          if (res === null) {
+            el.ActivityRate = 0;
+          } else {
+            el.ActivityRate = res;
+          }
+        });
+      });
+
       this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
-      /*
-      this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
-      this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
-      */
+      this.totalDue += this.bookingData.DayVisits.map(zz => zz.Rate).reduce((index, accum) => index + accum);
+      this.totalDue += this.bookingData.ActivityBookings.map(zz => zz.ActivityRate).reduce((index, accum) => index + accum);
 
       this.payAmount = this.payPerc * this.totalDue;
     }
@@ -464,7 +480,6 @@ export class ItineraryComponent implements OnInit {
         ) {
           localStorage.removeItem('itinerary');
         }
-
         this.initialiseAmounts();
       }
     });

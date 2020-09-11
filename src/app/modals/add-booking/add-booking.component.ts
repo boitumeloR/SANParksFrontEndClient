@@ -174,6 +174,7 @@ export class AddBookingComponent implements OnInit{
       console.log('here2');
       const accItin: AccommodationBooking = {
         AccommodationTypeID: this.initialData.AccommodationTypeID,
+        ParkID: this.initialData.ParkID,
         CampID: this.initialData.campID,
         BookingQuantity: this.quantity,
         StartDate: this.bsRangeValue[0],

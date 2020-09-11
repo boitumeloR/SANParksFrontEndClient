@@ -6,7 +6,7 @@ import { GlobalService } from 'src/app/services/global/global.service';
 import { Router } from '@angular/router';
 import { AddGuestComponent } from '../add-guest/add-guest.component';
 import { AddChildGuestComponent } from '../childGuest/add-child-guest/add-child-guest.component';
-import { AccommodationBooking, Booking } from 'src/app/services/booking/booking.service';
+import { AccommodationBooking, Booking, DayVisitBooking } from 'src/app/services/booking/booking.service';
 
 @Component({
   selector: 'app-add-day-visit',
@@ -30,7 +30,6 @@ export class AddDayVisitComponent implements OnInit {
   initialData: any;
   initialDate: Date[];
   bsValue = new Date();
-  bsRangeValue: Date[];
   maxDate: Date;
   minDate: Date;
 
@@ -51,10 +50,7 @@ export class AddDayVisitComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.initialData);
-
     const Dates = JSON.parse(localStorage.getItem('Dates'));
-    this.bsRangeValue = Dates;
-    this.bsRangeValue = this.bsRangeValue.map(zz => this.parseDate(zz));
     console.log(this.minDate, this.maxDate);
     this.firstFormGroup = this.formBuilder.group({
       firstCtrl: ['', Validators.required]
@@ -88,7 +84,7 @@ export class AddDayVisitComponent implements OnInit {
   }
 
   addGuest() {
-    if ( this.guests < this.initialData.ChildLimit * this.quantity) {
+    if ( this.guests < this.initialData.GateLimit) {
       this.guests++;
       this.totalGuests++;
     } else {
@@ -104,7 +100,7 @@ export class AddDayVisitComponent implements OnInit {
   }
 
   addAdultGuest() {
-    if (this.adultGuests < this.initialData.AdultLimit * this.quantity) {
+    if (this.adultGuests < this.initialData.GateLimit) {
       this.adultGuests++;
       this.totalGuests++;
     } else {
@@ -164,29 +160,24 @@ export class AddDayVisitComponent implements OnInit {
   }
 
   addToItinerary() {
-    const children = this.bookingGuests.filter(zz => zz.GuestAge <= 12).length;
-    const adults = this.bookingGuests.filter(zz => zz.GuestAge >= 13).length;
     console.log('here1');
-    if (children === this.guests && adults === this.adultGuests) {
-      console.log('here2');
-      const accItin: AccommodationBooking = {
-        AccommodationTypeID: this.initialData.AccommodationTypeID,
-        CampID: this.initialData.campID,
-        BookingQuantity: this.quantity,
-        StartDate: this.bsRangeValue[0],
-        EndDate: this.bsRangeValue[this.bsRangeValue.length - 1 ],
+    if (this.bookingGuests.length === this.adultGuests) {
+      console.log(this.initialData);
+      const accItin: DayVisitBooking = {
+        Date: this.bsValue,
         Guests: this.bookingGuests,
-        CampName: this.initialData.CampName,
         ParkName: this.initialData.ParkName,
-        BaseRate: null,
-        AccommodationTypeName: this.initialData.AccommodationTypeName
+        ParkGateID: this.initialData.ParkGateID,
+        ParkID: this.initialData.ParkID,
+        ParkGateName: this.initialData.ParkGate,
+        Rate: 0
       };
 
       console.log(accItin);
       const BookingsItinerary: Booking = JSON.parse(localStorage.getItem('itinerary'));
       if (BookingsItinerary) {
         // there are bookings in the itinerary already
-        BookingsItinerary.AccommodationBookings.push(accItin);
+        BookingsItinerary.DayVisits.push(accItin);
         localStorage.setItem('itinerary', JSON.stringify(BookingsItinerary));
         this.router.navigate(['itinerary']);
         this.close();
@@ -206,12 +197,14 @@ export class AddDayVisitComponent implements OnInit {
           Session: null
         };
 
-        initialItinerary.AccommodationBookings.push(accItin);
+        initialItinerary.DayVisits.push(accItin);
         localStorage.setItem('itinerary', JSON.stringify(initialItinerary));
+        this.router.navigate(['itinerary']);
+        this.close();
       }
     } else {
       this.httpError = true;
-      this.httpMessage = 'Make sure you enter the correct amount of adult and child guests';
+      this.httpMessage = 'Make sure you enter the correct amount of guests';
     }
   }
 }

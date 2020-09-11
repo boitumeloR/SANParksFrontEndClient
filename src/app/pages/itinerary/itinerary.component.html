@@ -17,12 +17,48 @@
                     <p class="dates">{{item.StartDate |date:'mediumDate'}} - {{item.EndDate |date:'mediumDate'}} &nbsp; <i class="fa fa-calendar" aria-hidden="true"></i>
                     <h6><i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;{{item.ParkName}} </h6><br>
                     <h6><i class="fa fa-home" aria-hidden="true"></i> <a >&nbsp; {{item.CampName}} </a></h6><br>
-                    <h6><i class="fa fa-home" aria-hidden="true"></i> <a >&nbsp;{{item.AccommodationTypeName}} </a></h6><br>
+                    <h6><i class="fa fa-home" aria-hidden="true"></i> <a >&nbsp;{{item.AccommodationTypeName}} x {{item.BookingQuantity}}</a></h6><br>
                     <h6><i class="fa fa-users" aria-hidden="true"></i> &nbsp; Guests</h6>
                     <div class="list-group guests">    
                         <li href="#" class="list-group-item list-group-item-action" *ngFor="let guest of item.Guests">{{guest.GuestName}} {{guest.GuestSurname}} <a class="removeGuest" ><i class="fa fa-times-circle" aria-hidden="true" (click)="RemoveAccommodationGuest(item, guest)"></i></a></li>
                       </div>
                       <p class="dates"><i class="fa fa-money" aria-hidden="true"></i> {{item.BaseRate*item.BookingQuantity | currency:'ZAR'}} </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row justfy-content-center" *ngFor="let item of bookingData.DayVisits">
+        <div class="col-12">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item list-group-item-action"  >
+                    <a (click)="RemoveDayVisits(item)"><p class="close"><i class="fa fa-times-circle fa-lg"aria-hidden="true"></i></p></a> <br><br>
+                    <p class="dates">{{item.Date |date:'mediumDate'}}  &nbsp; <i class="fa fa-calendar" aria-hidden="true"></i>
+                    <h6><i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;{{item.ParkName}} </h6><br>
+                    <h6> &nbsp; Day Visit </h6><br>
+                    <h6><i class="fa fa-home" aria-hidden="true"></i> &nbsp;{{item.ParkGateName}}</h6><br>
+                    <h6><i class="fa fa-users" aria-hidden="true"></i> &nbsp; Guests</h6>
+                    <div class="list-group guests">    
+                        <li href="#" class="list-group-item list-group-item-action" *ngFor="let guest of item.Guests">{{guest.GuestName}} {{guest.GuestSurname}} <a class="removeGuest" ><i class="fa fa-times-circle" aria-hidden="true" (click)="RemoveDayVisitGuest(item, guest)"></i></a></li>
+                      </div>
+                      <p class="dates"><i class="fa fa-money" aria-hidden="true"></i> {{item.Rate | currency:'ZAR'}} </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row justfy-content-center" *ngFor="let item of bookingData.ActivityBookings">
+        <div class="col-12">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item list-group-item-action"  >
+                    <a (click)="RemoveActivityBooking(item)"><p class="close"><i class="fa fa-times-circle fa-lg"aria-hidden="true"></i></p></a> <br><br>
+                    <p class="dates">{{item.StartDate |date:'mediumDate'}}  &nbsp; <i class="fa fa-calendar" aria-hidden="true"></i>
+                    <h6><i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;{{item.ParkName}} </h6><br>
+                    <h6><i class="fa fa-map-marker" aria-hidden="true"></i> &nbsp;{{item.CampName}} </h6><br>
+                    <h6> &nbsp;{{item.ActivityName}}</h6><br>
+                    <h6><i class="fa fa-users" aria-hidden="true"></i> &nbsp; Guests</h6>
+                    <div class="list-group guests">    
+                        <li href="#" class="list-group-item list-group-item-action" *ngFor="let guest of item.Guests">{{guest.GuestName}} {{guest.GuestSurname}} <a class="removeGuest" ><i class="fa fa-times-circle" aria-hidden="true" (click)="RemoveActivityGuest(item, guest)"></i></a></li>
+                      </div>
+                      <p class="dates"><i class="fa fa-money" aria-hidden="true"></i> {{item.ActivityRate | currency:'ZAR'}} </p>
                 </li>
             </ul>
         </div>
@@ -66,4 +102,3 @@
         </div>
     </div>
   </div>
-
