@@ -337,6 +337,18 @@ export class TableResultsComponent implements OnInit {
     this.bsModalRef.content.closeBtnName = 'Close';
     }
 
+    ViewActivityModal(activity): void {
+      const initialState = {
+        backdrop: 'static'
+      };
+      this.bsModalRef = this.modalService.show(ViewAvailableComponent,
+        {
+          class: 'modal-md modal-dialog-centered',
+          initialState: {activity}
+        });
+      this.bsModalRef.content.closeBtnName = 'Close';
+      }
+
 ValidateSamePark(initialData) {
   const BookingItinerary: Booking = JSON.parse(localStorage.getItem('itinerary'));
   let ParkIDs = [];

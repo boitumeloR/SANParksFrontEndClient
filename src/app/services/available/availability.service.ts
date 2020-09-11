@@ -41,4 +41,8 @@ export class AvailabilityService {
   checkDistances(distanceCamps, server) {
     return this.http.post(`${server}/api/Booking/CheckDistance`, distanceCamps, this.httpOptions);
   }
+
+  GetAccommodationImage(accommodationTypeID, server) {
+    return this.http.get<any>(`${server}/api/Booking/GetAccommodationImage?AccommodationTypeID=${accommodationTypeID}`);
+  }
 }

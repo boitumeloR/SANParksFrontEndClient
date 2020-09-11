@@ -24,7 +24,7 @@ export class ItineraryComponent implements OnInit {
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   payPerc = 0.3;
-  totalDue =  100;
+  totalDue =  0;
   payAmount = 0.3 * this.totalDue;
   bsModalRef: BsModalRef;
   bookingData: Booking;

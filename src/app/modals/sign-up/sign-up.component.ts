@@ -177,6 +177,7 @@ export class SignUpComponent implements OnInit {
       this.verifyOTP$.subscribe(res => {
         if (!res.Error) {
           this.countries = res.Countries;
+          this.titles = res.Titles;
           stepper.next();
           this.loader2 = false;
         } else {
@@ -204,7 +205,7 @@ export class SignUpComponent implements OnInit {
         ClientIDCode: this.clientGroup.get('id').value,
         ClientTitle: this.clientGroup.get('title').value,
         Address1: this.clientGroup.get('address1').value,
-        Address2: this.clientGroup.get('address1').value,
+        Address2: this.clientGroup.get('address2').value,
         PostalCode: this.clientGroup.get('post').value,
         Age: this.clientGroup.get('age').value,
       };
