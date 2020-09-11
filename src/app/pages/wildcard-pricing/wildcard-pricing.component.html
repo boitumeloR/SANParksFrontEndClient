@@ -14,7 +14,7 @@
         <div class="col-lg-4" *ngFor="let item of Categories">
           <div class="card mb-5 mb-lg-0">
             <div class="card-body">
-              <h5 class="card-title text-muted text-uppercase text-center">{{item.WildcardCategoryName}}</h5>
+              <h5 class="card-title text-muted text-uppercase text-center">{{item.WilcardCategoryName}}</h5>
               <h6 class="card-price text-center">{{ item.DefaultRate | currency:'ZAR' }}<span class="period">/year</span></h6>
               <hr>
               <label for="exampleFormControlSelect1">Cluster</label>
@@ -23,13 +23,13 @@
               </select>
               <hr>
                 <h6>Dependents</h6>
-                <ul class="fa-ul" *ngIf="item.WildcardCategoryName === 'Individual'">
+                <ul class="fa-ul" *ngIf="item.WilcardCategoryName === 'Individual'">
                   <li><span class="fa-li"><i class="fa fa-check"></i></span>Single Dependent</li>
                 </ul>
-                <ul class="fa-ul" *ngIf="item.WildcardCategoryName === 'Family'">
+                <ul class="fa-ul" *ngIf="item.WilcardCategoryName === 'Family'">
                   <li><span class="fa-li"><i class="fa fa-check"></i></span>7 Dependents</li>
                 </ul>
-                <ul class="fa-ul" *ngIf="item.WildcardCategoryName === 'Couple'">
+                <ul class="fa-ul" *ngIf="item.WilcardCategoryName === 'Couple'">
                   <li><span class="fa-li"><i class="fa fa-check"></i></span>2 Dependents, Both Adult</li>
                 </ul>
               <hr>
@@ -38,7 +38,7 @@
                 <li><span class="fa-li"><i class="fa fa-check"></i></span> 
                   <span *ngFor="let park of item.ParksCovered">{{park}} &nbsp;</span> </li>
               </ul>
-              <a href="#" class="btn btn-block btn-success text-uppercase" (click)="MakePurchase(item)">Purchase</a>
+              <a class="btn btn-block btn-success text-uppercase" (click)="MakePurchase(item)">Purchase</a>
             </div>
           </div>
         </div>

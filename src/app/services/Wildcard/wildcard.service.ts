@@ -53,7 +53,7 @@ export class WildcardService {
   }
 
   getAmount(server, obj): Observable<number> {
-    return this.http.get<number>(`${server}/api/Wildcard/GetAmount?ClusterID=${obj.ClusterID}&CategoryID=${obj.CategoryID}`);
+    return this.http.post<number>(`${server}/api/Wildcard/GetAmount`, obj, this.httpOptions);
   }
 
   SaveWildcard(wildcard: Wildcard, server: string): Observable<any> {

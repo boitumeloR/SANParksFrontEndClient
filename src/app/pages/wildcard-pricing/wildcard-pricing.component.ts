@@ -26,7 +26,7 @@ export class WildcardPricingComponent implements OnInit {
 
   ngOnInit(): void {
     this.serv.getCategories(this.global.GetServer()).subscribe(res => {
-      this.Categories = res;
+      this.Categories = res.Categories;
     }, (error: HttpErrorResponse) => {
       const s = this.snack.open('An error occured on our servers, try again later', 'OK', {
         horizontalPosition: 'center',
@@ -91,6 +91,7 @@ export class WildcardPricingComponent implements OnInit {
       this.router.navigate(['payWildcard']);
     } else if (category.WilcardCategoryName === 'Couple') {
       localStorage.setItem('dependents', JSON.stringify({children: 0, adults: 1}));
+      this.router.navigate(['Dependents']);
     } else if (category.WilcardCategoryName === 'Family') {
       this.router.navigate(['wildcardFamily']);
     }
