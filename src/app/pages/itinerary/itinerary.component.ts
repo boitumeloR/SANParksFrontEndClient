@@ -24,7 +24,7 @@ export class ItineraryComponent implements OnInit {
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   payPerc = 0.3;
-  totalDue =  0;
+  totalDue =  10;
   payAmount = 0.3 * this.totalDue;
   bsModalRef: BsModalRef;
   bookingData: Booking;
@@ -44,12 +44,14 @@ export class ItineraryComponent implements OnInit {
     if (this.bookingData) {
       this.bookingData.AccommodationBookings.map((el) => {
         this.serv.getItineraryAccommodationData(this.global.GetServer(), el).subscribe(res => {
+          console.log(res);
           el.BaseRate = res;
         });
       });
 
       this.bookingData.ActivityBookings.map((el) => {
         this.serv.getItineraryActivityData(this.global.GetServer(), el).subscribe(res => {
+          console.log(res);
           if (res === null) {
             el.ActivityRate = 0;
           } else {

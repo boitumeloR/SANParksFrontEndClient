@@ -507,6 +507,7 @@ bookActivity(initialData) {
             }
           }, (error: HttpErrorResponse) => {
             this.mapLoader = false;
+            console.log(error.message);
             this.snack.open('An Error occured on our servers, please try again.', 'OK', {
               horizontalPosition: 'center',
               verticalPosition: 'bottom',
