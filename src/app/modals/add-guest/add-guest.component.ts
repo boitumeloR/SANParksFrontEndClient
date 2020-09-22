@@ -56,7 +56,7 @@ export class AddGuestComponent implements OnInit {
 
     const month = ID.substring(2, 4);
     const day = ID.substring(4, 6);
-    if (Number(day) <= 31 && Number(month) <= 12 && year < new Date().getFullYear().toString()) {
+    if (Number(day) <= 31 && Number(month) <= 12 && Number(year) < new Date().getFullYear()) {
       return true;
     } else {
       return false;
