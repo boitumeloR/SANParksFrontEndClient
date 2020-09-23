@@ -102,6 +102,7 @@ export class TableResultsComponent implements OnInit {
       this.isAccommodation = true;
       this.isActivity = true;
       console.log(this.isAccommodation, this.isActivity);
+
       this.availableGroup = this.formBuilder.group({
         park: [this.searchData.ParkID, Validators.required],
         camp: [this.searchData.CampID],
