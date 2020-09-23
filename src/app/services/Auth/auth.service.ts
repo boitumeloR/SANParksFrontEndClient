@@ -27,6 +27,8 @@ export interface Session {
   Error: string;
   SessionExpiry: Date;
   RoleID: number;
+  isEmployee: boolean;
+  isValidEmployee: boolean;
 }
 @Injectable({
   providedIn: 'root'
