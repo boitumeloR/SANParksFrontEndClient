@@ -73,6 +73,7 @@ import { LoginModalComponent } from './modals/login-modal/login-modal.component'
 import { UpdateClientComponent } from './modals/update-client/update-client.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ViewActivityModalComponent } from './modals/view-activity-modal/view-activity-modal.component';
+import { SuccessModalComponent } from './modals/success-modal/success-modal.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -137,7 +138,8 @@ export function provideConfig() {
     LoginModalComponent,
     UpdateClientComponent,
     ProfileComponent,
-    ViewActivityModalComponent
+    ViewActivityModalComponent,
+    SuccessModalComponent
   ],
   imports: [
     MatSnackBarModule,

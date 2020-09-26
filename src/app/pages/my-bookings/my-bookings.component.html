@@ -36,13 +36,15 @@
   
   <div class="btn-group first" role="group" aria-label="Basic example">
       <button class="btn btn-success view" [routerLink]="[ '/bookingPayment' ]"
-      [disabled] = "booking.AmountOutStanding <= 0 ? true: false"
+      [disabled] = "booking.AmountOutStanding > 0 && booking.ValidCancel === true ? false: true"
       >Pay Booking</button>
-      <button class="btn btn-success "  [routerLink]="[ '/availableResults' ]">Add A Booking</button>
-      <button class="btn btn-success " disabled [routerLink]="[ '/claimRefund' ]">Claim Refund</button>
-      <button class="btn btn-success renew" 
-      [disabled] = "booking.AmountOutStanding > 0 ? true: false"
-      (click)="Cancel()" >Cancel Booking</button>
+      <button class="btn btn-success "  [routerLink]="[ '/availableResults' ]"
+      [disabled] = "booking.ValidCancel === true ? false: true"
+      >Add A Booking</button>
+      <!-- <button class="btn btn-success " disabled [routerLink]="[ '/claimRefund' ]">Claim Refund</button> -->
+      <button class="btn btn-success renew"
+      [disabled] = "booking.ValidCancel === true ? false: true" 
+      (click)="Cancel(booking)" >Cancel Booking</button>
   </div>
   <h5></h5>
   
@@ -69,7 +71,9 @@
           <td>
               <div class="btn-group" role="group" aria-label="Basic example">
                   <button class="btn btn-info view" (click)="viewBooking()">View More</button>
-                  <button class="btn btn-info renew" [routerLink]="[ '/updateAccommodation' ]">Update Booking</button>
+                  <button class="btn btn-info renew" [routerLink]="[ '/updateAccommodation' ]"
+                  [disabled] = "booking.ValidCancel === true ? false: true"
+                  >Update Booking</button>
               </div>
           </td>
         </tr>
@@ -102,7 +106,9 @@
           <td>
               <div class="btn-group" role="group" aria-label="Basic example">
                   <button class="btn btn-info view" (click)="viewBooking()">View More</button>
-                  <button class="btn btn-info renew" [routerLink]="[ '/updateAccommodation' ]">Update Booking</button>
+                  <button class="btn btn-info renew" [routerLink]="[ '/updateAccommodation' ]"
+                  [disabled] = "booking.ValidCancel === true ? false: true"
+                  >Update Booking</button>
               </div>
           </td>
         </tr>
@@ -131,7 +137,9 @@
           <td>
               <div class="btn-group" role="group" aria-label="Basic example">
                   <button class="btn btn-info view" (click)="viewBooking()">View More</button>
-                  <button class="btn btn-info renew" [routerLink]="[ '/updateAccommodation' ]">Update Booking</button>
+                  <button class="btn btn-info renew" [routerLink]="[ '/updateAccommodation' ]"
+                  [disabled] = "booking.ValidCancel === true ? false: true"
+                  >Update Booking</button>
               </div>
           </td>
         </tr>
