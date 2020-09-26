@@ -126,4 +126,8 @@ export class BookingService {
     };
     return this.http.post<any>(`${server}/api/Booking/SearchClientBookings`, bookingInfo, this.httpOptions);
   }
+
+  CancelBooking(bookingData, server) {
+    return this.http.post<any>(`${server}/api/Booking/CancelBooking`, bookingData, this.httpOptions);
+  }
 }
