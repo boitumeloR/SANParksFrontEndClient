@@ -108,4 +108,22 @@ export class BookingService {
   getClosestGates(server, IDs) {
     return this.http.post<any>(`${server}/api/Booking/ClosestGates`, IDs, this.httpOptions);
   }
+
+  getClientBookings(server: string, clientID: number) {
+    const session = JSON.parse(sessionStorage.getItem('session'));
+    const bookingInfo: Booking = {
+      ClientID: clientID,
+      BookingID: null,
+      ConservationAmount: null,
+      PaymentAmount: null,
+      TotalAmount: null,
+      EmployeeID: null,
+      paymentToken: null,
+      AccommodationBookings: [],
+      ActivityBookings: [],
+      DayVisits: [],
+      Session: session
+    };
+    return this.http.post<any>(`${server}/api/Booking/SearchClientBookings`, bookingInfo, this.httpOptions);
+  }
 }

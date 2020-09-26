@@ -9,73 +9,136 @@
     <img src="assets/images/results.svg" loading = "lazy" alt="">
 </div>
 
-<h1>Booking Details</h1>
-<div class="row">
-    <div class="form-group col-md-4">
-        <label for="exampleFormControlSelect1">Camp</label>
-        <select class="form-control" id="exampleFormControlSelect1" aria-placeholder="Park">
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
-        </select>
-    </div>
-    <div class="col-md-4 dates">
-        <label for="exampleFormControlSelect1">Date Range</label>
-        <div class="input-group">
-        <input type="text"
-        placeholder="Pick Dates to filter bookings"
-        class="form-control"
-        bsDaterangepicker>
-        </div>
-    </div>
+<div *ngIf="bookings.length > 0">
+  <div class="bookingContainer" *ngFor="let booking of bookings">
+    <h1>Booking Reference Number: {{booking.BookingID}}</h1>
+  <div class="row">
+      <div class="form-group col-md-4">
+          <label for="exampleFormControlSelect1">Camp</label>
+          <select class="form-control" id="exampleFormControlSelect1" aria-placeholder="Park">
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+          </select>
+      </div>
+      <div class="col-md-4 dates">
+          <label for="exampleFormControlSelect1">Date Range</label>
+          <div class="input-group">
+          <input type="text"
+          placeholder="Pick Dates to filter bookings"
+          class="form-control"
+          bsDaterangepicker>
+          </div>
+      </div>
+  </div>
+  
+  <div class="btn-group first" role="group" aria-label="Basic example">
+      <button class="btn btn-success view" [routerLink]="[ '/bookingPayment' ]"
+      [disabled] = "booking.AmountOutStanding <= 0 ? true: false"
+      >Pay Booking</button>
+      <button class="btn btn-success "  [routerLink]="[ '/availableResults' ]">Add A Booking</button>
+      <button class="btn btn-success " disabled [routerLink]="[ '/claimRefund' ]">Claim Refund</button>
+      <button class="btn btn-success renew" 
+      [disabled] = "booking.AmountOutStanding > 0 ? true: false"
+      (click)="Cancel()" >Cancel Booking</button>
+  </div>
+  <h5></h5>
+  
+  <div *ngIf="booking.AccommodationBookings[0].length > 0">
+    <h6>Accommodation Bookings</h6>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Park</th>
+          <th scope="col">Camp</th>
+          <th scope="col">Accommodation Type</th>
+          <th scope="col">Date Range</th>
+          <th scope="col">Booking Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let acc of booking.AccommodationBookings[0]">
+          <td>{{acc.ParkName}}</td>
+          <td>{{acc.CampName}}</td>
+          <td>{{acc.AccommodationTypeName}}</td>
+          <td>{{ acc.StartDate | date: 'mediumDate' }} - {{ acc.EndDate | date: 'mediumDate' }}</td>
+          <td>{{acc.BookingStatus}}</td>
+          <td>
+              <div class="btn-group" role="group" aria-label="Basic example">
+                  <button class="btn btn-info view" (click)="viewBooking()">View More</button>
+                  <button class="btn btn-info renew" [routerLink]="[ '/updateAccommodation' ]">Update Booking</button>
+              </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="booking.ActivityBookings[0].length > 0">
+    <h6>Activity Bookings</h6>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Park</th>
+          <th scope="col">Camp</th>
+          <th scope="col">Activity</th>
+          <th scope="col">Slot Time</th>
+          <th scope="col">Date</th>
+          <th scope="col">Booking Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let act of booking.ActivityBookings[0]">
+          <td>{{act.ParkName}}</td>
+          <td>{{act.CampName}}</td>
+          <td>{{act.ActivityName}}</td>
+          <td>{{act.SlotTime}}</td>
+          <td>{{ act.StartDate | date: 'mediumDate' }}</td>
+          <td>{{act.BookingStatus}}</td>
+          <td>
+              <div class="btn-group" role="group" aria-label="Basic example">
+                  <button class="btn btn-info view" (click)="viewBooking()">View More</button>
+                  <button class="btn btn-info renew" [routerLink]="[ '/updateAccommodation' ]">Update Booking</button>
+              </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="booking.DayVisits[0].length > 0">
+    <h6>DayVisits</h6>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">Park</th>
+          <th scope="col">Park Gate</th>
+          <th scope="col">Date</th>
+          <th scope="col">Booking Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let day of booking.DayVisits[0]">
+          <td>{{day.ParkName}}</td>
+          <td>{{day.ParkGateName}}</td>
+          <td>{{ day.VisitDate | date: 'mediumDate' }}</td>
+          <td>{{day.BookingStatus}}</td>
+          <td>
+              <div class="btn-group" role="group" aria-label="Basic example">
+                  <button class="btn btn-info view" (click)="viewBooking()">View More</button>
+                  <button class="btn btn-info renew" [routerLink]="[ '/updateAccommodation' ]">Update Booking</button>
+              </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+    <h1 class="outstanding" *ngIf="booking.AmountOutStanding > 0">Outstanding Amount: {{ booking.AmountOutStanding | currency:'ZAR' }}</h1>
+    <div class="divider"></div>
+  </div>
 </div>
-<div class="btn-group first" role="group" aria-label="Basic example">
-    <button class="btn btn-success view" [routerLink]="[ '/bookingPayment' ]">Pay Booking</button>
-    <button class="btn btn-success "  [routerLink]="[ '/availableResults' ]">Add A Booking</button>
-    <button class="btn btn-success " disabled [routerLink]="[ '/claimRefund' ]">Claim Refund</button>
-    <button class="btn btn-success " disabled [routerLink]="[ '/claimRefund' ]">Save Booking Changes</button>
-    <button class="btn btn-success renew" (click)="Cancel()" >Cancel Booking</button>
-</div>
-<table class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">Park</th>
-        <th scope="col">Camp</th>
-        <th scope="col">Booking Type</th>
-        <th scope="col">Date Range</th>
-        <th scope="col">Payment Status</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>Kruger National Park</td>
-        <td>Skukuza Rest Camp</td>
-        <td>Activity</td>
-        <td>20 February - 22 February</td>
-        <td>Payment Outstanding</td>
-        <td>
-            <div class="btn-group" role="group" aria-label="Basic example">
-                <button class="btn btn-info view" (click)="viewBooking()">View More</button>
-                <button class="btn btn-info renew" [routerLink]="[ '/updateAccommodation' ]">Update Booking</button>
-            </div>
-        </td>
-      </tr>
-      <tr>
-        <td>Kruger National Park</td>
-        <td>Skukuza Rest Camp</td>
-        <td>Accommodation</td>
-        <td>20 February - 22 February</td>
-        <td>Payment Outstanding</td>
-        <td>
-            <div class="btn-group " role="group" aria-label="Basic example">
-                <button class="btn btn-info view" (click)="viewBooking()">View More</button>
-                <button class="btn btn-info renew" [routerLink]="[ '/renewWildcard' ]">Update Booking</button>
-            </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <h1 class="outstanding">Outstanding Amount: R 1400.00</h1>
