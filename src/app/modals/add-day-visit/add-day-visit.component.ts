@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { AddGuestComponent } from '../add-guest/add-guest.component';
 import { AddChildGuestComponent } from '../childGuest/add-child-guest/add-child-guest.component';
 import { AccommodationBooking, Booking, DayVisitBooking } from 'src/app/services/booking/booking.service';
+import { AddArbitraryGuestComponent } from '../add-arbitrary-guest/add-arbitrary-guest.component';
 
 @Component({
   selector: 'app-add-day-visit',
@@ -140,7 +141,7 @@ export class AddDayVisitComponent implements OnInit {
 
   AddAdultGuest() {
     if (this.bookingGuests.length < this.adultGuests) {
-      this.addModalRef = this.service.show(AddGuestComponent, {
+      this.addModalRef = this.service.show(AddArbitraryGuestComponent, {
         class: 'modal-md modal-dialog-centered'
       });
 
