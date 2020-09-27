@@ -31,7 +31,7 @@
           <div id="example1-card"></div>
         </div>
       </fieldset>
-      <button type="submit" *ngIf="handleUpdate" data-tid="elements_examples.form.pay_button" class="btn btn-success"
+      <button type="submit" *ngIf="toUpdate" data-tid="elements_examples.form.pay_button" class="btn btn-success"
       (click)="handleUpdate()"
       >Pay {{ amount | currency:'ZAR' }} &nbsp; 
       <div class="spinner-border" role="status" *ngIf="loader">

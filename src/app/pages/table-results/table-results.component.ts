@@ -10,6 +10,8 @@ import { AddBookingComponent } from 'src/app/modals/add-booking/add-booking.comp
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ViewAvailableComponent } from 'src/app/modals/view-available/view-available.component';
 import { Booking } from 'src/app/services/booking/booking.service';
+import { AddActivityBookingComponent } from 'src/app/modals/add-activity-booking/add-activity-booking.component';
+import { AddDayVisitComponent } from 'src/app/modals/add-day-visit/add-day-visit.component';
 
 @Component({
   selector: 'app-table-results',
@@ -100,6 +102,7 @@ export class TableResultsComponent implements OnInit {
       this.isAccommodation = true;
       this.isActivity = true;
       console.log(this.isAccommodation, this.isActivity);
+
       this.availableGroup = this.formBuilder.group({
         park: [this.searchData.ParkID, Validators.required],
         camp: [this.searchData.CampID],
@@ -323,6 +326,134 @@ export class TableResultsComponent implements OnInit {
   }
 
 
+  ViewAccommodationModal(accommodation): void {
+    const initialState = {
+      backdrop: 'static'
+    };
+    this.bsModalRef = this.modalService.show(ViewAvailableComponent,
+      {
+        class: 'modal-md modal-dialog-centered',
+        initialState: {accommodation}
+      });
+    this.bsModalRef.content.closeBtnName = 'Close';
+    }
+
+    ViewActivityModal(activity): void {
+      const initialState = {
+        backdrop: 'static'
+      };
+      this.bsModalRef = this.modalService.show(ViewAvailableComponent,
+        {
+          class: 'modal-md modal-dialog-centered',
+          initialState: {activity}
+        });
+      this.bsModalRef.content.closeBtnName = 'Close';
+      }
+
+ValidateSamePark(initialData) {
+  const BookingItinerary: Booking = JSON.parse(localStorage.getItem('itinerary'));
+  let ParkIDs = [];
+  let flag = false;
+  if (BookingItinerary) {
+    ParkIDs = ParkIDs.concat(BookingItinerary.AccommodationBookings.filter(zz => zz.ParkID !== initialData.ParkID).map(zz => zz.ParkID));
+    ParkIDs = ParkIDs.concat(BookingItinerary.ActivityBookings.filter(zz => zz.ParkID !== initialData.ParkID).map(zz => zz.ParkID));
+    if (ParkIDs.length > 0) {
+      flag = true;
+    }
+  }
+  return flag;
+}
+
+bookDayVisit(initialData) {
+  const BookingItinerary: Booking = JSON.parse(localStorage.getItem('itinerary'));
+  let ParkIDs = [];
+  let flag = false;
+  console.log(initialData);
+  if (BookingItinerary) {
+    ParkIDs = ParkIDs.concat(BookingItinerary.AccommodationBookings.filter(zz => zz.ParkID !== initialData.ParkID).map(zz => zz.ParkID));
+    ParkIDs = ParkIDs.concat(BookingItinerary.ActivityBookings.filter(zz => zz.ParkID !== initialData.ParkID).map(zz => zz.ParkID));
+    if (ParkIDs[0] !== undefined) {
+      flag = true;
+    }
+  }
+
+  if (flag) {
+    this.snack.open('You have reservations in a different Park, you may only book at one park', 'OK', {
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+      duration: 5000
+    });
+  } else {
+    const initialState = {
+      backdrop: 'static'
+    };
+    this.bsModalRef = this.modalService.show(AddDayVisitComponent,
+      {
+        class: 'modal-md modal-dialog-centered',
+        initialState: {initialData}
+      });
+    this.bsModalRef.content.closeBtnName = 'Close';
+  }
+}
+
+addActivityModal(initialData) {
+  const initialState = {
+    backdrop: 'static'
+  };
+  this.bsModalRef = this.modalService.show(AddActivityBookingComponent,
+    {
+      class: 'modal-md modal-dialog-centered',
+      initialState: {initialData}
+    });
+  this.bsModalRef.content.closeBtnName = 'Close';
+}
+
+bookActivity(initialData) {
+  const BookingsItinerary: Booking = JSON.parse(localStorage.getItem('itinerary'));
+  if (BookingsItinerary) {
+    // there are bookings in the itinerary already
+    let campIDs: any[] = [];
+    campIDs = campIDs.concat(BookingsItinerary.AccommodationBookings.filter(zz => zz.CampID !== initialData.CampID)
+              .map(zz => zz.CampID));
+    const added: any[] = campIDs.concat(BookingsItinerary.ActivityBookings.filter(zz => zz.CampID !== initialData.CampID)
+                          .map(zz => zz.CampID));
+    console.log(added);
+
+    if (added.length !== 0) {
+      this.mapLoader = true;
+      const distanceRequest = {
+        CurrentCampID: initialData.CampID,
+        CompareCamps: added
+      };
+
+      this.serv.checkDistances(distanceRequest, this.global.GetServer()).subscribe(res => {
+        if (res === false) {
+          this.addActivityModal(initialData);
+          this.mapLoader = false;
+        } else {
+          this.snack.open('You have booked at a camp that is 40KMs away from your other bookings. Unable to book here.', 'OK', {
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+            duration: 5000
+          });
+        }
+      }, (error: HttpErrorResponse) => {
+        this.mapLoader = false;
+        this.snack.open('An Error occured on our servers, please try again.', 'OK', {
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+          duration: 5000
+        });
+      });
+    } else {
+      this.addActivityModal(initialData);
+    }
+  } else {
+    this.addActivityModal(initialData);
+  }
+}
+
+
   addAccommodationBookingModal(initialData): void {
     localStorage.setItem('Dates', JSON.stringify(initialData.Dates));
     const initialState = {
@@ -336,17 +467,6 @@ export class TableResultsComponent implements OnInit {
       });
     this.bsModalRef.content.closeBtnName = 'Close';
     }
-
-    ViewAccommodationModal(): void {
-      const initialState = {
-        backdrop: 'static'
-      };
-      this.bsModalRef = this.modalService.show(ViewAvailableComponent,
-        {
-          class: 'modal-md modal-dialog-centered'
-        });
-      this.bsModalRef.content.closeBtnName = 'Close';
-      }
 
   bookWeek(bookingData, campID) { // For accommodation booking adding
     if (this.searchData.AccommodationChecked) {
@@ -388,6 +508,7 @@ export class TableResultsComponent implements OnInit {
             }
           }, (error: HttpErrorResponse) => {
             this.mapLoader = false;
+            console.log(error.message);
             this.snack.open('An Error occured on our servers, please try again.', 'OK', {
               horizontalPosition: 'center',
               verticalPosition: 'bottom',

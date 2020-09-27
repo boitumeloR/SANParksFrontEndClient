@@ -1,21 +1,22 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { BsModalRef } from 'ngx-bootstrap/modal';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { GlobalService } from 'src/app/services/global/global.service';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { AuthService } from 'src/app/services/Auth/auth.service';
+import { GlobalService } from 'src/app/services/global/global.service';
 
 @Component({
-  selector: 'app-add-child-guest',
-  templateUrl: './add-child-guest.component.html',
-  styleUrls: ['./add-child-guest.component.scss']
+  selector: 'app-add-arbitrary-guest',
+  templateUrl: './add-arbitrary-guest.component.html',
+  styleUrls: ['./add-arbitrary-guest.component.scss']
 })
-export class AddChildGuestComponent implements OnInit {
+export class AddArbitraryGuestComponent implements OnInit {
 
   countries: any;
   guestInfo: FormGroup;
   httpError = false;
   httpMessage = '';
+  idLabelName = 'Identity Number';
   public event: EventEmitter<any> = new EventEmitter<any>();
   constructor(private bsModalRef: BsModalRef, private snack: MatSnackBar,
               private formBuilder: FormBuilder, private countryServ: AuthService,
@@ -30,9 +31,18 @@ export class AddChildGuestComponent implements OnInit {
       CountryID: [1, Validators.required],
       GuestName: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
       GuestSurname: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
-      GuestAge: [null, Validators.compose([Validators.required, Validators.max(12), Validators.min(1)])],
+      GuestAge: [null, Validators.compose([Validators.required, Validators.max(100)])],
       GuestIDCode: ['', Validators.compose([Validators.maxLength(20), Validators.required])]
     });
+  }
+
+  changeCountry(): void {
+    console.log(this.guestInfo.value);
+    if (this.guestInfo.get('CountryID').value === '1') {
+      this.idLabelName = 'Identity Number';
+    } else {
+      this.idLabelName = 'Passport Number';
+    }
   }
 
   validateGuestDOB(ID: string): boolean {
@@ -51,7 +61,6 @@ export class AddChildGuestComponent implements OnInit {
       return false;
     }
   }
-
   confirm() {
     // do stuff
     if (this.guestInfo.valid) {
@@ -99,5 +108,4 @@ export class AddChildGuestComponent implements OnInit {
   close() {
     this.bsModalRef.hide();
   }
-
 }

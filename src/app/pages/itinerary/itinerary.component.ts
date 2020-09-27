@@ -24,7 +24,7 @@ export class ItineraryComponent implements OnInit {
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   payPerc = 0.3;
-  totalDue =  100;
+  totalDue =  0;
   payAmount = 0.3 * this.totalDue;
   bsModalRef: BsModalRef;
   bookingData: Booking;
@@ -42,19 +42,43 @@ export class ItineraryComponent implements OnInit {
     this.bookingData = JSON.parse(localStorage.getItem('itinerary'));
     // map BaseRates
     if (this.bookingData) {
+      this.bookingData.AccommodationBookings.map(el => el.BaseRate = 0);
       this.bookingData.AccommodationBookings.map((el) => {
         this.serv.getItineraryAccommodationData(this.global.GetServer(), el).subscribe(res => {
+          console.log(res);
           el.BaseRate = res;
+          this.totalDue += el.BaseRate;
         });
       });
 
-      this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
-      /*
-      this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
-      this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
-      */
+      this.bookingData.ActivityBookings.map(zz => zz.ActivityRate = 0);
+      this.bookingData.ActivityBookings.map((el) => {
+        this.serv.getItineraryActivityData(this.global.GetServer(), el).subscribe(res => {
+          console.log(res);
+          if (res === null) {
+            el.ActivityRate = 0;
+          } else {
+            el.ActivityRate = res;
+            this.totalDue += el.ActivityRate;
+          }
+        });
+      });
+
+      console.log(this.bookingData.AccommodationBookings.length);
+      if (this.bookingData.AccommodationBookings.length > 0 ) {
+        const amount: number =  this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
+        this.totalDue += amount;
+        console.log(amount);
+      }
+      // this.totalDue += this.bookingData.DayVisits.map(zz => zz.Rate).reduce((index, accum) => index + accum);
+      if (this.bookingData.ActivityBookings.length > 0) {
+        const amountActivity: number =  this.bookingData.ActivityBookings.map(zz => zz.ActivityRate)
+        .reduce((index, accum) => index + accum);
+        this.totalDue += amountActivity;
+      }
 
       this.payAmount = this.payPerc * this.totalDue;
+      console.log(this.totalDue);
     }
     this.firstFormGroup = this.formBuilder.group({
       firstCtrl: ['', Validators.required]
@@ -74,11 +98,19 @@ export class ItineraryComponent implements OnInit {
         });
       });
 
+      this.bookingData.ActivityBookings.map((el) => {
+        this.serv.getItineraryActivityData(this.global.GetServer(), el).subscribe(res => {
+          if (res === null) {
+            el.ActivityRate = 0;
+          } else {
+            el.ActivityRate = res;
+          }
+        });
+      });
+
       this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
-      /*
-      this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
-      this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
-      */
+      this.totalDue += this.bookingData.DayVisits.map(zz => zz.Rate).reduce((index, accum) => index + accum);
+      this.totalDue += this.bookingData.ActivityBookings.map(zz => zz.ActivityRate).reduce((index, accum) => index + accum);
 
       this.payAmount = this.payPerc * this.totalDue;
     }
@@ -146,6 +178,11 @@ export class ItineraryComponent implements OnInit {
               duration: 5000
             });
 
+            if (this.fullConservationAmount > 0 ) {
+              this.totalDue -= this.fullConservationAmount;
+              this.fullConservationAmount = 0;
+            }
+            this.bookingData.PaidConservationFee = true;
             sessionStorage.setItem('session', JSON.stringify(result.Session));
           } else {
             this.WCChecked = null;
@@ -191,6 +228,11 @@ export class ItineraryComponent implements OnInit {
             verticalPosition: 'bottom',
             duration: 5000
           });
+          this.bookingData.PaidConservationFee = true;
+          if (this.fullConservationAmount > 0 ) {
+            this.totalDue -= this.fullConservationAmount;
+            this.fullConservationAmount = 0;
+          }
         } else {
           this.WCChecked = null;
           const snacker = this.snack.open('You do not have a valid wildcard, choose another option', 'OK', {
@@ -223,9 +265,10 @@ export class ItineraryComponent implements OnInit {
     this.serv.getConservationFees(guests, this.global.GetServer()).subscribe(res => {
       this.fullConservationAmount = res.Amount;
       this.bookingData.ConservationAmount = this.fullConservationAmount;
+      this.bookingData.PaidConservationFee = false;
 
+      this.fullConservationAmount = 0;
       localStorage.setItem('itinerary', JSON.stringify(this.bookingData));
-      this.initialiseAmounts();
       console.log('amounts');
       console.log(this.fullConservationAmount);
     });
@@ -233,16 +276,13 @@ export class ItineraryComponent implements OnInit {
 
   changeUpfront() {
     const guests = this.getAllGuests();
-    if (this.fullConservationAmount > 0 ) {
-      this.fullConservationAmount = 0;
-    }
     this.serv.getConservationFees(guests, this.global.GetServer()).subscribe(res => {
       this.fullConservationAmount = res.Amount;
       this.totalDue += this.fullConservationAmount;
       this.bookingData.ConservationAmount = this.fullConservationAmount;
+      this.bookingData.PaidConservationFee = true;
 
       localStorage.setItem('itinerary', JSON.stringify(this.bookingData));
-      this.initialiseAmounts();
       console.log('amounts');
       console.log(this.fullConservationAmount);
     });
@@ -464,7 +504,6 @@ export class ItineraryComponent implements OnInit {
         ) {
           localStorage.removeItem('itinerary');
         }
-
         this.initialiseAmounts();
       }
     });
@@ -514,9 +553,11 @@ export class ItineraryComponent implements OnInit {
     } else {
       const sess = JSON.parse(sessionStorage.getItem('session'));
       if (sess) {
-        this.bookingData = JSON.parse(localStorage.getItem('itinerary'));
         console.log(this.totalDue);
         if (this.bookingData) {
+          if (this.fullConservationAmount === 0 ) {
+            this.bookingData.PaidConservationFee = true;
+          }
           this.bookingData.ConservationAmount = this.fullConservationAmount;
           this.bookingData.PaymentAmount = this.totalDue * this.payPerc;
           this.bookingData.TotalAmount = this.totalDue;

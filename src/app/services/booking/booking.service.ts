@@ -10,10 +10,11 @@ export interface Booking {
   paymentToken: string;
   PaymentAmount: number;
   ConservationAmount: number;
+  PaidConservationFee: boolean;
   TotalAmount: number;
   AccommodationBookings: AccommodationBooking[];
-  ActivityBookings: any;
-  DayVisits: any;
+  ActivityBookings: ActivityBooking[];
+  DayVisits: DayVisitBooking[];
   Session: Session;
 }
 
@@ -21,12 +22,36 @@ export interface AccommodationBooking {
   AccommodationTypeID: number;
   AccommodationTypeName: string;
   CampID: number;
+  ParkID: number;
   ParkName: string;
   CampName: string;
   BaseRate: number;
   BookingQuantity: number;
   StartDate: Date;
   EndDate: Date;
+  Guests: Guest[];
+}
+
+export interface ActivityBooking {
+  ActivityID: number;
+  ActivityName: string;
+  SlotID: number;
+  CampID: number;
+  ParkName: string;
+  ParkID: number;
+  CampName: string;
+  ActivityRate: number;
+  StartDate: Date;
+  Guests: Guest[];
+}
+
+export interface DayVisitBooking {
+  ParkGateID: number;
+  ParkGateName: string;
+  ParkName: string;
+  ParkID: number;
+  Rate: number;
+  Date: Date;
   Guests: Guest[];
 }
 
@@ -54,6 +79,10 @@ export class BookingService {
   getItineraryAccommodationData(server: string, accommodationInfo: AccommodationBooking) {
     return this.http.post<number>(`${server}/api/Booking/AccommodationItinerary`, accommodationInfo, this.httpOptions);
   }
+
+  getItineraryActivityData(server: string, accommodationInfo: ActivityBooking) {
+    return this.http.post<number>(`${server}/api/Booking/ActivityItinerary`, accommodationInfo, this.httpOptions);
+  }
   getConservationFees(guests: Guest[], server: string): Observable<any> {
     return this.http.post(`${server}/api/Booking/GetConservationFees`, guests, this.httpOptions);
   }
@@ -71,5 +100,36 @@ export class BookingService {
 
   getClientFromSession(Session, server) {
     return this.http.post<any>(`${server}/api/Booking/GetClientID`, Session, this.httpOptions);
+  }
+
+    getActivitySlots(server, ID, CAMP) {
+    return this.http.get<any>(`${server}/api/Booking/GetActivitySlots?ActivityID=${ID}&CampID=${CAMP}`);
+  }
+
+  getClosestGates(server, IDs) {
+    return this.http.post<any>(`${server}/api/Booking/ClosestGates`, IDs, this.httpOptions);
+  }
+
+  getClientBookings(server: string, clientID: number) {
+    const session = JSON.parse(sessionStorage.getItem('session'));
+    const bookingInfo: Booking = {
+      ClientID: clientID,
+      BookingID: null,
+      ConservationAmount: null,
+      PaymentAmount: null,
+      TotalAmount: null,
+      EmployeeID: null,
+      paymentToken: null,
+      PaidConservationFee: false,
+      AccommodationBookings: [],
+      ActivityBookings: [],
+      DayVisits: [],
+      Session: session
+    };
+    return this.http.post<any>(`${server}/api/Booking/SearchClientBookings`, bookingInfo, this.httpOptions);
+  }
+
+  CancelBooking(bookingData, server) {
+    return this.http.post<any>(`${server}/api/Booking/CancelBooking`, bookingData, this.httpOptions);
   }
 }

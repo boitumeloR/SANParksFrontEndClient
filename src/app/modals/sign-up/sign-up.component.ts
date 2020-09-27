@@ -64,6 +64,8 @@ export class SignUpComponent implements OnInit {
 
   // Dropdown
   countries: CountryDropdown[];
+  titles: any;
+  selectedTitle: number;
   firstError = 'Enter all fields correctly & make sure your password matches in both fields';
   constructor(private bsModalRef: BsModalRef, private formBuilder: FormBuilder,
               private modalService: BsModalService, private serv: AuthService,
@@ -87,11 +89,11 @@ export class SignUpComponent implements OnInit {
     });
 
     this.clientGroup = this.formBuilder.group({
-      title: ['', Validators.required],
       name: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
       surname: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
       id: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
       countryId: ['', Validators.required],
+      title: [0, Validators.required],
       address1: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
       address2: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
       post: ['', Validators.compose([Validators.required, Validators.maxLength(10)])],
@@ -175,6 +177,7 @@ export class SignUpComponent implements OnInit {
       this.verifyOTP$.subscribe(res => {
         if (!res.Error) {
           this.countries = res.Countries;
+          this.titles = res.Titles;
           stepper.next();
           this.loader2 = false;
         } else {
@@ -202,7 +205,7 @@ export class SignUpComponent implements OnInit {
         ClientIDCode: this.clientGroup.get('id').value,
         ClientTitle: this.clientGroup.get('title').value,
         Address1: this.clientGroup.get('address1').value,
-        Address2: this.clientGroup.get('address1').value,
+        Address2: this.clientGroup.get('address2').value,
         PostalCode: this.clientGroup.get('post').value,
         Age: this.clientGroup.get('age').value,
       };

@@ -60,7 +60,9 @@ export class LoginClientComponent implements OnInit {
         SessionExpiry: null,
         UserSecret: null,
         Error: null,
-        RoleID: null
+        RoleID: null,
+        isEmployee: false,
+        isValidEmployee: false
       };
 
       this.serv.Login(login, this.global.GetServer()).subscribe(res => {
@@ -72,7 +74,7 @@ export class LoginClientComponent implements OnInit {
             horizontalPosition: 'center',
             verticalPosition: 'bottom',
             duration: 5000
-          });
+          }).afterDismissed().subscribe(() => this.router.navigateByUrl(''));
         } else {
           this.snack.open(res.Error, 'OK', {
             horizontalPosition: 'center',

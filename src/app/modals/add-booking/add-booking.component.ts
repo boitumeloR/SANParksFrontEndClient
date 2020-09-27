@@ -89,12 +89,19 @@ export class AddBookingComponent implements OnInit{
   }
 
   addGuest() {
-    if ( this.guests < this.initialData.ChildLimit * this.quantity) {
-      this.guests++;
-      this.totalGuests++;
+    if (this.totalGuests < this.initialData.MaxCapacity * this.quantity) {
+      if ( this.guests < this.initialData.BaseChild * this.quantity) {
+        this.guests++;
+        this.totalGuests++;
+      } else {
+        this.httpError = true;
+        this.httpMessage = 'Note that additional charges apply for guests over the base children guest allocation for your accommodation';
+        this.guests++;
+        this.totalGuests++;
+      }
     } else {
       this.httpError = true;
-      this.httpMessage = `You may only add ${this.guests} children for your accommodation/s`;
+      this.httpMessage = `You may only add a total of ${this.totalGuests} guests for your accommodation/s`;
     }
   }
   subtractGuest() {
@@ -105,12 +112,19 @@ export class AddBookingComponent implements OnInit{
   }
 
   addAdultGuest() {
-    if (this.adultGuests < this.initialData.AdultLimit * this.quantity) {
-      this.adultGuests++;
-      this.totalGuests++;
+    if (this.totalGuests < this.initialData.MaxCapacity * this.quantity) {
+      if (this.adultGuests < this.initialData.BaseAdult * this.quantity) {
+        this.adultGuests++;
+        this.totalGuests++;
+      } else {
+        this.httpError = true;
+        this.httpMessage = 'Note that additional charges apply for guests over the base adult guest allocation for your accommodation';
+        this.adultGuests++;
+        this.totalGuests++;
+      }
     } else {
       this.httpError = true;
-      this.httpMessage = `You may only add ${this.adultGuests} adults for your accommodation/s`;
+      this.httpMessage = `You may only add a total of ${this.totalGuests} guests for your accommodation/s`;
     }
 
   }
@@ -144,13 +158,16 @@ export class AddBookingComponent implements OnInit{
   }
 
   AddAdultGuest() {
-    this.addModalRef = this.service.show(AddGuestComponent, {
-      class: 'modal-md modal-dialog-centered'
-    });
+    const threshold = this.bookingGuests.filter(zz => zz.GuestAge >= 13).length;
+    if (threshold < this.adultGuests) {
+      this.addModalRef = this.service.show(AddGuestComponent, {
+        class: 'modal-md modal-dialog-centered'
+      });
 
-    this.addModalRef.content.event.subscribe(res => {
-      this.bookingGuests.push(res);
-    });
+      this.addModalRef.content.event.subscribe(res => {
+        this.bookingGuests.push(res);
+      });
+    }
   }
 
   AddChildGuest() {
@@ -174,6 +191,7 @@ export class AddBookingComponent implements OnInit{
       console.log('here2');
       const accItin: AccommodationBooking = {
         AccommodationTypeID: this.initialData.AccommodationTypeID,
+        ParkID: this.initialData.ParkID,
         CampID: this.initialData.campID,
         BookingQuantity: this.quantity,
         StartDate: this.bsRangeValue[0],
@@ -204,6 +222,7 @@ export class AddBookingComponent implements OnInit{
           TotalAmount: null,
           EmployeeID: null,
           paymentToken: null,
+          PaidConservationFee: false,
           AccommodationBookings: [],
           ActivityBookings: [],
           DayVisits: [],
@@ -214,6 +233,7 @@ export class AddBookingComponent implements OnInit{
         localStorage.setItem('itinerary', JSON.stringify(initialItinerary));
         this.bsModalRef.hide();
         this.close();
+        this.router.navigate(['itinerary']);
       }
     } else {
       this.httpError = true;
