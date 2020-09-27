@@ -6,6 +6,7 @@ import { AvailabilityService } from 'src/app/services/available/availability.ser
 import { GlobalService } from 'src/app/services/global/global.service';
 import { Router } from '@angular/router';
 import { AccommodationBooking, Booking, ActivityBooking, BookingService } from 'src/app/services/booking/booking.service';
+import { AddArbitraryGuestComponent } from '../add-arbitrary-guest/add-arbitrary-guest.component';
 
 @Component({
   selector: 'app-add-activity-booking',
@@ -146,13 +147,15 @@ export class AddActivityBookingComponent implements OnInit {
   }
 
   AddAdultGuest() {
-    this.addModalRef = this.service.show(AddGuestComponent, {
-      class: 'modal-md modal-dialog-centered'
-    });
+    if (this.bookingGuests.length < this.adultGuests) {
+      this.addModalRef = this.service.show(AddArbitraryGuestComponent, {
+        class: 'modal-md modal-dialog-centered'
+      });
 
-    this.addModalRef.content.event.subscribe(res => {
-      this.bookingGuests.push(res);
-    });
+      this.addModalRef.content.event.subscribe(res => {
+        this.bookingGuests.push(res);
+      });
+    }
   }
 
   addToItinerary() {

@@ -139,13 +139,15 @@ export class AddDayVisitComponent implements OnInit {
   }
 
   AddAdultGuest() {
-    this.addModalRef = this.service.show(AddGuestComponent, {
-      class: 'modal-md modal-dialog-centered'
-    });
+    if (this.bookingGuests.length < this.adultGuests) {
+      this.addModalRef = this.service.show(AddGuestComponent, {
+        class: 'modal-md modal-dialog-centered'
+      });
 
-    this.addModalRef.content.event.subscribe(res => {
-      this.bookingGuests.push(res);
-    });
+      this.addModalRef.content.event.subscribe(res => {
+        this.bookingGuests.push(res);
+      });
+    }
   }
 
   AddChildGuest() {

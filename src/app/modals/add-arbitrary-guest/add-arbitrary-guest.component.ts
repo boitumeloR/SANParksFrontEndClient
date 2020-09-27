@@ -1,17 +1,16 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
-import { BsModalRef } from 'ngx-bootstrap/modal';
+import { Component, EventEmitter, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { AuthService } from 'src/app/services/Auth/auth.service';
 import { GlobalService } from 'src/app/services/global/global.service';
 
-
 @Component({
-  selector: 'app-add-guest',
-  templateUrl: './add-guest.component.html',
-  styleUrls: ['./add-guest.component.scss']
+  selector: 'app-add-arbitrary-guest',
+  templateUrl: './add-arbitrary-guest.component.html',
+  styleUrls: ['./add-arbitrary-guest.component.scss']
 })
-export class AddGuestComponent implements OnInit {
+export class AddArbitraryGuestComponent implements OnInit {
 
   countries: any;
   guestInfo: FormGroup;
@@ -32,7 +31,7 @@ export class AddGuestComponent implements OnInit {
       CountryID: [1, Validators.required],
       GuestName: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
       GuestSurname: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
-      GuestAge: [null, Validators.compose([Validators.required, Validators.min(13), Validators.max(100)])],
+      GuestAge: [null, Validators.compose([Validators.required, Validators.max(100)])],
       GuestIDCode: ['', Validators.compose([Validators.maxLength(20), Validators.required])]
     });
   }
