@@ -17,6 +17,7 @@ export class BookingPaymentComponent implements OnInit {
   amount = 500;
   handler: any;
 
+  loader: boolean;
   elements: Elements;
   card: StripeElement;
 
@@ -37,6 +38,7 @@ export class BookingPaymentComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.loader = false;
     this.stripeTest = this.fb.group({
       name: ['' , Validators.required]
     });
@@ -106,6 +108,7 @@ export class BookingPaymentComponent implements OnInit {
         if (result) {
           // Use the token to create a charge or a customer
           // https://stripe.com/docs/charges
+          this.loader = true;
           this.bookingInfo = JSON.parse(localStorage.getItem('itinerary'));
           this.bookingInfo.paymentToken = result.token.id;
           console.log(this.bookingInfo.paymentToken);
@@ -114,7 +117,8 @@ export class BookingPaymentComponent implements OnInit {
           localStorage.setItem('itinerary', JSON.stringify(this.bookingInfo));
           this.serv.SaveBooking(this.bookingInfo , this.global.GetServer()).subscribe(data => {
             if (data.Success) {
-              console.log('Success!!')
+              this.loader = false;
+              console.log('Success!!');
               sessionStorage.setItem('session', JSON.stringify(data.Session));
               this.snack.open('You have successfully made a booking', 'OK', {
                 horizontalPosition: 'center',

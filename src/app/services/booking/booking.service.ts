@@ -10,6 +10,7 @@ export interface Booking {
   paymentToken: string;
   PaymentAmount: number;
   ConservationAmount: number;
+  PaidConservationFee: boolean;
   TotalAmount: number;
   AccommodationBookings: AccommodationBooking[];
   ActivityBookings: ActivityBooking[];
@@ -119,6 +120,7 @@ export class BookingService {
       TotalAmount: null,
       EmployeeID: null,
       paymentToken: null,
+      PaidConservationFee: false,
       AccommodationBookings: [],
       ActivityBookings: [],
       DayVisits: [],

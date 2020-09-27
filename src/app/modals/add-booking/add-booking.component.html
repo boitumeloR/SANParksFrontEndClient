@@ -1,6 +1,6 @@
 <div class="modal-content">
   <div class="modal-header">
-      <h3>Add Bungalow - CK6P</h3>
+      <h3>Add {{initialData.AccommodationTypeName}}</h3>
       <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
           <span aria-hidden="true">&times;</span>
       </button>
@@ -32,7 +32,7 @@
                      >
                   </div>
                 <div class="col-md-12 checks">
-                    <label class="end">How Many Bungalow's Would You Like To Book? </label>
+                    <label class="end">How Many {{initialData.AccommodationTypeName}}'s Would You Like To Book? </label>
                     <div>
                         <button type="button" class="btn btn-success" (click)="subtractQuantity()">-</button>
                         <p>{{quantity}}</p>
@@ -42,6 +42,9 @@
                 <div class="col-md-12 checks">
                     <label class="end">Number of Child Guests: </label>
                     <div>
+                      <span class="warn">Base Children: {{initialData.BaseChild}}</span>
+                    </div>
+                    <div>
                         <button type="button" class="btn btn-success" (click)="subtractGuest()">-</button>
                         <p>{{guests}}</p>
                         <button type="button" class="btn btn-success" (click)="addGuest()">+</button>
@@ -50,6 +53,9 @@
 
                 <div class="col-md-12 checks">
                   <label class="end">Number of Adult Guests: </label>
+                  <div>
+                    <span class="warn">Base Adults: {{initialData.BaseAdult}}</span>
+                  </div>
                   <div>
                       <button type="button" class="btn btn-success" (click)="subtractAdultGuest()">-</button>
                       <p>{{adultGuests}}</p>
@@ -64,7 +70,9 @@
       <mat-step>
         <ng-template matStepLabel>Enter Guest Details</ng-template>
         <div class="col-md-12 alert alert-info alert-dismissible fade show" role="alert">
-          Add {{adultGuests}} Adult/s and {{guests}} child / children.
+          Add {{adultGuests}} <span *ngIf="adultGuests > 1">Adults</span>  
+          <span *ngIf="adultGuests === 1">Adult</span>
+          and {{guests}} <span *ngIf="guests > 1 || guests === 0 ">children</span><span *ngIf="guests === 1 ">child.</span>
           <button type="button" class="close" data-dismiss="alert" (click)="resetHttp()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>

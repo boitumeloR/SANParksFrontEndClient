@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { AddGuestComponent } from '../add-guest/add-guest.component';
 import { AddChildGuestComponent } from '../childGuest/add-child-guest/add-child-guest.component';
 import { AccommodationBooking, Booking, DayVisitBooking } from 'src/app/services/booking/booking.service';
+import { AddArbitraryGuestComponent } from '../add-arbitrary-guest/add-arbitrary-guest.component';
 
 @Component({
   selector: 'app-add-day-visit',
@@ -139,13 +140,15 @@ export class AddDayVisitComponent implements OnInit {
   }
 
   AddAdultGuest() {
-    this.addModalRef = this.service.show(AddGuestComponent, {
-      class: 'modal-md modal-dialog-centered'
-    });
+    if (this.bookingGuests.length < this.adultGuests) {
+      this.addModalRef = this.service.show(AddArbitraryGuestComponent, {
+        class: 'modal-md modal-dialog-centered'
+      });
 
-    this.addModalRef.content.event.subscribe(res => {
-      this.bookingGuests.push(res);
-    });
+      this.addModalRef.content.event.subscribe(res => {
+        this.bookingGuests.push(res);
+      });
+    }
   }
 
   AddChildGuest() {
@@ -190,6 +193,7 @@ export class AddDayVisitComponent implements OnInit {
           PaymentAmount: null,
           TotalAmount: null,
           EmployeeID: null,
+          PaidConservationFee: false,
           paymentToken: null,
           AccommodationBookings: [],
           ActivityBookings: [],

@@ -168,6 +168,7 @@ export class MyBookingsComponent implements OnInit {
           PaymentAmount: null,
           TotalAmount: null,
           EmployeeID: null,
+          PaidConservationFee: false,
           paymentToken: null,
           AccommodationBookings: [],
           ActivityBookings: [],
