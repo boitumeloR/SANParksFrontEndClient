@@ -194,6 +194,7 @@ export class AddActivityBookingComponent implements OnInit {
           TotalAmount: null,
           EmployeeID: null,
           paymentToken: null,
+          PaidConservationFee: false,
           AccommodationBookings: [],
           ActivityBookings: [],
           DayVisits: [],

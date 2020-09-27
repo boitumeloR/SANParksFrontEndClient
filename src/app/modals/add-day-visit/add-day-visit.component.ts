@@ -193,6 +193,7 @@ export class AddDayVisitComponent implements OnInit {
           PaymentAmount: null,
           TotalAmount: null,
           EmployeeID: null,
+          PaidConservationFee: false,
           paymentToken: null,
           AccommodationBookings: [],
           ActivityBookings: [],
