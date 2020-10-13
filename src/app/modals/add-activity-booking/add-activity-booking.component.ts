@@ -108,7 +108,7 @@ export class AddActivityBookingComponent implements OnInit {
 
   addAdultGuest() {
     console.log(Math.min(...this.initialData.Availability.map(zz => zz.AvailableAmount)));
-    if (this.adultGuests < Math.min(...this.initialData.Availability.map(zz => zz.AvailableAmount))) {
+    if (this.adultGuests < this.initialData.MaxCapacity) {
       this.adultGuests++;
       this.totalGuests++;
     } else {
@@ -159,8 +159,8 @@ export class AddActivityBookingComponent implements OnInit {
   }
 
   addToItinerary() {
-    this.loader = true;
     if (this.bookingGuests.length === this.adultGuests) {
+      this.loader = true;
       console.log('here2');
       const accItin: ActivityBooking = {
         ParkID: this.initialData.ParkID,

@@ -384,6 +384,8 @@ bookDayVisit(initialData) {
       duration: 5000
     });
   } else {
+
+    localStorage.setItem('Dates', JSON.stringify(initialData.Dates));
     const initialState = {
       backdrop: 'static'
     };

@@ -88,6 +88,9 @@ export class AvailableBoxFixComponent implements OnInit {
           campID: this.availableGroup.get('camp').value
         };
 
+        this.availableGroup.get('accommodation').reset();
+        this.availableGroup.get('day').reset();
+        this.isAccommodation = true;
         console.log(values);
         this.activityDrop$ = this.serv.getActivityTypes(values, this.global.GetServer());
         this.activityDrop$.subscribe(res => {
@@ -112,6 +115,10 @@ export class AvailableBoxFixComponent implements OnInit {
           campID: this.availableGroup.get('camp').value
         };
 
+        this.availableGroup.get('activity').reset();
+        this.availableGroup.get('day').reset();
+        this.isActivity = true;
+
         this.activityDrop$ = this.serv.getAccommodationTypes(values, this.global.GetServer());
         this.activityDrop$.subscribe(res => {
           this.accommodationTypes = res;
@@ -129,6 +136,11 @@ export class AvailableBoxFixComponent implements OnInit {
 
   onChooseDay() {
     if (this.availableGroup.valid) {
+      this.availableGroup.get('activity').reset();
+      this.availableGroup.get('accommodation').reset();
+
+      this.isActivity = true;
+      this.isAccommodation = true;
       this.checks++;
     }
     else {
