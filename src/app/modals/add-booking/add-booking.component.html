@@ -10,7 +10,7 @@
       <mat-step [stepControl]="firstFormGroup">
           <ng-template matStepLabel>Add Booking Details</ng-template>
 
-          <div class="col-md-12 alert alert-warning alert-dismissible fade show" role="alert" *ngIf="httpError">
+          <div class="col-md-12 alert alert-info alert-dismissible fade show" role="alert" *ngIf="httpError">
             {{httpMessage}}
             <button type="button" class="close" data-dismiss="alert" (click)="resetHttp()" aria-label="Close">
               <span aria-hidden="true">&times;</span>
@@ -77,6 +77,12 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
+        <div class="col-md-12 alert alert-info alert-dismissible fade show" role="alert" *ngIf="httpError">
+          {{httpMessage}}
+          <button type="button" class="close" data-dismiss="alert" (click)="resetHttp()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
         <h3> Guests</h3>
         <div class="btn-group first" role="group" aria-label="Basic example">
           <button type="button" class="btn btn-success child" (click)="AddAdultGuest()" >Add Adult</button>
@@ -89,24 +95,31 @@
             <tr>
               <th scope="col">First Name</th>
               <th scope="col">Last Name</th>
-              <th scope="col">ID Number</th>
               <th scope="col">Age</th>
+              <th scope="col">Actions</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let item of bookingGuests">
               <td scope="row">{{item.GuestName}}</td>
               <td>{{item.GuestSurname}}</td>
-              <td>{{item.GuestIDCode}}</td>
               <td>{{item.GuestAge}}</td>
+              <td> 
+                <a (click)="UpdateGuest(item)">
+                  <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                </a>
+                <a (click)="DeleteGuest(item)">
+                  <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </a>
+              </td>
             </tr>
           </tbody>
         </table>
         <div>
           <button class="btn btn-success btnModal"
-          (click)="addToItinerary()">
+          (click)="addToItinerary()"
+          [disabled] = "totalGuests === bookingGuests.length ? false: true">
           Add To Itinerary &nbsp;
-
           <div class="spinner-border" role="status" *ngIf="loader">
             <span class="sr-only">Loading...</span>
           </div>

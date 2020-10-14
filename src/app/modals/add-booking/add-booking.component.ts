@@ -8,6 +8,9 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { GlobalService } from 'src/app/services/global/global.service';
 import { Booking, AccommodationBooking } from 'src/app/services/booking/booking.service';
 import { Router } from '@angular/router';
+import { UpdateAdultGuestComponent } from '../update-adult-guest/update-adult-guest.component';
+import { UpdateChildGuestComponent } from '../update-child-guest/update-child-guest.component';
+import { GlobalConfirmComponent } from '../global-confirm/global-confirm.component';
 
 @Component({
   selector: 'app-add-booking',
@@ -108,6 +111,8 @@ export class AddBookingComponent implements OnInit{
     if (this.guests !== 0 ) {
       this.guests--;
       this.totalGuests--;
+
+      this.bookingGuests = [];
     }
   }
 
@@ -132,6 +137,8 @@ export class AddBookingComponent implements OnInit{
     if (this.adultGuests > 1) {
       this.adultGuests--;
       this.totalGuests--;
+
+      this.bookingGuests = [];
     } else {
       this.httpError = true;
       this.httpMessage = `Add at least one adult`;
@@ -150,6 +157,9 @@ export class AddBookingComponent implements OnInit{
   subtractQuantity() {
     if (this.quantity > 1) {
       this.quantity--;
+      this.guests = 0;
+      this.adultGuests = 1;
+      this.totalGuests = 1;
     }
     else {
       this.httpError = true;
@@ -165,20 +175,97 @@ export class AddBookingComponent implements OnInit{
       });
 
       this.addModalRef.content.event.subscribe(res => {
-        this.bookingGuests.push(res);
+        let flag = false;
+        this.bookingGuests.forEach(el => {
+          if (el.GuestIDCode === res.GuestIDCode) {
+            flag = true;
+          }
+        });
+        if (flag) {
+          this.httpError = true;
+          this.httpMessage = 'A guest with that ID number is already added';
+        } else {
+          this.bookingGuests.push(res);
+        }
       });
     }
   }
 
-  AddChildGuest() {
-    this.addModalRef = this.service.show(AddChildGuestComponent, {
-      class: 'modal-md modal-dialog-centered'
+  UpdateGuest(guest) {
+    if (guest.GuestAge >= 13) {
+      this.UpdateAdultGuest(guest);
+    } else if (guest.GuestAge <= 12) {
+      this.UpdateChildGuest(guest);
+    }
+  }
+
+  UpdateAdultGuest(initialData) {
+    this.addModalRef = this.service.show(UpdateAdultGuestComponent, {
+      class: 'modal-md modal-dialog-centered',
+      initialState: {initialData}
     });
 
     this.addModalRef.content.event.subscribe(res => {
-      console.log(res);
-      this.bookingGuests.push(res);
+      this.bookingGuests.forEach((el, i) => {
+        if (el.GuestIDCode === initialData.GuestIDCode) {
+          this.bookingGuests[i] = res;
+        }
+      });
     });
+  }
+
+  DeleteGuest(guest) {
+    this.addModalRef = this.service.show(GlobalConfirmComponent, {
+      class: 'modal-md modal-dialog-centered',
+      initialState: {confirmationMessage: 'Are you sure you want to remove this guest?'}
+    });
+
+    this.addModalRef.content.event.subscribe(res => {
+      if (res.data) {
+        const index = this.bookingGuests.findIndex(guest);
+
+        this.bookingGuests.splice(index, 1);
+      }
+    });
+  }
+
+  UpdateChildGuest(initialData) {
+    this.addModalRef = this.service.show(UpdateChildGuestComponent, {
+      class: 'modal-md modal-dialog-centered',
+      initialState: {initialData}
+    });
+
+    this.addModalRef.content.event.subscribe(res => {
+      this.bookingGuests.forEach((el, i) => {
+        if (el.GuestIDCode === initialData.GuestIDCode) {
+          this.bookingGuests[i] = res;
+        }
+      });
+    });
+  }
+
+  AddChildGuest() {
+    const threshold = this.bookingGuests.filter(zz => zz.GuestAge <= 12).length;
+    if (threshold < this.guests) {
+      this.addModalRef = this.service.show(AddChildGuestComponent, {
+        class: 'modal-md modal-dialog-centered'
+      });
+
+      this.addModalRef.content.event.subscribe(res => {
+        let flag = false;
+        this.bookingGuests.forEach(el => {
+          if (el.GuestIDCode === res.GuestIDCode) {
+            flag = true;
+          }
+        });
+        if (flag) {
+          this.httpError = true;
+          this.httpMessage = 'A guest with that ID number is already added';
+        } else {
+          this.bookingGuests.push(res);
+        }
+      });
+    }
   }
 
   addToItinerary() {
