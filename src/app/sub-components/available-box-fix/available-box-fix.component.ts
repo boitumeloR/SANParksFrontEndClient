@@ -65,6 +65,7 @@ export class AvailableBoxFixComponent implements OnInit {
       this.parkDrop$ = this.serv.getCamps(this.availableGroup.get('park').value, this.global.GetServer());
       this.parkDrop$.subscribe(res =>  {
         this.camps = res;
+        this.availableGroup.get('camp').setValue(null);
       }, (error: HttpErrorResponse) => {
         this.httpError = true;
         this.httpMessage = error.message;
@@ -82,12 +83,16 @@ export class AvailableBoxFixComponent implements OnInit {
 
   onChooseAct() {
     if (this.availableGroup.valid) {
+      console.log(this.availableGroup);
       if (this.availableGroup.get('activity').value === true) {
         const values = {
           parkID: this.availableGroup.get('park').value,
           campID: this.availableGroup.get('camp').value
         };
 
+        this.availableGroup.get('accommodation').setValue(false);
+        this.availableGroup.get('day').setValue(false);
+        this.isAccommodation = true;
         console.log(values);
         this.activityDrop$ = this.serv.getActivityTypes(values, this.global.GetServer());
         this.activityDrop$.subscribe(res => {
@@ -99,8 +104,16 @@ export class AvailableBoxFixComponent implements OnInit {
         });
       }
     } else {
+
       this.httpError = true;
       this.httpMessage = 'Make Sure to choose a park before submiting';
+
+      if (this.availableGroup.get('activity').value === true) {
+
+        this.availableGroup.get('accommodation').setValue(false);
+        this.availableGroup.get('day').setValue(false);
+        this.isAccommodation = true;
+      }
     }
   }
 
@@ -111,6 +124,10 @@ export class AvailableBoxFixComponent implements OnInit {
           parkID: this.availableGroup.get('park').value,
           campID: this.availableGroup.get('camp').value
         };
+
+        this.availableGroup.get('activity').setValue(false);
+        this.availableGroup.get('day').setValue(false);
+        this.isActivity = true;
 
         this.activityDrop$ = this.serv.getAccommodationTypes(values, this.global.GetServer());
         this.activityDrop$.subscribe(res => {
@@ -124,47 +141,78 @@ export class AvailableBoxFixComponent implements OnInit {
     } else {
       this.httpError = true;
       this.httpMessage = 'Make Sure to choose a park before submiting';
+
+      if (this.availableGroup.get('accommodation').value === true) {
+        const values = {
+          parkID: this.availableGroup.get('park').value,
+          campID: this.availableGroup.get('camp').value
+        };
+
+        this.availableGroup.get('activity').setValue(false);
+        this.availableGroup.get('day').setValue(false);
+        this.isActivity = true;
+      }
     }
   }
 
   onChooseDay() {
     if (this.availableGroup.valid) {
-      this.checks++;
+      this.availableGroup.get('activity').setValue(false);
+      this.availableGroup.get('accommodation').setValue(false);
+
+      this.isActivity = true;
+      this.isAccommodation = true;
     }
     else {
       this.httpError = true;
       this.httpMessage = 'Make Sure to choose a park before submiting';
+
+      this.availableGroup.get('activity').setValue(false);
+      this.availableGroup.get('accommodation').setValue(false);
+
+      this.isActivity = true;
+      this.isAccommodation = true;
     }
   }
 
   CheckAvailability() {
     if (this.availableGroup.valid) {
-      this.loader = true;
-      const availableData = {
-        ParkID: Number(this.availableGroup.get('park').value) ,
-        CampID: this.availableGroup.get('camp').value,
-        AccommodationChecked: this.availableGroup.get('accommodation').value,
-        ActivityChecked: this.availableGroup.get('activity').value,
-        DayVisitChecked: this.availableGroup.get('day').value,
-        AccommodationTypeID: this.availableGroup.get('accommodationType').value,
-        ActivityTypeID: this.availableGroup.get('activityType').value,
-        Forward: true,
-        BaseDate: new Date()
-      };
-
-      console.log(availableData);
-
-      this.checkAvailability$ = this.serv.checkAvailability(availableData, this.global.GetServer());
-      this.checkAvailability$.subscribe(res => {
-        this.loader = false;
-        localStorage.setItem('availableResults', JSON.stringify(res));
-        localStorage.setItem('searchData', JSON.stringify(availableData));
-        this.router.navigate(['availableResults']);
-      }, (error: HttpErrorResponse) => {
+      console.log(this.availableGroup.value);
+      if (this.availableGroup.get('accommodation').value === false
+      && this.availableGroup.get('activity').value === false &&
+      this.availableGroup.get('day').value === false ||
+      this.availableGroup.get('accommodation').value === null
+      && this.availableGroup.get('activity').value === null &&
+      this.availableGroup.get('day').value === null) {
         this.httpError = true;
-        this.httpMessage = error.message;
-      });
-      console.log(availableData);
+        this.httpMessage = 'Choose one booking type!';
+      } else {
+        this.loader = true;
+        const availableData = {
+          ParkID: Number(this.availableGroup.get('park').value) ,
+          CampID: this.availableGroup.get('camp').value,
+          AccommodationChecked: this.availableGroup.get('accommodation').value,
+          ActivityChecked: this.availableGroup.get('activity').value,
+          DayVisitChecked: this.availableGroup.get('day').value,
+          AccommodationTypeID: this.availableGroup.get('accommodationType').value,
+          ActivityTypeID: this.availableGroup.get('activityType').value,
+          Forward: true,
+          BaseDate: new Date()
+        };
+
+        console.log(availableData);
+        this.checkAvailability$ = this.serv.checkAvailability(availableData, this.global.GetServer());
+        this.checkAvailability$.subscribe(res => {
+          this.loader = false;
+          localStorage.setItem('availableResults', JSON.stringify(res));
+          localStorage.setItem('searchData', JSON.stringify(availableData));
+          this.router.navigate(['availableResults']);
+        }, (error: HttpErrorResponse) => {
+          this.httpError = true;
+          this.httpMessage = error.message;
+        });
+        console.log(availableData);
+      }
     }
     // this.router.navigateByUrl('availableResults');
   }

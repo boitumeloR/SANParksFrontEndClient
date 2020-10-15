@@ -142,3 +142,6 @@ i {
     }
     margin-bottom: 50px;
 }
+input.ng-dirty.ng-invalid {
+    border: 3px solid rgba(255, 0, 0, 0.199);
+}

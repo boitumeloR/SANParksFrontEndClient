@@ -75,6 +75,9 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { ViewActivityModalComponent } from './modals/view-activity-modal/view-activity-modal.component';
 import { SuccessModalComponent } from './modals/success-modal/success-modal.component';
 import { AddArbitraryGuestComponent } from './modals/add-arbitrary-guest/add-arbitrary-guest.component';
+import { UpdateAdultGuestComponent } from './modals/update-adult-guest/update-adult-guest.component';
+import { UpdateChildGuestComponent } from './modals/update-child-guest/update-child-guest.component';
+import { UpdateArbitraryGuestComponent } from './modals/update-arbitrary-guest/update-arbitrary-guest.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -141,7 +144,10 @@ export function provideConfig() {
     ProfileComponent,
     ViewActivityModalComponent,
     SuccessModalComponent,
-    AddArbitraryGuestComponent
+    AddArbitraryGuestComponent,
+    UpdateAdultGuestComponent,
+    UpdateChildGuestComponent,
+    UpdateArbitraryGuestComponent
   ],
   imports: [
     MatSnackBarModule,

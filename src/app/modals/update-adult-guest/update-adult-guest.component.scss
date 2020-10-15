@@ -1,0 +1,16 @@
+button {
+    border-radius: 30px;
+}
+
+input {
+    border-radius: 30px;
+}
+
+input.ng-dirty.ng-invalid {
+    border: 3px solid rgba(255, 0, 0, 0.199);
+}
+
+
+select {
+    border-radius: 30px;
+}

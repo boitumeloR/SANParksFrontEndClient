@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { BsModalRef } from 'ngx-bootstrap/modal';
@@ -6,42 +6,50 @@ import { AuthService } from 'src/app/services/Auth/auth.service';
 import { GlobalService } from 'src/app/services/global/global.service';
 
 @Component({
-  selector: 'app-add-arbitrary-guest',
-  templateUrl: './add-arbitrary-guest.component.html',
-  styleUrls: ['./add-arbitrary-guest.component.scss']
+  selector: 'app-update-child-guest',
+  templateUrl: './update-child-guest.component.html',
+  styleUrls: ['./update-child-guest.component.scss']
 })
-export class AddArbitraryGuestComponent implements OnInit {
+export class UpdateChildGuestComponent implements OnInit, AfterViewInit {
+
 
   calcAge: number;
+  initialData: any;
   countries: any;
+  idLabelName = 'Identity Number';
   guestInfo: FormGroup;
   httpError = false;
   httpMessage = '';
-  idLabelName = 'Identity Number';
   public event: EventEmitter<any> = new EventEmitter<any>();
   constructor(private bsModalRef: BsModalRef, private snack: MatSnackBar,
               private formBuilder: FormBuilder, private countryServ: AuthService,
               private global: GlobalService) { }
 
   ngOnInit(): void {
-
     this.countryServ.GetCountries(this.global.GetServer()).subscribe(res => {
       this.countries = res;
     });
     this.guestInfo = this.formBuilder.group({
-      CountryID: [1, Validators.required],
-      GuestName: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
-      GuestSurname: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
-      GuestAge: [null, Validators.compose([Validators.required, Validators.max(100)])],
-      GuestIDCode: ['', Validators.compose([Validators.maxLength(20), Validators.required])]
+      CountryID: [this.initialData.CountryID, Validators.required],
+      GuestName: [this.initialData.GuestName, Validators.compose([Validators.required, Validators.maxLength(50)])],
+      GuestSurname: [this.initialData.GuestSurname, Validators.compose([Validators.required, Validators.maxLength(50)])],
+      GuestAge: [this.initialData.GuestAge, Validators.compose([Validators.required, Validators.max(12), Validators.min(1)])],
+      GuestIDCode: [this.initialData.GuestIDCode, Validators.compose([Validators.maxLength(20), Validators.required])]
     });
+  }
 
-    this.guestInfo.get('GuestAge').disable();
+  ngAfterViewInit(): void {
+    if (this.guestInfo.get('CountryID').value === '1' || this.guestInfo.get('CountryID').value === 1) {
+      this.guestInfo.get('GuestAge').disable();
+    } else {
+      this.idLabelName = 'Passport Number';
+      this.guestInfo.get('GuestAge').enable();
+    }
   }
 
   changeCountry(): void {
     console.log(this.guestInfo.value);
-    if (this.guestInfo.get('CountryID').value === '1') {
+    if (this.guestInfo.get('CountryID').value === 1 || this.guestInfo.get('CountryID').value === '1') {
       this.idLabelName = 'Identity Number';
       this.guestInfo.get('GuestAge').disable();
     } else {
@@ -97,19 +105,23 @@ export class AddArbitraryGuestComponent implements OnInit {
   }
 
   confirm() {
+    // do stuff
     if (this.guestInfo.valid) {
       if (this.guestInfo.get('CountryID').value === 1 || this.guestInfo.get('CountryID').value === '1') {
         const code: string = this.guestInfo.get('GuestIDCode').value;
-        console.log(this.validateGuestDOB(this.guestInfo.get('GuestIDCode').value));
         if (code.length === 13 && this.validateGuestDOB(this.guestInfo.get('GuestIDCode').value)) {
           console.log(this.guestInfo.value);
+          this.snack.open('Successfuly added Guest', 'Okay', {
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+            duration: 500
+          });
 
           this.event.emit(this.guestInfo.value);
           this.close();
-
         } else {
           this.httpError = true;
-          this.httpMessage = 'Enter an appropriate ID number.';
+          this.httpMessage = 'Enter an appropriate ID number, for an age 12 and lower';
         }
       } else {
         // Carry on, not south african.

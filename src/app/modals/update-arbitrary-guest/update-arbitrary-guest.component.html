@@ -1,12 +1,11 @@
 <div class="modal-content">
     <form [formGroup]="guestInfo">
       <div class="modal-header">
-        <h3>Add Child Guest</h3>
+        <h3>Update Guest</h3>
         <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
             <span aria-hidden="true">&times;</span>
         </button>
       </div>
-  
       <div class="col-md-12 alert alert-warning alert-dismissible fade show" role="alert" *ngIf="httpError">
         {{httpMessage}}
         <button type="button" class="close" data-dismiss="alert" (click)="resetHttp()" aria-label="Close">
@@ -17,9 +16,8 @@
     <div class="modal-body">
         <div class="col-lg-12 justify-content-center"> 
             <label for="exampleFormControlSelect1">Guest Nationality</label>
-            <select class="form-control" id="exampleFormControlSelect1" aria-placeholder="Park" formControlName = "CountryID"
-            (change) ="changeCountry()">
-              <option *ngFor="let item of countries" [value]="item.CountryID">{{item.CountryName}}</option>
+            <select class="form-control" id="exampleFormControlSelect1" aria-placeholder="Park" formControlName = "CountryID" (change)="changeCountry()">
+              <option *ngFor="let item of countries" value="{{item.CountryID}}">{{item.CountryName}}</option>
             </select>
         </div>
         <div class="col-md-12 keyword">
@@ -37,8 +35,7 @@
         <div class="col-md-12 keyword">
           <label class="start">Guest Age: </label>
           <div class="input-group">
-            <input type="number" class="form-control" placeholder="Age..." 
-            formControlName = "GuestAge"/>
+            <input type="number" class="form-control" placeholder="Age..." formControlName = "GuestAge"/>
           </div>
         </div>
         <div class="col-md-12 keyword">
@@ -50,7 +47,8 @@
     </div>
     <div class="modal-footer">
         <button class="btn btn-danger" (click)="close()">Cancel</button>
-        <button type="button" class="btn btn-success" (click)="confirm()">Add Guest</button>
+        <button type="button" class="btn btn-success" (click)="confirm()">Update Guest</button>
       </div>
     </form>
   </div>
+  

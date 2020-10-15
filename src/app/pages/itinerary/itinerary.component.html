@@ -89,8 +89,15 @@
     
     <div class="row justify-content-center">
         <div class="form-group col-8">
-            <h4 for="formControlRange">Slide to the amount you'd like to pay upfront: {{totalDue*payPerc | currency: 'ZAR'}}</h4>
-            <input type="range" class="form-control-range" id="formControlRange" min="0.3" max="1" step="0.01" [(ngModel)]="payPerc">
+            <h4 for="formControlRange">Enter the amount you'd like to pay upfront in ZAR </h4>
+                <input type="number" #input [min]="payPerc*totalDue" [max]="totalDue" class="form-control" 
+                [value]="payPerc*totalDue" placeholder="Amount"
+                [ngClass]="{'ng-invalid':input.value < payPerc*totalDue || input.value > totalDue }"
+                [(ngModel)]="payAmount"
+                (ngModelChange)="changeInput()"
+                />
+
+            <!-- <input type="range" class="form-control-range" id="formControlRange" min="0.3" max="1" step="0.001" [(ngModel)]="payPerc"> -->
           </div>
     </div>
     
@@ -98,7 +105,9 @@
         <div class="btn-group col-6" role="group" aria-label="Basic example">
             <button class="btn btn-light round" [routerLink]="['/availableResults']"><i class="fa fa-arrow-left" aria-hidden="true"></i> Add More Reservations</button>
             <button class="btn btnModal btn-light" (click)="CancelAll()">Cancel Booking <i class="fa fa-times-circle fa-lg"aria-hidden="true"></i></button>
-            <button class="btn btnModal btn-light round2" (click)="Checkout()">Checkout <i class="fa fa-credit-card" aria-hidden="true"></i></button>    
+            <button class="btn btnModal btn-light round2" (click)="Checkout()"
+            [disabled]= "invalid ? true: false"
+            >Checkout <i class="fa fa-credit-card" aria-hidden="true"></i></button>    
         </div>
     </div>
   </div>

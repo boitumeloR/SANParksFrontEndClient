@@ -6,12 +6,13 @@ import { AuthService } from 'src/app/services/Auth/auth.service';
 import { GlobalService } from 'src/app/services/global/global.service';
 
 @Component({
-  selector: 'app-add-arbitrary-guest',
-  templateUrl: './add-arbitrary-guest.component.html',
-  styleUrls: ['./add-arbitrary-guest.component.scss']
+  selector: 'app-update-arbitrary-guest',
+  templateUrl: './update-arbitrary-guest.component.html',
+  styleUrls: ['./update-arbitrary-guest.component.scss']
 })
-export class AddArbitraryGuestComponent implements OnInit {
+export class UpdateArbitraryGuestComponent implements OnInit {
 
+  initialData: any;
   calcAge: number;
   countries: any;
   guestInfo: FormGroup;
@@ -29,19 +30,24 @@ export class AddArbitraryGuestComponent implements OnInit {
       this.countries = res;
     });
     this.guestInfo = this.formBuilder.group({
-      CountryID: [1, Validators.required],
-      GuestName: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
-      GuestSurname: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
-      GuestAge: [null, Validators.compose([Validators.required, Validators.max(100)])],
-      GuestIDCode: ['', Validators.compose([Validators.maxLength(20), Validators.required])]
+      CountryID: [this.initialData.CountryID, Validators.required],
+      GuestName: [this.initialData.GuestName, Validators.compose([Validators.required, Validators.maxLength(50)])],
+      GuestSurname: [this.initialData.GuestSurname, Validators.compose([Validators.required, Validators.maxLength(50)])],
+      GuestAge: [this.initialData.GuestAge, Validators.compose([Validators.required, Validators.min(1), Validators.max(100)])],
+      GuestIDCode: [this.initialData.GuestIDCode, Validators.compose([Validators.maxLength(20), Validators.required])]
     });
 
-    this.guestInfo.get('GuestAge').disable();
+    if (this.guestInfo.get('CountryID').value === '1' || this.guestInfo.get('CountryID').value === 1) {
+      this.guestInfo.get('GuestAge').disable();
+    } else {
+      this.idLabelName = 'Passport Number';
+      this.guestInfo.get('GuestAge').enable();
+    }
   }
 
   changeCountry(): void {
     console.log(this.guestInfo.value);
-    if (this.guestInfo.get('CountryID').value === '1') {
+    if (this.guestInfo.get('CountryID').value === 1 || this.guestInfo.get('CountryID').value === '1') {
       this.idLabelName = 'Identity Number';
       this.guestInfo.get('GuestAge').disable();
     } else {
@@ -97,6 +103,7 @@ export class AddArbitraryGuestComponent implements OnInit {
   }
 
   confirm() {
+    // do stuff
     if (this.guestInfo.valid) {
       if (this.guestInfo.get('CountryID').value === 1 || this.guestInfo.get('CountryID').value === '1') {
         const code: string = this.guestInfo.get('GuestIDCode').value;
