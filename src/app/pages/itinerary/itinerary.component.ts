@@ -34,6 +34,7 @@ export class ItineraryComponent implements OnInit {
   WCChecked = null;
   fullConservationAmount = 0;
   loginRef: BsModalRef;
+  invalid = false;
   constructor(private modalService: BsModalService, private formBuilder: FormBuilder,
               private serv: BookingService, private global: GlobalService,
               private snack: MatSnackBar, private router: Router) { }
@@ -540,6 +541,26 @@ export class ItineraryComponent implements OnInit {
     });
   }
 
+  changeInput() {
+    if (this.payAmount < this.payPerc * this.totalDue) {
+      this.invalid = true;
+      this.snack.open('You cannot pay less than 30%', 'OK', {
+        horizontalPosition: 'left',
+        verticalPosition: 'bottom',
+        duration: 2000
+      });
+    } else if (this.payAmount > this.totalDue) {
+      this.invalid = true;
+      this.snack.open('You cant pay more that the total amount', 'OK', {
+        horizontalPosition: 'left',
+        verticalPosition: 'bottom',
+        duration: 2000
+      });
+    } else {
+      this.invalid = false;
+    }
+  }
+
   Checkout() {
     if (this.laterChecked == null &&
        this.upfrontChecked == null &&
@@ -559,7 +580,7 @@ export class ItineraryComponent implements OnInit {
             this.bookingData.PaidConservationFee = true;
           }
           this.bookingData.ConservationAmount = this.fullConservationAmount;
-          this.bookingData.PaymentAmount = this.totalDue * this.payPerc;
+          this.bookingData.PaymentAmount = this.payAmount;
           this.bookingData.TotalAmount = this.totalDue;
           console.log(this.totalDue);
           localStorage.setItem('itinerary', JSON.stringify(this.bookingData));
