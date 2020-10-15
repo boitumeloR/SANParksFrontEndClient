@@ -86,136 +86,80 @@
   </div>
   </form>
 
-<div *ngIf="searchData.AccommodationChecked">
-    <h1>Accommodations At {{parkName}}</h1>
-    <div *ngIf="notFound">
-        <app-not-found></app-not-found>
-    </div>
-<accordion [isAnimated] = "true" *ngFor="let avail of availableResults" >
-    <accordion-group [isOpen]="isOpen" [panelClass]="head">
-        <h5 accordion-heading>{{avail.CampName}}</h5>
-        <div>
-            <p-table [value]="avail.AccommodationTypes" [rows]="6" [paginator]="true" [rowHover]="true">
-                <ng-template pTemplate="caption" >
-                    {{avail.CampName}}
-                    <br>
-                    <div class="btn-group mr-2" role="group" aria-label="First group">
-                        <button type="button" class="btn btn-secondary" (click)="pastWeek()"><i class="fa fa-chevron-left" aria-hidden="true"></i> Previous Week</button>
-                        <button type="button" class="btn btn-secondary" (click)="nextWeek()"> Next Week <i class="fa fa-chevron-right" aria-hidden="true"></i></button>
-                    </div>
-                    <br>
-                    <div class="spinner-border" role="status" *ngIf="loader">
-                        <span class="sr-only">Loading...</span>
-                    </div>
-                </ng-template>
-                <ng-template pTemplate="header" class="head">
-                    <tr>
-                        <th> 
-                            <div>
-                                <input type="text"  (ngModelChange)="chooseDate($event)"
-                                   placeholder="Pick your date"
-                                   class="form-control"
-                                   bsDatepicker
-                                   placement="right"
-                                   [(ngModel)]="datePicked"
-                                   [bsConfig]="{ isAnimated: true, adaptivePosition: true }"
-                                   >
-                            </div>
-                        </th>
-                        <th *ngFor="let item of tableDates">{{item.Date |date:'mediumDate'}}</th>
-                        <th>Make Your Booking</th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-acc>
-                    <tr>
-                        <td><strong>{{acc.AccommodationTypeName}} &nbsp; 
-                            <div>
-                                <button class="btn btn-success" (click)="ViewAccommodationModal(acc)">View more</button>
-                            </div>
-                        </strong>
-                        </td>
-                        <td *ngFor="let amount of acc.Availability">{{amount.AvailableAmount}} Available</td>
-                        <td>
-                            <button class="btn btn-success" (click)="bookWeek(acc, avail.CampID)">Book This Week &nbsp;
-                                <div class="spinner-border" role="status" *ngIf="mapLoader">
-                                    <span class="sr-only">Loading...</span>
-                                </div>
-                            </button>
-                        </td>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="summary">
-                </ng-template>
-            </p-table>
+  <div *ngIf="searchData && apiData">
+    <div *ngIf="searchData.AccommodationChecked">
+        <h1>Accommodations At {{parkName}}</h1>
+        <div *ngIf="notFound">
+            <app-not-found></app-not-found>
         </div>
-    </accordion-group>
-</accordion>
-</div>
-
-<!--for Day visits-->
-<div *ngIf="searchData.DayVisitChecked">
-    <div>
-        <h1>Visit {{parkName}}</h1>
-        <p-table [value]="availableResults" [rows]="6" [paginator]="true" [rowHover]="true">
-            <ng-template pTemplate="caption" >
-                {{parkName}}
-                <br>
-                <div class="btn-group mr-2" role="group" aria-label="First group">
-                    <button type="button" class="btn btn-secondary" (click)="pastWeek()"><i class="fa fa-chevron-left" aria-hidden="true"></i> Previous Week</button>
-                    <button type="button" class="btn btn-secondary" (click)="nextWeek()"> Next Week <i class="fa fa-chevron-right" aria-hidden="true"></i></button>
-                </div>
-                <br>
-                <div class="spinner-border" role="status" *ngIf="loader">
-                    <span class="sr-only">Loading...</span>
-                </div>
-            </ng-template>
-            <ng-template pTemplate="header" class="head">
-                <tr>
-                    <th>
-                        <div>
-                            <input type="text"  (ngModelChange)="chooseDate($event)"
-                               placeholder="Pick your date"
-                               class="form-control"
-                               bsDatepicker
-                               placement="right"
-                               [(ngModel)]="datePicked"
-                               [bsConfig]="{ isAnimated: true, adaptivePosition: true }"
-                               >
+    <accordion [isAnimated] = "true" *ngFor="let avail of availableResults" >
+        <accordion-group [isOpen]="isOpen" [panelClass]="head">
+            <h5 accordion-heading>{{avail.CampName}}</h5>
+            <div>
+                <p-table [value]="avail.AccommodationTypes" [rows]="6" [paginator]="true" [rowHover]="true">
+                    <ng-template pTemplate="caption" >
+                        {{avail.CampName}}
+                        <br>
+                        <div class="btn-group mr-2" role="group" aria-label="First group">
+                            <button type="button" class="btn btn-secondary" (click)="pastWeek()"><i class="fa fa-chevron-left" aria-hidden="true"></i> Previous Week</button>
+                            <button type="button" class="btn btn-secondary" (click)="nextWeek()"> Next Week <i class="fa fa-chevron-right" aria-hidden="true"></i></button>
                         </div>
-                    </th>
-                    <th *ngFor="let item of tableDates">{{item.Date |date:'mediumDate'}}</th>
-                    <th>Make Your Booking</th>
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-day>
-                <tr>
-                    <td><strong>{{day.ParkGate}} &nbsp; 
-                        <div>
-                            <!--<button class="btn btn-success">View more</button>-->
+                        <br>
+                        <div class="spinner-border" role="status" *ngIf="loader">
+                            <span class="sr-only">Loading...</span>
                         </div>
-                    </strong>
-                    </td>
-                    <td *ngFor="let amount of day.Dates">{{amount.SlotsAvailable}} Available</td>
-                    <td>
-                        <button class="btn btn-success"  (click)="bookDayVisit(day)">Book This Week</button>
-                    </td>
-                </tr>
-            </ng-template>
-            <p-paginator></p-paginator>
-        </p-table>
+                    </ng-template>
+                    <ng-template pTemplate="header" class="head">
+                        <tr>
+                            <th> 
+                                <div>
+                                    <input type="text"  (ngModelChange)="chooseDate($event)"
+                                       placeholder="Pick your date"
+                                       class="form-control"
+                                       bsDatepicker
+                                       placement="right"
+                                       [(ngModel)]="datePicked"
+                                       [bsConfig]="{ isAnimated: true, adaptivePosition: true }"
+                                       >
+                                </div>
+                            </th>
+                            <th *ngFor="let item of tableDates">{{item.Date |date:'mediumDate'}}</th>
+                            <th>Make Your Booking</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-acc>
+                        <tr>
+                            <td><strong>{{acc.AccommodationTypeName}} &nbsp; 
+                                <div>
+                                    <button class="btn btn-success" (click)="ViewAccommodationModal(acc)">View more</button>
+                                </div>
+                            </strong>
+                            </td>
+                            <td *ngFor="let amount of acc.Availability">{{amount.AvailableAmount}} Available</td>
+                            <td>
+                                <button class="btn btn-success" (click)="bookWeek(acc, avail.CampID)">Book This Week &nbsp;
+                                    <div class="spinner-border" role="status" *ngIf="mapLoader">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="summary">
+                    </ng-template>
+                </p-table>
+            </div>
+        </accordion-group>
+    </accordion>
     </div>
-</div>
-
-<!--For Activities-->
-<div *ngIf="searchData.ActivityChecked">
-    <h1>Activities At {{parkName}}</h1>
-<accordion [isAnimated] = "true" *ngFor="let avail of availableResults" >
-    <accordion-group [isOpen]="isOpen" [panelClass]="head">
-        <h5 accordion-heading>{{avail.CampName}}</h5>
+    
+    <!--for Day visits-->
+    <div *ngIf="searchData.DayVisitChecked">
         <div>
-            <p-table [value]="avail.Activities" [rows]="6" [paginator]="true" [rowHover]="true">
+            <h1>Visit {{parkName}}</h1>
+            <p-table [value]="availableResults" [rows]="6" [paginator]="true" [rowHover]="true">
                 <ng-template pTemplate="caption" >
-                    {{avail.CampName}}
+                    {{parkName}}
                     <br>
                     <div class="btn-group mr-2" role="group" aria-label="First group">
                         <button type="button" class="btn btn-secondary" (click)="pastWeek()"><i class="fa fa-chevron-left" aria-hidden="true"></i> Previous Week</button>
@@ -244,27 +188,85 @@
                         <th>Make Your Booking</th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-act>
+                <ng-template pTemplate="body" let-day>
                     <tr>
-                        <td><strong>{{act.ActivityName}} &nbsp; 
+                        <td><strong>{{day.ParkGate}} &nbsp; 
                             <div>
-                                <!--<button class="btn btn-success" (click)="ViewActivityModal(act)">View more</button>-->
+                                <!--<button class="btn btn-success">View more</button>-->
                             </div>
                         </strong>
                         </td>
-                        <td *ngFor="let amount of act.Availability">{{amount.AvailableAmount}} Available</td>
+                        <td *ngFor="let amount of day.Dates">{{amount.SlotsAvailable}} Available</td>
                         <td>
-                            <button class="btn btn-success"
-                            (click)="bookActivity(act)"
-                            >Book This Week &nbsp;
-                            </button>
+                            <button class="btn btn-success"  (click)="bookDayVisit(day)">Book This Week</button>
                         </td>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="summary">
-                </ng-template>
+                <p-paginator></p-paginator>
             </p-table>
         </div>
-    </accordion-group>
-</accordion>
-</div>
+    </div>
+    
+    <!--For Activities-->
+    <div *ngIf="searchData.ActivityChecked">
+        <h1>Activities At {{parkName}}</h1>
+    <accordion [isAnimated] = "true" *ngFor="let avail of availableResults" >
+        <accordion-group [isOpen]="isOpen" [panelClass]="head">
+            <h5 accordion-heading>{{avail.CampName}}</h5>
+            <div>
+                <p-table [value]="avail.Activities" [rows]="6" [paginator]="true" [rowHover]="true">
+                    <ng-template pTemplate="caption" >
+                        {{avail.CampName}}
+                        <br>
+                        <div class="btn-group mr-2" role="group" aria-label="First group">
+                            <button type="button" class="btn btn-secondary" (click)="pastWeek()"><i class="fa fa-chevron-left" aria-hidden="true"></i> Previous Week</button>
+                            <button type="button" class="btn btn-secondary" (click)="nextWeek()"> Next Week <i class="fa fa-chevron-right" aria-hidden="true"></i></button>
+                        </div>
+                        <br>
+                        <div class="spinner-border" role="status" *ngIf="loader">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </ng-template>
+                    <ng-template pTemplate="header" class="head">
+                        <tr>
+                            <th>
+                                <div>
+                                    <input type="text"  (ngModelChange)="chooseDate($event)"
+                                       placeholder="Pick your date"
+                                       class="form-control"
+                                       bsDatepicker
+                                       placement="right"
+                                       [(ngModel)]="datePicked"
+                                       [bsConfig]="{ isAnimated: true, adaptivePosition: true }"
+                                       >
+                                </div>
+                            </th>
+                            <th *ngFor="let item of tableDates">{{item.Date |date:'mediumDate'}}</th>
+                            <th>Make Your Booking</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-act>
+                        <tr>
+                            <td><strong>{{act.ActivityName}} &nbsp; 
+                                <div>
+                                    <!--<button class="btn btn-success" (click)="ViewActivityModal(act)">View more</button>-->
+                                </div>
+                            </strong>
+                            </td>
+                            <td *ngFor="let amount of act.Availability">{{amount.AvailableAmount}} Available</td>
+                            <td>
+                                <button class="btn btn-success"
+                                (click)="bookActivity(act)"
+                                >Book This Week &nbsp;
+                                </button>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="summary">
+                    </ng-template>
+                </p-table>
+            </div>
+        </accordion-group>
+    </accordion>
+    </div>
+  </div>

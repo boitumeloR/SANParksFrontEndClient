@@ -62,28 +62,53 @@ export class TableResultsComponent implements OnInit {
               private modalService: BsModalService, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
+    this.dropDowns$ = this.serv.getDropDowns(this.global.GetServer());
+    this.dropDowns$.subscribe(res => {
+      this.parks = res.Parks;
+      this.isAccommodation = true;
+      this.isActivity = true;
+    }, (error: HttpErrorResponse) => {
+      this.httpError = true;
+      this.httpMessage = error.message;
+    });
+
     this.notFound = false;
     this.apiData = JSON.parse(localStorage.getItem('availableResults'));
     this.searchData = JSON.parse(localStorage.getItem('searchData'));
-    this.availableResults = this.apiData.AvailableResults;
 
-    console.log(this.availableResults);
-    if (this.availableResults.length === 0) {
-      this.notFound = true;
-      this.snack.open(`Nothing was available from your search, try other parameters.`, 'OK', {
-        horizontalPosition: 'center',
-        verticalPosition: 'bottom',
-        duration: 10000
-      }).afterDismissed().subscribe(() => {
-        this.loader = false;
+    if (this.apiData && this.searchData) {
+      this.availableResults = this.apiData.AvailableResults;
+      if (this.availableResults.length === 0) {
+        this.notFound = true;
+        this.snack.open(`Nothing was available from your search, try other parameters.`, 'OK', {
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+          duration: 10000
+        }).afterDismissed().subscribe(() => {
+          this.loader = false;
+        });
+      }
+      else {
+        this.notFound = false;
+        console.log(this.availableResults);
+        this.tableDates = this.apiData.Dates;
+        this.parkName = this.apiData.ParkName;
+      }
+    } else {
+      this.isAccommodation = true;
+      this.isActivity = true;
+      console.log(this.isAccommodation, this.isActivity);
+
+      this.availableGroup = this.formBuilder.group({
+        park: [null, Validators.required],
+        camp: [null],
+        activity: [false],
+        accommodation: [false],
+        day: [false],
+        activityType: [null],
+        accommodationType: [null]
       });
     }
-    else {
-      this.notFound = false;
-    }
-    console.log(this.availableResults);
-    this.tableDates = this.apiData.Dates;
-    this.parkName = this.apiData.ParkName;
 
     // populate dropdown park
     this.dropDowns$ = this.serv.getDropDowns(this.global.GetServer());
@@ -139,12 +164,16 @@ export class TableResultsComponent implements OnInit {
 
   onChooseAct() {
     if (this.availableGroup.valid) {
+      console.log(this.availableGroup);
       if (this.availableGroup.get('activity').value === true) {
         const values = {
           parkID: this.availableGroup.get('park').value,
           campID: this.availableGroup.get('camp').value
         };
 
+        this.availableGroup.get('accommodation').setValue(false);
+        this.availableGroup.get('day').setValue(false);
+        this.isAccommodation = true;
         console.log(values);
         this.activityDrop$ = this.serv.getActivityTypes(values, this.global.GetServer());
         this.activityDrop$.subscribe(res => {
@@ -169,6 +198,10 @@ export class TableResultsComponent implements OnInit {
           campID: this.availableGroup.get('camp').value
         };
 
+        this.availableGroup.get('activity').setValue(false);
+        this.availableGroup.get('day').setValue(false);
+        this.isActivity = true;
+
         this.activityDrop$ = this.serv.getAccommodationTypes(values, this.global.GetServer());
         this.activityDrop$.subscribe(res => {
           this.accommodationTypes = res;
@@ -181,21 +214,60 @@ export class TableResultsComponent implements OnInit {
     } else {
       this.httpError = true;
       this.httpMessage = 'Make Sure to choose a park before submiting';
+
+      if (this.availableGroup.get('accommodation').value === true) {
+        const values = {
+          parkID: this.availableGroup.get('park').value,
+          campID: this.availableGroup.get('camp').value
+        };
+
+        this.availableGroup.get('activity').setValue(false);
+        this.availableGroup.get('day').setValue(false);
+        this.isActivity = true;
+
+        this.activityDrop$ = this.serv.getAccommodationTypes(values, this.global.GetServer());
+        this.activityDrop$.subscribe(res => {
+          this.accommodationTypes = res;
+          this.checks++;
+        }, (error: HttpErrorResponse) => {
+          this.httpError = true;
+          this.httpMessage = error.message;
+        });
+      }
     }
   }
 
   onChooseDay() {
     if (this.availableGroup.valid) {
-      this.checks++;
+      this.availableGroup.get('activity').setValue(false);
+      this.availableGroup.get('accommodation').setValue(false);
+
+      this.isActivity = true;
+      this.isAccommodation = true;
     }
     else {
       this.httpError = true;
       this.httpMessage = 'Make Sure to choose a park before submiting';
+
+      this.availableGroup.get('activity').setValue(false);
+      this.availableGroup.get('accommodation').setValue(false);
+
+      this.isActivity = true;
+      this.isAccommodation = true;
     }
   }
 
   CheckAvailability() {
     if (this.availableGroup.valid) {
+      if (this.availableGroup.get('accommodation').value === false
+      && this.availableGroup.get('activity').value === false &&
+      this.availableGroup.get('day').value === false ||
+      this.availableGroup.get('accommodation').value === null
+      && this.availableGroup.get('activity').value === null &&
+      this.availableGroup.get('day').value === null){
+        this.httpError = true;
+        this.httpMessage = 'Choose a booking type!';
+      } else {
         this.loader = true;
         const availableData = {
           ParkID: Number(this.availableGroup.get('park').value) ,
@@ -215,6 +287,7 @@ export class TableResultsComponent implements OnInit {
         this.checkAvailability$.subscribe(res => {
           this.loader = false;
           this.apiData = res;
+          this.searchData = availableData;
           this.availableResults = res.AvailableResults;
           if (this.availableResults.length === 0) {
             this.notFound = true;
@@ -231,6 +304,7 @@ export class TableResultsComponent implements OnInit {
           this.httpMessage = error.message;
         });
         console.log(availableData);
+      }
     }
     // this.router.navigateByUrl('availableResults');
   }
