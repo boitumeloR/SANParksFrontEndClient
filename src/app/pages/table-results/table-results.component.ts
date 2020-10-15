@@ -399,6 +399,7 @@ bookDayVisit(initialData) {
 }
 
 addActivityModal(initialData) {
+  localStorage.setItem('Dates', JSON.stringify(this.tableDates));
   const initialState = {
     backdrop: 'static'
   };
