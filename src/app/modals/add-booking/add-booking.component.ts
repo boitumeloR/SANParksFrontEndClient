@@ -217,12 +217,16 @@ export class AddBookingComponent implements OnInit{
   DeleteGuest(guest) {
     this.addModalRef = this.service.show(GlobalConfirmComponent, {
       class: 'modal-md modal-dialog-centered',
-      initialState: {confirmationMessage: 'Are you sure you want to remove this guest?'}
+      initialState: {
+        data: {
+          message: 'Are you sure you want to remove this guest?'
+        }
+      }
     });
 
     this.addModalRef.content.event.subscribe(res => {
       if (res.data) {
-        const index = this.bookingGuests.findIndex(guest);
+        const index = this.bookingGuests.findIndex(zz => zz === guest);
 
         this.bookingGuests.splice(index, 1);
       }

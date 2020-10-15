@@ -7,6 +7,10 @@ import { GlobalService } from 'src/app/services/global/global.service';
 import { Router } from '@angular/router';
 import { AccommodationBooking, Booking, ActivityBooking, BookingService } from 'src/app/services/booking/booking.service';
 import { AddArbitraryGuestComponent } from '../add-arbitrary-guest/add-arbitrary-guest.component';
+import { GlobalConfirmComponent } from '../global-confirm/global-confirm.component';
+import { UpdateAdultGuestComponent } from '../update-adult-guest/update-adult-guest.component';
+import { UpdateChildGuestComponent } from '../update-child-guest/update-child-guest.component';
+import { UpdateArbitraryGuestComponent } from '../update-arbitrary-guest/update-arbitrary-guest.component';
 
 @Component({
   selector: 'app-add-activity-booking',
@@ -40,7 +44,7 @@ export class AddActivityBookingComponent implements OnInit {
 
   ActivitySlots: any[];
   addModalRef: BsModalRef;
-  selectedSlot: number;
+  selectedSlot = 1;
 
   constructor(private bsModalRef: BsModalRef, private formBuilder: FormBuilder, private service: BsModalService,
               private serv: AvailabilityService, private global: GlobalService, private router: Router,
@@ -55,6 +59,7 @@ export class AddActivityBookingComponent implements OnInit {
     this.bookingServ.getActivitySlots(this.global.GetServer(), this.initialData.ActivityID, this.initialData.CampID)
     .subscribe(res => {
       this.ActivitySlots = res.ActivitySlots;
+      this.selectedSlot = this.ActivitySlots[0].SlotID;
     });
     const Dates = JSON.parse(localStorage.getItem('Dates'));
     this.bsValue = this.parseDate(Dates[0].Date);
@@ -103,6 +108,7 @@ export class AddActivityBookingComponent implements OnInit {
     if (this.guests !== 0 ) {
       this.guests--;
       this.totalGuests--;
+
     }
   }
 
@@ -121,6 +127,10 @@ export class AddActivityBookingComponent implements OnInit {
     if (this.adultGuests > 1) {
       this.adultGuests--;
       this.totalGuests--;
+
+      if (this.bookingGuests.length > this.adultGuests) {
+        this.bookingGuests = [];
+      }
     } else {
       this.httpError = true;
       this.httpMessage = `Add at least one guest`;
@@ -156,6 +166,40 @@ export class AddActivityBookingComponent implements OnInit {
         this.bookingGuests.push(res);
       });
     }
+  }
+
+  UpdateGuest(initialData) {
+    this.addModalRef = this.service.show(UpdateArbitraryGuestComponent, {
+      class: 'modal-md modal-dialog-centered',
+      initialState: {initialData}
+    });
+
+    this.addModalRef.content.event.subscribe(res => {
+      this.bookingGuests.forEach((el, i) => {
+        if (el.GuestIDCode === initialData.GuestIDCode) {
+          this.bookingGuests[i] = res;
+        }
+      });
+    });
+  }
+
+  DeleteGuest(guest) {
+    this.addModalRef = this.service.show(GlobalConfirmComponent, {
+      class: 'modal-md modal-dialog-centered',
+      initialState: {
+        data: {
+          message: 'Are you sure you want to remove this guest?'
+        }
+      }
+    });
+
+    this.addModalRef.content.event.subscribe(res => {
+      if (res.data) {
+        const index = this.bookingGuests.findIndex(zz => zz === guest);
+
+        this.bookingGuests.splice(index, 1);
+      }
+    });
   }
 
   addToItinerary() {
