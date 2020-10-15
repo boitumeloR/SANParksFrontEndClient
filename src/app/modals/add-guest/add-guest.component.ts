@@ -43,7 +43,7 @@ export class AddGuestComponent implements OnInit {
 
   changeCountry(): void {
     console.log(this.guestInfo.value);
-    if (this.guestInfo.get('CountryID').value === '1') {
+    if (this.guestInfo.get('CountryID').value === '1' || this.guestInfo.get('CountryID').value === 1) {
       this.idLabelName = 'Identity Number';
       this.guestInfo.get('GuestAge').disable();
     } else {

@@ -163,7 +163,18 @@ export class AddActivityBookingComponent implements OnInit {
       });
 
       this.addModalRef.content.event.subscribe(res => {
-        this.bookingGuests.push(res);
+        let flag = false;
+        this.bookingGuests.forEach(el => {
+          if (el.GuestIDCode === res.GuestIDCode) {
+            flag = true;
+          }
+        });
+        if (flag) {
+          this.httpError = true;
+          this.httpMessage = 'A guest with that ID number is already added';
+        } else {
+          this.bookingGuests.push(res);
+        }
       });
     }
   }
