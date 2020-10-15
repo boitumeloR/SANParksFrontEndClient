@@ -30,15 +30,15 @@
       <span class="atleast">Check One</span>
       <div class="col-md-12 checks">
         <div class="form-check form-check-inline checkbox">
-          <input class="form-check-input mr-2" type="checkbox" id="inlineCheckbox1" value="option1" (click)="toggleActivityCollapse()" formControlName="activity" (change)="onChooseAct()">
+          <input class="form-check-input mr-2" type="checkbox" id="inlineCheckbox1" (click)="toggleActivityCollapse()" formControlName="activity" name="option1" (change)="onChooseAct()">
           <label class="form-check-label" for="inlineCheckbox1">Activity</label>
         </div>
         <div class="form-check form-check-inline checkbox">
-          <input class="form-check-input mr-2" type="checkbox" id="inlineCheckbox2" value="option2" (click)="toggleAccommodationCollapse()" formControlName="accommodation" (change)="onChooseAcc()">
+          <input class="form-check-input mr-2" type="checkbox" id="inlineCheckbox2" (click)="toggleAccommodationCollapse()" formControlName="accommodation" name="option2" (change)="onChooseAcc()">
           <label class="form-check-label" for="inlineCheckbox2">Accommodation</label>
         </div>
         <div class="form-check form-check-inline checkbox3">
-          <input class="form-check-input mr-2" type="checkbox" id="inlineCheckbox3" value="option3" formControlName="day" (click)="onChooseDay()">
+          <input class="form-check-input mr-2" type="checkbox" id="inlineCheckbox3"  formControlName="day" name="option3" (click)="onChooseDay()">
           <label class="form-check-label" for="inlineCheckbox3">Day Visit </label>
         </div>
       </div>

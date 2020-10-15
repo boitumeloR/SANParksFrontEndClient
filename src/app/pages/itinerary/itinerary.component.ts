@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ViewAvailableImgComponent } from 'src/app/modals/view-available-img/view-available-img.component';
 import { RemoveGuestConfirmComponent } from 'src/app/modals/remove-guest-confirm/remove-guest-confirm.component';
@@ -19,7 +19,7 @@ import { Router } from '@angular/router';
   templateUrl: './itinerary.component.html',
   styleUrls: ['./itinerary.component.scss']
 })
-export class ItineraryComponent implements OnInit {
+export class ItineraryComponent implements OnInit, AfterViewInit {
 
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
@@ -34,6 +34,7 @@ export class ItineraryComponent implements OnInit {
   WCChecked = null;
   fullConservationAmount = 0;
   loginRef: BsModalRef;
+  invalid = false;
   constructor(private modalService: BsModalService, private formBuilder: FormBuilder,
               private serv: BookingService, private global: GlobalService,
               private snack: MatSnackBar, private router: Router) { }
@@ -45,9 +46,9 @@ export class ItineraryComponent implements OnInit {
       this.bookingData.AccommodationBookings.map(el => el.BaseRate = 0);
       this.bookingData.AccommodationBookings.map((el) => {
         this.serv.getItineraryAccommodationData(this.global.GetServer(), el).subscribe(res => {
-          console.log(res);
           el.BaseRate = res;
           this.totalDue += el.BaseRate;
+          this.payAmount = this.payPerc * this.totalDue;
         });
       });
 
@@ -78,7 +79,7 @@ export class ItineraryComponent implements OnInit {
       }
 
       this.payAmount = this.payPerc * this.totalDue;
-      console.log(this.totalDue);
+      console.log(this.payAmount);
     }
     this.firstFormGroup = this.formBuilder.group({
       firstCtrl: ['', Validators.required]
@@ -86,6 +87,11 @@ export class ItineraryComponent implements OnInit {
     this.secondFormGroup = this.formBuilder.group({
       secondCtrl: ['', Validators.required]
     });
+  }
+
+  ngAfterViewInit(): void {
+    this.payAmount = this.payPerc * this.totalDue;
+    console.log(this.payAmount);
   }
 
   initialiseAmounts(): void {
@@ -182,6 +188,7 @@ export class ItineraryComponent implements OnInit {
               this.totalDue -= this.fullConservationAmount;
               this.fullConservationAmount = 0;
             }
+            this.payAmount = this.payPerc * this.totalDue;
             this.bookingData.PaidConservationFee = true;
             sessionStorage.setItem('session', JSON.stringify(result.Session));
           } else {
@@ -232,6 +239,7 @@ export class ItineraryComponent implements OnInit {
           if (this.fullConservationAmount > 0 ) {
             this.totalDue -= this.fullConservationAmount;
             this.fullConservationAmount = 0;
+            this.payAmount = this.payPerc * this.totalDue;
           }
         } else {
           this.WCChecked = null;
@@ -261,6 +269,7 @@ export class ItineraryComponent implements OnInit {
       this.fullConservationAmount = 0;
     }
 
+    this.payAmount = this.payPerc * this.totalDue;
     const guests = this.getAllGuests();
     this.serv.getConservationFees(guests, this.global.GetServer()).subscribe(res => {
       this.fullConservationAmount = res.Amount;
@@ -282,6 +291,7 @@ export class ItineraryComponent implements OnInit {
       this.bookingData.ConservationAmount = this.fullConservationAmount;
       this.bookingData.PaidConservationFee = true;
 
+      this.payAmount = this.payPerc * this.totalDue;
       localStorage.setItem('itinerary', JSON.stringify(this.bookingData));
       console.log('amounts');
       console.log(this.fullConservationAmount);
@@ -540,6 +550,49 @@ export class ItineraryComponent implements OnInit {
     });
   }
 
+  changeInput() {
+    if (this.payAmount < this.payPerc * this.totalDue) {
+      this.invalid = true;
+      this.snack.open('You cannot pay less than 30%', 'OK', {
+        horizontalPosition: 'left',
+        verticalPosition: 'bottom',
+        duration: 2000
+      });
+    } else if (this.payAmount > this.totalDue) {
+      this.invalid = true;
+      this.snack.open('You cant pay more that the total amount', 'OK', {
+        horizontalPosition: 'left',
+        verticalPosition: 'bottom',
+        duration: 2000
+      });
+    } else {
+      this.invalid = false;
+    }
+  }
+
+  LoginFinal() {
+    this.loginRef = this.modalService.show(LoginModalComponent,
+      {
+        class: 'modal-md modal-dialog-centered',
+        backdrop: 'static',
+        initialState: {
+          data: {
+          message: 'Are you sure you want to remove this guest?'
+          }
+        }
+      });
+    this.loginRef.content.closeBtnName = 'Close';
+    this.loginRef.content.event.subscribe(res => {
+      if (res.result === true) {
+        const snackBar = this.snack.open('Login Success.', 'OK', {
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+          duration: 1000
+        });
+      }
+    });
+  }
+
   Checkout() {
     if (this.laterChecked == null &&
        this.upfrontChecked == null &&
@@ -559,7 +612,7 @@ export class ItineraryComponent implements OnInit {
             this.bookingData.PaidConservationFee = true;
           }
           this.bookingData.ConservationAmount = this.fullConservationAmount;
-          this.bookingData.PaymentAmount = this.totalDue * this.payPerc;
+          this.bookingData.PaymentAmount = this.payAmount;
           this.bookingData.TotalAmount = this.totalDue;
           console.log(this.totalDue);
           localStorage.setItem('itinerary', JSON.stringify(this.bookingData));
@@ -569,9 +622,9 @@ export class ItineraryComponent implements OnInit {
         const snackBar = this.snack.open('Login before you checkout.', 'OK', {
           horizontalPosition: 'center',
           verticalPosition: 'bottom',
-          duration: 5000
+          duration: 500
         });
-        snackBar.afterDismissed().subscribe(() => this.router.navigate(['Login']));
+        snackBar.afterDismissed().subscribe(() => this.LoginFinal());
       }
     }
   }

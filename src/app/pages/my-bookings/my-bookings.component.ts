@@ -203,7 +203,6 @@ export class MyBookingsComponent implements OnInit {
         }, (err: HttpErrorResponse) => {
           // Server down.
         });
-        this.router.navigateByUrl('claimRefund');
       }
     });
   }
