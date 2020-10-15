@@ -65,6 +65,7 @@ export class AvailableBoxFixComponent implements OnInit {
       this.parkDrop$ = this.serv.getCamps(this.availableGroup.get('park').value, this.global.GetServer());
       this.parkDrop$.subscribe(res =>  {
         this.camps = res;
+        this.availableGroup.get('camp').setValue(null);
       }, (error: HttpErrorResponse) => {
         this.httpError = true;
         this.httpMessage = error.message;
@@ -103,8 +104,16 @@ export class AvailableBoxFixComponent implements OnInit {
         });
       }
     } else {
+
       this.httpError = true;
       this.httpMessage = 'Make Sure to choose a park before submiting';
+
+      if (this.availableGroup.get('activity').value === true) {
+
+        this.availableGroup.get('accommodation').setValue(false);
+        this.availableGroup.get('day').setValue(false);
+        this.isAccommodation = true;
+      }
     }
   }
 
@@ -142,15 +151,6 @@ export class AvailableBoxFixComponent implements OnInit {
         this.availableGroup.get('activity').setValue(false);
         this.availableGroup.get('day').setValue(false);
         this.isActivity = true;
-
-        this.activityDrop$ = this.serv.getAccommodationTypes(values, this.global.GetServer());
-        this.activityDrop$.subscribe(res => {
-          this.accommodationTypes = res;
-          this.checks++;
-        }, (error: HttpErrorResponse) => {
-          this.httpError = true;
-          this.httpMessage = error.message;
-        });
       }
     }
   }

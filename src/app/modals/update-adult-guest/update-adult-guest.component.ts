@@ -37,7 +37,7 @@ export class UpdateAdultGuestComponent implements OnInit {
       GuestIDCode: [this.initialData.GuestIDCode, Validators.compose([Validators.maxLength(20), Validators.required])]
     });
 
-    if (this.guestInfo.get('CountryID').value === '1') {
+    if (this.guestInfo.get('CountryID').value === '1' || this.guestInfo.get('CountryID').value === 1) {
       this.guestInfo.get('GuestAge').disable();
     }
   }

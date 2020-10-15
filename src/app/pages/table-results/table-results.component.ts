@@ -129,8 +129,8 @@ export class TableResultsComponent implements OnInit {
       console.log(this.isAccommodation, this.isActivity);
 
       this.availableGroup = this.formBuilder.group({
-        park: [this.searchData.ParkID, Validators.required],
-        camp: [this.searchData.CampID],
+        park: [null, Validators.required],
+        camp: [null],
         activity: [false],
         accommodation: [false],
         day: [false],
@@ -147,6 +147,7 @@ export class TableResultsComponent implements OnInit {
       this.parkDrop$ = this.serv.getCamps(this.availableGroup.get('park').value, this.global.GetServer());
       this.parkDrop$.subscribe(res =>  {
         this.camps = res;
+        this.availableGroup.get('camp').setValue(null);
       }, (error: HttpErrorResponse) => {
         this.httpError = true;
         this.httpMessage = error.message;
@@ -287,6 +288,7 @@ export class TableResultsComponent implements OnInit {
         this.checkAvailability$.subscribe(res => {
           this.loader = false;
           this.apiData = res;
+          this.parkName = this.apiData.ParkName;
           this.searchData = availableData;
           this.availableResults = res.AvailableResults;
           if (this.availableResults.length === 0) {
