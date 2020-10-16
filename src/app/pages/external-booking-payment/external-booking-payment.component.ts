@@ -173,8 +173,8 @@ export class ExternalBookingPaymentComponent implements OnInit, AfterViewInit, O
       this.bookingInfo.ClientID = res.ClientID;
       localStorage.setItem('itinerary', JSON.stringify(this.bookingInfo));
       console.log(this.bookingInfo);
-      sessionStorage.setItem('session', JSON.stringify(res.Session)); },
-      (error: HttpErrorResponse) => this.openSnack(error.message));
+      sessionStorage.setItem('session', JSON.stringify(res.Session));
+    }, (error: HttpErrorResponse) => this.openSnack(error.message));
     const name = this.stripeTest.get('name').value;
     this.stripeService
       .createToken(this.card, {})
@@ -185,21 +185,21 @@ export class ExternalBookingPaymentComponent implements OnInit, AfterViewInit, O
           this.loader = true;
           this.bookingInfo = JSON.parse(localStorage.getItem('itinerary'));
           this.bookingInfo.paymentToken = result.token.id;
+          this.bookingInfo.PaymentAmount = this.amount;
+          this.bookingInfo.BookingID = this.bookingID;
           console.log(this.bookingInfo.paymentToken);
           const sess = JSON.parse(sessionStorage.getItem('session'));
           this.bookingInfo.Session = sess;
           localStorage.setItem('itinerary', JSON.stringify(this.bookingInfo));
-          this.serv.SaveBooking(this.bookingInfo , this.global.GetServer()).subscribe(data => {
+          this.serv.PayOutstanding(this.bookingInfo , this.global.GetServer()).subscribe(data => {
             if (data.Success) {
               this.loader = false;
-              console.log('Success!!');
               sessionStorage.setItem('session', JSON.stringify(data.Session));
-              this.snack.open('You have successfully made a booking', 'OK', {
+              this.snack.open('You have successfully paid for your booking', 'OK', {
                 horizontalPosition: 'center',
                 verticalPosition: 'bottom',
                 duration: 5000
               });
-              localStorage.removeItem('itinerary');
               this.router.navigateByUrl('bookingSuccess');
             } else {
               if (data.Session.Error) {
@@ -224,6 +224,7 @@ export class ExternalBookingPaymentComponent implements OnInit, AfterViewInit, O
         }
       });
   }
+
   Success() {
     this.snack.open('Unsuccessful Payment', 'Okay', {
       horizontalPosition: 'center',
