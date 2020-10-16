@@ -132,4 +132,8 @@ export class BookingService {
   CancelBooking(bookingData, server) {
     return this.http.post<any>(`${server}/api/Booking/CancelBooking`, bookingData, this.httpOptions);
   }
+
+  VerifyPayment(bookingData, server) {
+    return this.http.post<any>(`${server}/api/Booking/VerifyClientBooking`, bookingData, this.httpOptions);
+  }
 }

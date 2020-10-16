@@ -21,6 +21,7 @@ import { BookingSuccessComponent } from './pages/booking-success/booking-success
 import { ClosestGateComponent } from './pages/closest-gate/closest-gate.component';
 import { TableResultsComponent } from './pages/table-results/table-results.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { ExternalBookingPaymentComponent } from './pages/external-booking-payment/external-booking-payment.component';
 
 
 const routes: Routes = [
@@ -99,6 +100,10 @@ const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent
+  },
+  {
+    path: 'payExternalBooking',
+    component: ExternalBookingPaymentComponent
   }
 ];
 
