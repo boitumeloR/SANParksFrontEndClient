@@ -98,8 +98,12 @@ export class BookingService {
     return this.http.post<any>(`${server}/api/Booking/SaveBooking`, bookingData, this.httpOptions);
   }
 
-  getClientFromSession(Session, server) {
-    return this.http.post<any>(`${server}/api/Booking/GetClientID`, Session, this.httpOptions);
+  PayOutstanding(bookingData, server) {
+    return this.http.post<any>(`${server}/api/Booking/PayOutstanding`, bookingData, this.httpOptions);
+  }
+
+  getClientFromSession(session, server) {
+    return this.http.post<any>(`${server}/api/Booking/GetClientID`, session, this.httpOptions);
   }
 
     getActivitySlots(server, ID, CAMP) {
@@ -131,5 +135,9 @@ export class BookingService {
 
   CancelBooking(bookingData, server) {
     return this.http.post<any>(`${server}/api/Booking/CancelBooking`, bookingData, this.httpOptions);
+  }
+
+  VerifyPayment(bookingData, server) {
+    return this.http.post<any>(`${server}/api/Booking/VerifyClientBooking`, bookingData, this.httpOptions);
   }
 }
