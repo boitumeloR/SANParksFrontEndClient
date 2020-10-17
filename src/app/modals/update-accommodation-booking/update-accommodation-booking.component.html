@@ -1,6 +1,6 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h3>Add {{initialData.AccommodationTypeName}}</h3>
+        <h3>Update {{currentBooking.AccommodationTypeName}}</h3>
         <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -24,16 +24,17 @@
                        placeholder="Pick your date"
                        class="form-control"
                        bsDaterangepicker
-                       [minDate]="minDate"
-                       [maxDate]="maxDate"
                        placement="bottom"
                        [(ngModel)]="bsRangeValue"
-                       (ngModelChange) = "changeAvailabilityDates()"
+                       (ngModelChange) = "ChangeAvailabilityDates()"
                        [bsConfig]="{ isAnimated: true, adaptivePosition: true, displayOneMonthRange: true }"
                        >
                     </div>
                   <div class="col-md-12 checks">
                       <label class="end">How Many {{initialData.AccommodationTypeName}}'s Would You Like To Book? </label>
+                      <div>
+                        <span class="warn">Maximum Available: {{maxQuantity}}</span>
+                      </div>
                       <div>
                           <button type="button" class="btn btn-success" (click)="subtractQuantity()">-</button>
                           <p>{{quantity}}</p>
@@ -43,7 +44,7 @@
                   <div class="col-md-12 checks">
                       <label class="end">Number of Child Guests: </label>
                       <div>
-                        <span class="warn">Base Children Per Unit: {{initialData.BaseChild}}</span>
+                        <span class="warn">Base Children Per Unit: {{currentBooking.BaseChild}}</span>
                       </div>
                       <div>
                           <button type="button" class="btn btn-success" (click)="subtractGuest()">-</button>
@@ -55,7 +56,7 @@
                   <div class="col-md-12 checks">
                     <label class="end">Number of Adult Guests: </label>
                     <div>
-                      <span class="warn">Base Adults Per Unit: {{initialData.BaseAdult}}</span>
+                      <span class="warn">Base Adults Per Unit: {{currentBooking.BaseAdult}}</span>
                     </div>
                     <div>
                         <button type="button" class="btn btn-success" (click)="subtractAdultGuest()">-</button>

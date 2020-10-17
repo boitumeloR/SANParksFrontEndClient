@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
@@ -16,7 +16,7 @@ import { UpdateChildGuestComponent } from '../update-child-guest/update-child-gu
   templateUrl: './update-accommodation-booking.component.html',
   styleUrls: ['./update-accommodation-booking.component.scss']
 })
-export class UpdateAccommodationBookingComponent implements OnInit {
+export class UpdateAccommodationBookingComponent implements OnInit, AfterViewInit {
 
 
     firstFormGroup: FormGroup;
@@ -57,10 +57,14 @@ export class UpdateAccommodationBookingComponent implements OnInit {
     ngOnInit(): void {
       console.log(this.initialData);
 
-      this.maxQuantity = Math.min(...this.availability.map(zz => zz.AvailableAmount));
       this.currentBooking = this.initialData.CurrentBooking;
       this.accommodationType = this.initialData.AvailableResults.AccommodationTypes[0];
       this.availability = this.accommodationType.Availability;
+      this.maxQuantity = Math.min(...this.availability.map(zz => zz.AvailableAmount));
+      this.bookingGuests = this.currentBooking.Guests;
+      this.guests = this.bookingGuests.filter(zz => zz.GuestAge <= 12).length;
+      this.adultGuests = this.bookingGuests.filter(zz => zz.GuestAge >= 13).length;
+      console.log(this.totalGuests);
       const Dates = JSON.parse(localStorage.getItem('Dates'));
       this.bsRangeValue = Dates.map(zz => zz.Date);
       this.bsRangeValue = this.bsRangeValue.map(zz => this.parseDate(zz));
@@ -71,6 +75,13 @@ export class UpdateAccommodationBookingComponent implements OnInit {
       this.secondFormGroup = this.formBuilder.group({
         secondCtrl: ['', Validators.required]
       });
+    }
+
+    ngAfterViewInit() {
+      this.guests = this.bookingGuests.filter(zz => zz.GuestAge <= 12).length;
+      this.adultGuests = this.bookingGuests.filter(zz => zz.GuestAge >= 13).length;
+      this.totalGuests = this.guests + this.adultGuests;
+      this.bsRangeValue = [this.parseDate(this.currentBooking.StartDate), this.parseDate(this.currentBooking.EndDate)];
     }
 
     parseDate(input) {
@@ -104,10 +115,11 @@ export class UpdateAccommodationBookingComponent implements OnInit {
 
       this.maxQuantity =  Math.min(...filtered);
 
-      if (this.quantity >= this.maxQuantity) {
+      if (this.quantity > this.maxQuantity) {
         this.quantity = 1;
         this.guests = 0;
         this.adultGuests = 1;
+        this.totalGuests = 1;
         this.bookingGuests = [];
       }
       // Update the limits

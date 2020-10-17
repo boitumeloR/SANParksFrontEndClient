@@ -67,6 +67,8 @@ export class HeaderComponent implements OnInit, AfterViewInit {
         this.router.navigateByUrl('');
       }
     } else {
+      sessionStorage.removeItem('session');
+      this.router.navigateByUrl('');
       this.snack.open(res.Error, 'OK', {
         horizontalPosition: 'center',
         verticalPosition: 'bottom',

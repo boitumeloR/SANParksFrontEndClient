@@ -21,6 +21,7 @@ import { AvailabilityService } from 'src/app/services/available/availability.ser
 })
 export class MyBookingsComponent implements OnInit {
 
+  loading = false;
   bsModalRef: BsModalRef;
   clientID: number;
   bookings: any[] = [];
@@ -31,7 +32,7 @@ export class MyBookingsComponent implements OnInit {
 
   ngOnInit(): void {
     const session = JSON.parse(sessionStorage.getItem('session'));
-
+    this.loading = true;
     if (session) {
       this.serv.getClientFromSession(session, this.global.GetServer()).subscribe(res => {
         if (!res.Error) {
@@ -39,6 +40,7 @@ export class MyBookingsComponent implements OnInit {
           console.log(res.ClientID);
           sessionStorage.setItem('session', JSON.stringify(res.Session));
           this.serv.getClientBookings(this.global.GetServer(), this.clientID).subscribe(result => {
+            this.loading = false;
             if (!result.Error) {
               this.bookings = result.Bookings.Bookings;
               this.bookings.map(zz => {
@@ -85,9 +87,21 @@ export class MyBookingsComponent implements OnInit {
       });
     this.bsModalRef.content.closeBtnName = 'Close';
   }
+  parseDate(input) {
+    const parts = input.match(/(\d+)/g);
+    // new Date(year, month [, date [, hours[, minutes[, seconds[, ms]]]]])
+    return new Date(parts[0], parts[1] - 1, parts[2]); // months are 0-based
+  }
 
   UpdateAccommodationBooking(acc) {
     // Check Month Availability
+    this.loading = true;
+    const start = this.parseDate(acc.StartDate);
+    const base: Date = new Date();
+    const end: Date = new Date(start.setMonth(start.getMonth() + 2));
+
+    console.log(end);
+    console.log(base);
     const availableData = {
       ParkID: null,
       CampID: acc.CampID,
@@ -97,12 +111,16 @@ export class MyBookingsComponent implements OnInit {
       AccommodationTypeID: acc.AccommodationTypeID,
       ActivityTypeID: null,
       Forward: true,
-      BaseDate: new Date(acc.StartDate).setMonth(new Date(acc.StartDate).getMonth() + 1),
-      EndDate: new Date(acc.StartDate).setMonth(new Date(acc.StartDate).getMonth() - 1)
+      BaseDate: base,
+      EndDate: end
     };
+
+    console.log(availableData);
     this.avail.checkSpecificAvailability(availableData, this.global.GetServer())
     .subscribe(res => {
-      localStorage.setItem('Dates', JSON.parse(res.Dates));
+      console.log(res);
+      this.loading = false;
+      localStorage.setItem('Dates', JSON.stringify(res.Dates));
 
       this.bsModalRef = this.modalService.show(UpdateAccommodationBookingComponent,
         {
