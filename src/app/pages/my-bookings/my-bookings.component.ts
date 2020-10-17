@@ -10,6 +10,9 @@ import { Booking, BookingService } from 'src/app/services/booking/booking.servic
 import { Session } from 'src/app/services/Auth/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SuccessModalComponent } from 'src/app/modals/success-modal/success-modal.component';
+import { UpdateAccommodationBookingComponent } from 'src/app/modals/update-accommodation-booking/update-accommodation-booking.component';
+import { AvailabilityBoxComponent } from 'src/app/sub-components/availability-box/availability-box.component';
+import { AvailabilityService } from 'src/app/services/available/availability.service';
 
 @Component({
   selector: 'app-my-bookings',
@@ -18,17 +21,18 @@ import { SuccessModalComponent } from 'src/app/modals/success-modal/success-moda
 })
 export class MyBookingsComponent implements OnInit {
 
+  loading = false;
   bsModalRef: BsModalRef;
   clientID: number;
   bookings: any[] = [];
   nowDate = new Date();
   constructor(private modalService: BsModalService, private router: Router,
               private snack: MatSnackBar, private global: GlobalService,
-              private serv: BookingService) { }
+              private serv: BookingService, private avail: AvailabilityService) { }
 
   ngOnInit(): void {
     const session = JSON.parse(sessionStorage.getItem('session'));
-
+    this.loading = true;
     if (session) {
       this.serv.getClientFromSession(session, this.global.GetServer()).subscribe(res => {
         if (!res.Error) {
@@ -36,6 +40,7 @@ export class MyBookingsComponent implements OnInit {
           console.log(res.ClientID);
           sessionStorage.setItem('session', JSON.stringify(res.Session));
           this.serv.getClientBookings(this.global.GetServer(), this.clientID).subscribe(result => {
+            this.loading = false;
             if (!result.Error) {
               this.bookings = result.Bookings.Bookings;
               this.bookings.map(zz => {
@@ -81,6 +86,55 @@ export class MyBookingsComponent implements OnInit {
         class: 'modal-md modal-dialog-centered'
       });
     this.bsModalRef.content.closeBtnName = 'Close';
+  }
+  parseDate(input) {
+    const parts = input.match(/(\d+)/g);
+    // new Date(year, month [, date [, hours[, minutes[, seconds[, ms]]]]])
+    return new Date(parts[0], parts[1] - 1, parts[2]); // months are 0-based
+  }
+
+  UpdateAccommodationBooking(acc) {
+    // Check Month Availability
+    this.loading = true;
+    const start = this.parseDate(acc.StartDate);
+    const base: Date = new Date();
+    const end: Date = new Date(start.setMonth(start.getMonth() + 2));
+
+    console.log(end);
+    console.log(base);
+    const availableData = {
+      ParkID: null,
+      CampID: acc.CampID,
+      AccommodationChecked: true,
+      ActivityChecked: false,
+      DayVisitChecked: false,
+      AccommodationTypeID: acc.AccommodationTypeID,
+      ActivityTypeID: null,
+      Forward: true,
+      BaseDate: base,
+      EndDate: end
+    };
+
+    console.log(availableData);
+    this.avail.checkSpecificAvailability(availableData, this.global.GetServer())
+    .subscribe(res => {
+      console.log(res);
+      this.loading = false;
+      localStorage.setItem('Dates', JSON.stringify(res.Dates));
+
+      this.bsModalRef = this.modalService.show(UpdateAccommodationBookingComponent,
+        {
+          backdrop: 'static',
+          class: 'modal-md modal-dialog-centered',
+          initialState: {
+            initialData: {
+              AvailableResults: res.AvailableResults[0],
+              CurrentBooking: acc
+            }
+          }
+        });
+      this.bsModalRef.content.closeBtnName = 'Close';
+    });
   }
 
   Confirm() {

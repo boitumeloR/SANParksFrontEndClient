@@ -80,6 +80,7 @@ import { UpdateChildGuestComponent } from './modals/update-child-guest/update-ch
 import { UpdateArbitraryGuestComponent } from './modals/update-arbitrary-guest/update-arbitrary-guest.component';
 import { ExternalBookingPaymentComponent } from './pages/external-booking-payment/external-booking-payment.component';
 import { ExternalWildcardPaymentComponent } from './pages/external-wildcard-payment/external-wildcard-payment.component';
+import { UpdateAccommodationBookingComponent } from './modals/update-accommodation-booking/update-accommodation-booking.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -151,7 +152,8 @@ export function provideConfig() {
     UpdateChildGuestComponent,
     UpdateArbitraryGuestComponent,
     ExternalBookingPaymentComponent,
-    ExternalWildcardPaymentComponent
+    ExternalWildcardPaymentComponent,
+    UpdateAccommodationBookingComponent
   ],
   imports: [
     MatSnackBarModule,
