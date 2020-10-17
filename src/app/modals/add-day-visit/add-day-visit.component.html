@@ -74,8 +74,15 @@
             <tr *ngFor="let item of bookingGuests">
               <td scope="row">{{item.GuestName}}</td>
               <td>{{item.GuestSurname}}</td>
-              <td>{{item.GuestIDCode}}</td>
               <td>{{item.GuestAge}}</td>
+              <td> 
+                <a (click)="UpdateGuest(item)">
+                  <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                </a>
+                <a (click)="DeleteGuest(item)">
+                  <i class="fa fa-trash-o" aria-hidden="true"></i>
+                </a>
+              </td>
             </tr>
           </tbody>
         </table>

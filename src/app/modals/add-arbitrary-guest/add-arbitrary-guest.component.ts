@@ -100,7 +100,6 @@ export class AddArbitraryGuestComponent implements OnInit {
     if (this.guestInfo.valid) {
       if (this.guestInfo.get('CountryID').value === 1 || this.guestInfo.get('CountryID').value === '1') {
         const code: string = this.guestInfo.get('GuestIDCode').value;
-        console.log(this.validateGuestDOB(this.guestInfo.get('GuestIDCode').value));
         if (code.length === 13 && this.validateGuestDOB(this.guestInfo.get('GuestIDCode').value)) {
           console.log(this.guestInfo.value);
 

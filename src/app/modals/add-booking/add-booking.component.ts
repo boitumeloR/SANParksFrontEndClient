@@ -138,7 +138,9 @@ export class AddBookingComponent implements OnInit{
       this.adultGuests--;
       this.totalGuests--;
 
-      this.bookingGuests = [];
+      if (this.bookingGuests.length > this.adultGuests) {
+        this.bookingGuests = [];
+      }
     } else {
       this.httpError = true;
       this.httpMessage = `Add at least one adult`;
