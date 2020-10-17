@@ -102,7 +102,7 @@ const routes: Routes = [
     component: ProfileComponent
   },
   {
-    path: 'payExternalBooking',
+    path: 'payExternalBooking/:id',
     component: ExternalBookingPaymentComponent
   }
 ];

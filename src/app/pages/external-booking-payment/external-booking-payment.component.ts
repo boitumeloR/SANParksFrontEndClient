@@ -46,11 +46,6 @@ export class ExternalBookingPaymentComponent implements OnInit, AfterViewInit, O
 
   ngOnInit(): void {
 
-    this.observe$ = this.route.params.subscribe(parameter => {
-      // tslint:disable-next-line: no-string-literal
-      this.bookingID = +parameter['id'];
-    });
-
     this.loader = false;
     this.stripeTest = this.fb.group({
       name: ['' , Validators.required]
@@ -97,7 +92,12 @@ export class ExternalBookingPaymentComponent implements OnInit, AfterViewInit, O
     if (sess) {
       // Do something
     } else {
-      this.LoginModal();
+      this.observe$ = this.route.params.subscribe(parameter => {
+        // tslint:disable-next-line: no-string-literal
+        this.bookingID = Number(parameter['id']);
+        console.log(parameter['id']);
+        this.LoginModal();
+      });
     }
   }
 
@@ -119,11 +119,12 @@ export class ExternalBookingPaymentComponent implements OnInit, AfterViewInit, O
 
         const bookingVerify = {
           BookingID: this.bookingID,
-          SessionID: session
+          Session: session
         };
 
         this.serv.VerifyPayment(bookingVerify, this.global.GetServer()).subscribe(result => {
           if (result.Session) {
+            sessionStorage.setItem('session', JSON.stringify(result.Session));
             if (result.Late) {
               this.snack.open('Your payment period has expired and your booking has been cancelled', 'OK', {
                 horizontalPosition: 'center',
@@ -135,14 +136,21 @@ export class ExternalBookingPaymentComponent implements OnInit, AfterViewInit, O
               if (result.Verified) {
                 this.verified = true;
                 this.amount = result.Amount;
-                sessionStorage.setItem('session', JSON.stringify(result.Session));
               } else {
-                this.snack.open('This booking does not seem to belong you.', 'OK', {
-                  horizontalPosition: 'center',
-                  verticalPosition: 'top'
-                });
-                sessionStorage.removeItem('session');
-                this.router.navigateByUrl('');
+                if (res.Found) {
+                  this.snack.open('This booking does not seem to belong you.', 'OK', {
+                    horizontalPosition: 'center',
+                    verticalPosition: 'top'
+                  });
+                  this.router.navigateByUrl('');
+                } else {
+                  this.snack.open('This booking has been paid for already.', 'OK', {
+                    horizontalPosition: 'center',
+                    verticalPosition: 'top'
+                  });
+                  sessionStorage.removeItem('session');
+                  this.router.navigateByUrl('');
+                }
               }
             }
           } else {
@@ -168,9 +176,11 @@ export class ExternalBookingPaymentComponent implements OnInit, AfterViewInit, O
   }
 
   handlePayment() {
+
+    const bookingPay: any = {};
     this.serv.getClientFromSession(JSON.parse(sessionStorage.getItem('session')), this.global.GetServer()).subscribe(res => {
       console.log(res);
-      this.bookingInfo.ClientID = res.ClientID;
+      bookingPay.ClientID = res.ClientID;
       localStorage.setItem('itinerary', JSON.stringify(this.bookingInfo));
       console.log(this.bookingInfo);
       sessionStorage.setItem('session', JSON.stringify(res.Session));
@@ -183,15 +193,15 @@ export class ExternalBookingPaymentComponent implements OnInit, AfterViewInit, O
           // Use the token to create a charge or a customer
           // https://stripe.com/docs/charges
           this.loader = true;
-          this.bookingInfo = JSON.parse(localStorage.getItem('itinerary'));
-          this.bookingInfo.paymentToken = result.token.id;
-          this.bookingInfo.PaymentAmount = this.amount;
-          this.bookingInfo.BookingID = this.bookingID;
-          console.log(this.bookingInfo.paymentToken);
+          bookingPay.paymentToken = result.token.id;
+          bookingPay.PaymentAmount = this.amount;
+          bookingPay.BookingID = this.bookingID;
+          // this.bookingInfo.paymentToken = result.token.id;
+          // this.bookingInfo.PaymentAmount = this.amount;
+          // this.bookingInfo.BookingID = this.bookingID;
           const sess = JSON.parse(sessionStorage.getItem('session'));
-          this.bookingInfo.Session = sess;
-          localStorage.setItem('itinerary', JSON.stringify(this.bookingInfo));
-          this.serv.PayOutstanding(this.bookingInfo , this.global.GetServer()).subscribe(data => {
+          bookingPay.Session = sess;
+          this.serv.PayOutstanding(bookingPay , this.global.GetServer()).subscribe(data => {
             if (data.Success) {
               this.loader = false;
               sessionStorage.setItem('session', JSON.stringify(data.Session));

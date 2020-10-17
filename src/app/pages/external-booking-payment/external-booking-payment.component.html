@@ -7,7 +7,7 @@
   </div>
   <img src="assets/images/stripe-pay.svg" loading = "lazy" alt="">
 </div>
-<div class="cell example example1" id="example-1" *ngIf="verified">
+<div class="cell example example1" id="example-1" [hidden]="!verified">
   <h1>Pay Booking</h1>
     <form>
       <fieldset>
