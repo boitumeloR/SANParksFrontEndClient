@@ -32,7 +32,7 @@
             <div class="btn-group first" role="group" aria-label="Basic example">
                 <button class="btn btn-info view" (click)="viewWildcardDetailsModal(item)">View</button>
                 <button class="btn btn-success renew" (click)="RenewWildcard(item)"
-                [disable]="item.WildcardStatus === 'Active'"
+                *ngIf="item.StatusID !== 1"
                 >Renew Wildcard</button>
             </div>
         </td>

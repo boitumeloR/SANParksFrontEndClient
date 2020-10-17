@@ -232,15 +232,6 @@ export class TableResultsComponent implements OnInit {
         this.availableGroup.get('activity').setValue(false);
         this.availableGroup.get('day').setValue(false);
         this.isActivity = true;
-
-        this.activityDrop$ = this.serv.getAccommodationTypes(values, this.global.GetServer());
-        this.activityDrop$.subscribe(res => {
-          this.accommodationTypes = res;
-          this.checks++;
-        }, (error: HttpErrorResponse) => {
-          this.httpError = true;
-          this.httpMessage = error.message;
-        });
       }
     }
   }
