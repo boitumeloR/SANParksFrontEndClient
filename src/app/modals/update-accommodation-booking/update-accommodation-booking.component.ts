@@ -22,6 +22,7 @@ export class UpdateAccommodationBookingComponent implements OnInit {
     firstFormGroup: FormGroup;
     secondFormGroup: FormGroup;
     quantity = 1;
+    maxQuantity = 0;
     guests = 1;
     adultGuests = 1;
     totalGuests = 2;
@@ -56,6 +57,7 @@ export class UpdateAccommodationBookingComponent implements OnInit {
     ngOnInit(): void {
       console.log(this.initialData);
 
+      this.maxQuantity = Math.min(...this.availability.map(zz => zz.AvailableAmount));
       this.currentBooking = this.initialData.CurrentBooking;
       this.accommodationType = this.initialData.AvailableResults.AccommodationTypes[0];
       this.availability = this.accommodationType.Availability;
@@ -97,7 +99,17 @@ export class UpdateAccommodationBookingComponent implements OnInit {
     ChangeAvailabilityDates() {
       const filtered = this.availability
         .filter(zz => new Date(zz.Date) >= this.bsRangeValue[0] &&
-        new Date(zz.Date) <= this.bsRangeValue[this.bsRangeValue.length - 1]);
+        new Date(zz.Date) <= this.bsRangeValue[this.bsRangeValue.length - 1])
+        .map(zz => zz.AvailableAmount);
+
+      this.maxQuantity =  Math.min(...filtered);
+
+      if (this.quantity >= this.maxQuantity) {
+        this.quantity = 1;
+        this.guests = 0;
+        this.adultGuests = 1;
+        this.bookingGuests = [];
+      }
       // Update the limits
     }
 
@@ -158,7 +170,7 @@ export class UpdateAccommodationBookingComponent implements OnInit {
     }
 
     addQuantity() {
-      if (this.quantity < Math.min(...this.availability.map(zz => zz.AvailableAmount))) {
+      if (this.quantity < this.maxQuantity) {
         this.quantity++;
       }
       else {
