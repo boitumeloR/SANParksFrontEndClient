@@ -5,7 +5,7 @@ import { Session } from 'src/app/services/Auth/auth.service';
 import {AuthService as Authenticate} from 'src/app/services/Auth/auth.service';
 import { GlobalService } from 'src/app/services/global/global.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { Router , NavigationEnd } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
@@ -15,6 +15,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class HeaderComponent implements OnInit, AfterViewInit {
 
+  currentRoute: string;
   opened = false;
   googleUser: SocialUser;
   userOnline: Session;
@@ -22,11 +23,13 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   socialLogin = false;
   itineraryCount = 0;
 
+
   bookings: any = {};
   constructor(private authService: AuthService, private serv: Authenticate,
-              private global: GlobalService, private snack: MatSnackBar, private router: Router) { }
+              private global: GlobalService, private snack: MatSnackBar, private router: Router) {}
 
   ngOnInit(): void {
+    this.currentRoute = this.router.url;
     this.opened = false;
     this.googleUser = JSON.parse(localStorage.getItem('googleUser'));
     this.userOnline = JSON.parse(sessionStorage.getItem('session'));
@@ -56,8 +59,16 @@ export class HeaderComponent implements OnInit, AfterViewInit {
   this.serv.LogOut(sess, this.global.GetServer()).subscribe(res => {
     if (!res.Error) {
       sessionStorage.removeItem('session');
-      this.router.navigate(['']);
+      if (this.currentRoute === '/Home') {
+        location.reload();
+      } else if (this.currentRoute === '/') {
+        location.reload();
+      } else {
+        this.router.navigateByUrl('');
+      }
     } else {
+      sessionStorage.removeItem('session');
+      this.router.navigateByUrl('');
       this.snack.open(res.Error, 'OK', {
         horizontalPosition: 'center',
         verticalPosition: 'bottom',
