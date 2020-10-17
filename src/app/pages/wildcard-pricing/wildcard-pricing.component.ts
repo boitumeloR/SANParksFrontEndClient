@@ -51,45 +51,71 @@ export class WildcardPricingComponent implements OnInit {
     localStorage.setItem('wildcard', JSON.stringify(WC));
 
     if (category.WilcardCategoryName === 'Individual') {
+      const sess = JSON.parse(sessionStorage.getItem('session'));
 
-      this.loginRef = this.modalService.show(LoginModalComponent,
-        {
-          class: 'modal-md modal-dialog-centered',
-          backdrop: 'static',
-          initialState: {
-            data: {
-            message: 'Are you sure you want to remove this guest?'
+      if (sess) {
+        this.bookServ.getClientFromSession(sess, this.global.GetServer()).subscribe(result => {
+          if (!result.Session.Error) {
+            console.log(result);
+            WC.ClientID = result.ClientID;
+            sessionStorage.setItem('session', JSON.stringify(result.Session));
+            localStorage.setItem('wildcard', JSON.stringify(WC));
+            this.router.navigateByUrl('wildcardPayment');
+          } else {
+            this.router.navigate(['Login']);
+          }
+        }, (error: HttpErrorResponse) => {
+          const sb = this.snack.open('An error occured on our servers, try again later.', 'OK', {
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+            duration: 5000
+          });
+          sb.afterDismissed().subscribe(() => this.router.navigateByUrl(''));
+        });
+      } else {
+        this.loginRef = this.modalService.show(LoginModalComponent,
+          {
+            class: 'modal-md modal-dialog-centered',
+            backdrop: 'static',
+            initialState: {
+              data: {
+              message: 'Are you sure you want to remove this guest?'
+              }
             }
+          });
+        this.loginRef.content.closeBtnName = 'Close';
+
+        this.loginRef.content.event.subscribe(res => {
+          if (res.result === true) {
+            const session = JSON.parse(sessionStorage.getItem('session'));
+            this.bookServ.getClientFromSession(session, this.global.GetServer()).subscribe(result => {
+              if (!result.Session.Error) {
+                console.log(result);
+                WC.ClientID = result.ClientID;
+                sessionStorage.setItem('session', JSON.stringify(result.Session));
+                localStorage.setItem('wildcard', JSON.stringify(WC));
+                this.router.navigateByUrl('wildcardPayment');
+              } else {
+                const sb = this.snack.open(result.Session.Error, 'OK', {
+                  horizontalPosition: 'center',
+                  verticalPosition: 'bottom',
+                  duration: 5000
+                });
+                this.router.navigate(['Login']);
+              }
+            }, (error: HttpErrorResponse) => {
+              const sb = this.snack.open('An error occured on our servers, try again later.', 'OK', {
+                horizontalPosition: 'center',
+                verticalPosition: 'bottom',
+                duration: 5000
+              });
+              sb.afterDismissed().subscribe(() => this.router.navigateByUrl(''));
+            });
+          } else {
+            this.router.navigateByUrl('Login');
           }
         });
-      this.loginRef.content.closeBtnName = 'Close';
-
-      this.loginRef.content.event.subscribe(res => {
-        if (res.result === true) {
-          const session = JSON.parse(sessionStorage.getItem('session'));
-          this.bookServ.getClientFromSession(session, this.global.GetServer()).subscribe(result => {
-            if (!result.Session.Error) {
-              console.log(result);
-              WC.ClientID = result.ClientID;
-              sessionStorage.setItem('session', JSON.stringify(result.Session));
-              localStorage.setItem('wildcard', JSON.stringify(WC));
-              this.router.navigateByUrl('wildcardPayment');
-            } else {
-              this.router.navigate(['Login']);
-            }
-          }, (error: HttpErrorResponse) => {
-            const sb = this.snack.open('An error occured on our servers, try again later.', 'OK', {
-              horizontalPosition: 'center',
-              verticalPosition: 'bottom',
-              duration: 5000
-            });
-            sb.afterDismissed().subscribe(() => this.router.navigateByUrl(''));
-          });
-        } else {
-          this.router.navigateByUrl('Login');
-        }
-      });
-      this.router.navigate(['payWildcard']);
+      }
     } else if (category.WilcardCategoryName === 'Couple') {
       localStorage.setItem('dependents', JSON.stringify({children: 0, adults: 1}));
       this.router.navigate(['Dependents']);
