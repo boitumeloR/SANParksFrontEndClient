@@ -10,6 +10,9 @@ import { Booking, BookingService } from 'src/app/services/booking/booking.servic
 import { Session } from 'src/app/services/Auth/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SuccessModalComponent } from 'src/app/modals/success-modal/success-modal.component';
+import { UpdateAccommodationBookingComponent } from 'src/app/modals/update-accommodation-booking/update-accommodation-booking.component';
+import { AvailabilityBoxComponent } from 'src/app/sub-components/availability-box/availability-box.component';
+import { AvailabilityService } from 'src/app/services/available/availability.service';
 
 @Component({
   selector: 'app-my-bookings',
@@ -24,7 +27,7 @@ export class MyBookingsComponent implements OnInit {
   nowDate = new Date();
   constructor(private modalService: BsModalService, private router: Router,
               private snack: MatSnackBar, private global: GlobalService,
-              private serv: BookingService) { }
+              private serv: BookingService, private avail: AvailabilityService) { }
 
   ngOnInit(): void {
     const session = JSON.parse(sessionStorage.getItem('session'));
@@ -81,6 +84,39 @@ export class MyBookingsComponent implements OnInit {
         class: 'modal-md modal-dialog-centered'
       });
     this.bsModalRef.content.closeBtnName = 'Close';
+  }
+
+  UpdateAccommodationBooking(acc) {
+    // Check Month Availability
+    const availableData = {
+      ParkID: null,
+      CampID: acc.CampID,
+      AccommodationChecked: true,
+      ActivityChecked: false,
+      DayVisitChecked: false,
+      AccommodationTypeID: acc.AccommodationTypeID,
+      ActivityTypeID: null,
+      Forward: true,
+      BaseDate: new Date(acc.StartDate).setMonth(new Date(acc.StartDate).getMonth() + 1),
+      EndDate: new Date(acc.StartDate).setMonth(new Date(acc.StartDate).getMonth() - 1)
+    };
+    this.avail.checkSpecificAvailability(availableData, this.global.GetServer())
+    .subscribe(res => {
+      localStorage.setItem('Dates', JSON.parse(res.Dates));
+
+      this.bsModalRef = this.modalService.show(UpdateAccommodationBookingComponent,
+        {
+          backdrop: 'static',
+          class: 'modal-md modal-dialog-centered',
+          initialState: {
+            initialData: {
+              AvailableResults: res.AvailableResults[0],
+              CurrentBooking: acc
+            }
+          }
+        });
+      this.bsModalRef.content.closeBtnName = 'Close';
+    });
   }
 
   Confirm() {

@@ -71,7 +71,7 @@
           <td>
               <div class="btn-group" role="group" aria-label="Basic example">
                   <button class="btn btn-info view" (click)="viewBooking()">View More</button>
-                  <button class="btn btn-info renew" [routerLink]="[ '/updateAccommodation' ]"
+                  <button class="btn btn-info renew" (click)="UpdateAccommodationBooking(acc)"
                   [disabled] = "booking.ValidCancel === true ? false: true"
                   >Update Booking</button>
               </div>
