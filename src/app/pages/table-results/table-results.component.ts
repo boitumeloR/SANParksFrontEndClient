@@ -100,7 +100,7 @@ export class TableResultsComponent implements OnInit {
       console.log(this.isAccommodation, this.isActivity);
 
       this.availableGroup = this.formBuilder.group({
-        park: [null, Validators.required],
+        park: [null, Validators.compose([Validators.required, Validators.min(1)])],
         camp: [null],
         activity: [false],
         accommodation: [false],
@@ -129,7 +129,7 @@ export class TableResultsComponent implements OnInit {
       console.log(this.isAccommodation, this.isActivity);
 
       this.availableGroup = this.formBuilder.group({
-        park: [null, Validators.required],
+        park: [null, Validators.compose([Validators.required, Validators.min(1)])],
         camp: [null],
         activity: [false],
         accommodation: [false],
@@ -143,7 +143,7 @@ export class TableResultsComponent implements OnInit {
   // functions for check form
 
   onChoosePark() {
-    if (this.availableGroup.get('park').valid) {
+    if (this.availableGroup.valid) {
       this.parkDrop$ = this.serv.getCamps(this.availableGroup.get('park').value, this.global.GetServer());
       this.parkDrop$.subscribe(res =>  {
         this.camps = res;
@@ -188,6 +188,13 @@ export class TableResultsComponent implements OnInit {
     } else {
       this.httpError = true;
       this.httpMessage = 'Make Sure to choose a park before submiting';
+
+      if (this.availableGroup.get('activity').value === true) {
+
+        this.availableGroup.get('accommodation').setValue(false);
+        this.availableGroup.get('day').setValue(false);
+        this.isAccommodation = true;
+      }
     }
   }
 

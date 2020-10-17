@@ -17,6 +17,7 @@
             <div class="form-group">
               <label for="exampleFormControlSelect1">Park <span>*required</span></label>
               <select class="form-control" id="exampleFormControlSelect1" aria-placeholder="Park" formControlName="park" (change)="onChoosePark()">
+                <option value="0"></option>
                 <option *ngFor="let item of parks" [value]="item.ParkID">{{item.ParkName}}</option>
               </select>
             </div>
@@ -76,7 +77,9 @@
   
   
         
-        <button class="btn btn-success btnModal" (click)="CheckAvailability()">Check Availability &nbsp;
+        <button class="btn btn-success btnModal" (click)="CheckAvailability()"
+        [disabled] ="availableGroup.valid ? false: true"
+        >Check Availability &nbsp;
           <div class="spinner-border" role="status" *ngIf="loader">
             <span class="sr-only">Loading...</span>
           </div>
