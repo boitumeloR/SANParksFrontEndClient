@@ -10,10 +10,10 @@
 </div>
 <div class="btn-group first" role="group" aria-label="Basic example">
     <button type="button" class="btn btn-success child" (click)="AddChild()"
-    [disabled]="childLimit==0 ? true: false"
+    [disabled]="childCount === childLimit ? true: false"
     >Add Child Dependent</button>
     <button type="button" class="btn btn-success adult" (click)="AddAdult()"
-    [disabled]="adultLimit==0 ? true: false"
+    [disabled]="adultCount === adultLimit ? true: false"
     >Add AdultDependent</button>
   </div>
 <table class="table table-hover">
@@ -39,7 +39,7 @@
 
   <div class="parent">
     <div class="btn-group last mx-auto" role="group" aria-label="Basic example">
-        <button type="button" class="btn btn-secondary child"> <i class="fa fa-arrow-left" aria-hidden="true"></i>
+        <button type="button" class="btn btn-secondary child" [routerLink]="[ '/wildcardPricing' ]"> <i class="fa fa-arrow-left" aria-hidden="true"></i>
             Go Back</button>
         <button type="button" (click)="PayWildcard()" class="btn btn-success adult"
         [disabled] = "Dependents.length == adultLimit + childLimit ? true: false"

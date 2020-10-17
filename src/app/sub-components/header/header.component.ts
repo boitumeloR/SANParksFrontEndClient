@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { SocialUser, AuthService } from 'angularx-social-login';
 import { Booking } from 'src/app/services/booking/booking.service';
 import { Session } from 'src/app/services/Auth/auth.service';
@@ -13,7 +13,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, AfterViewInit {
 
   opened = false;
   googleUser: SocialUser;
@@ -21,16 +21,12 @@ export class HeaderComponent implements OnInit {
   loggedIn = false;
   socialLogin = false;
   itineraryCount = 0;
+
+  bookings: any = {};
   constructor(private authService: AuthService, private serv: Authenticate,
               private global: GlobalService, private snack: MatSnackBar, private router: Router) { }
 
   ngOnInit(): void {
-    const bookings: Booking = JSON.parse(localStorage.getItem('itinerary'));
-    if (bookings) {
-      this.itineraryCount += bookings.AccommodationBookings.length;
-      this.itineraryCount += bookings.ActivityBookings.length;
-      this.itineraryCount += bookings.DayVisits.length;
-    }
     this.opened = false;
     this.googleUser = JSON.parse(localStorage.getItem('googleUser'));
     this.userOnline = JSON.parse(sessionStorage.getItem('session'));
@@ -42,6 +38,13 @@ export class HeaderComponent implements OnInit {
     }
     console.log(this.loggedIn);
     console.log(this.userOnline);
+  }
+
+  ngAfterViewInit() {
+    this.bookings = JSON.parse(localStorage.getItem('itinerary'));
+    this.itineraryCount += this.bookings.AccommodationBookings.length;
+    this.itineraryCount += this.bookings.ActivityBookings.length;
+    this.itineraryCount += this.bookings.DayVisits.length;
   }
 
   toggleBurger() {

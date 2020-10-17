@@ -12,7 +12,7 @@
 <div *ngIf="bookings.length > 0">
   <div class="bookingContainer" *ngFor="let booking of bookings">
     <h1>Booking Reference Number: {{booking.BookingID}}</h1>
-  <div class="row">
+  <!-- <div class="row">
       <div class="form-group col-md-4">
           <label for="exampleFormControlSelect1">Camp</label>
           <select class="form-control" id="exampleFormControlSelect1" aria-placeholder="Park">
@@ -32,7 +32,7 @@
           bsDaterangepicker>
           </div>
       </div>
-  </div>
+  </div> -->
   
   <div class="btn-group first" role="group" aria-label="Basic example">
       <button class="btn btn-success view" [routerLink]="[ '/bookingPayment' ]"
