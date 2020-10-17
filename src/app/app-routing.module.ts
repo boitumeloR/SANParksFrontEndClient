@@ -22,6 +22,7 @@ import { ClosestGateComponent } from './pages/closest-gate/closest-gate.componen
 import { TableResultsComponent } from './pages/table-results/table-results.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ExternalBookingPaymentComponent } from './pages/external-booking-payment/external-booking-payment.component';
+import { ExternalWildcardPaymentComponent } from './pages/external-wildcard-payment/external-wildcard-payment.component';
 
 
 const routes: Routes = [
@@ -104,6 +105,10 @@ const routes: Routes = [
   {
     path: 'payExternalBooking/:id',
     component: ExternalBookingPaymentComponent
+  },
+  {
+    path: 'payExternalWildcard/:id',
+    component: ExternalWildcardPaymentComponent
   }
 ];
 
