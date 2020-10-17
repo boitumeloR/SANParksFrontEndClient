@@ -18,6 +18,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class DependentsComponent implements OnInit {
 
+  childCount = 0;
+  adultCount = 0;
   bsModalRef: BsModalRef;
   loginRef: BsModalRef;
   constructor(private modalService: BsModalService, private serv: BookingService,
@@ -44,7 +46,7 @@ export class DependentsComponent implements OnInit {
     this.bsModalRef.content.event.subscribe(res => {
       console.log(this.Dependents);
       this.Dependents.push(res.FormSubmit);
-      this.adultLimit--;
+      this.adultCount++;
     });
   }
 
@@ -58,8 +60,8 @@ export class DependentsComponent implements OnInit {
       });
     this.bsModalRef.content.closeBtnName = 'Close';
     this.bsModalRef.content.event.subscribe(res => {
-      this.Dependents.push(res);
-      this.childLimit--;
+      this.Dependents.push(res.FormSubmit);
+      this.childCount++;
     });
   }
 

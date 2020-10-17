@@ -14,6 +14,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 })
 export class ViewWildcardComponent implements OnInit {
 
+  active = 'Active';
   bsModalRef: BsModalRef;
   Wildcards: any[] = [];
   constructor(private modalService: BsModalService, private serv: WildcardService,
@@ -26,7 +27,7 @@ export class ViewWildcardComponent implements OnInit {
       if (res.Success) {
         console.log(res);
         this.Wildcards = res.Wildcards;
-        sessionStorage.setItem('session', JSON.parse(res.Session));
+        sessionStorage.setItem('session', JSON.stringify(res.Session));
       } else {
         if (res.Session.Error) {
           this.snack.open(res.Session.Error, 'OK', {
@@ -54,7 +55,7 @@ export class ViewWildcardComponent implements OnInit {
     this.bsModalRef = this.modalService.show(ViewWildcardDetailsComponent,
       {
         class: 'modal-md modal-dialog-centered',
-        initialState: wildcard
+        initialState: {wildcard}
       });
     this.bsModalRef.content.closeBtnName = 'Close';
   }

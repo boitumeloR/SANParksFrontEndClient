@@ -93,6 +93,7 @@ export class UpdateClientComponent implements OnInit {
       this.serv.UpdateClient(this.global.GetServer(), clientObj).subscribe(res => {
         if (res.Success) {
           this.loader2 = false;
+          sessionStorage.setItem('session', JSON.stringify(res.Session));
           this.bsModalRef.hide();
 
           this.snack.open('You have successfully updated', 'OK', {

@@ -74,7 +74,8 @@ export class LoginClientComponent implements OnInit {
             horizontalPosition: 'center',
             verticalPosition: 'bottom',
             duration: 5000
-          }).afterDismissed().subscribe(() => this.router.navigateByUrl(''));
+          });
+          this.router.navigateByUrl('');
         } else {
           this.snack.open(res.Error, 'OK', {
             horizontalPosition: 'center',
