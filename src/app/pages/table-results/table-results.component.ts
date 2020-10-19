@@ -24,6 +24,7 @@ export class TableResultsComponent implements OnInit {
   isAccommodation: boolean;
   isActivity: boolean;
 
+  loading = false;
   notFound = false;
   // Observables
   dropDowns$: Observable<any>;
@@ -530,19 +531,53 @@ bookActivity(initialData) {
   }
 }
 
+parseDate(input) {
+  const parts = input.match(/(\d+)/g);
+  // new Date(year, month [, date [, hours[, minutes[, seconds[, ms]]]]])
+  return new Date(parts[0], parts[1] - 1, parts[2]); // months are 0-based
+}
 
   addAccommodationBookingModal(initialData): void {
-    localStorage.setItem('Dates', JSON.stringify(initialData.Dates));
-    const initialState = {
-      backdrop: 'static'
+
+    const start = this.parseDate(String(initialData.StartDate));
+    const base: Date = new Date();
+    const end: Date = new Date(start.setMonth(base.getMonth() + 1));
+
+    console.log(end);
+    console.log(base);
+    const availableData = {
+      ParkID: null,
+      CampID: initialData.CampID,
+      AccommodationChecked: true,
+      ActivityChecked: false,
+      DayVisitChecked: false,
+      AccommodationTypeID: initialData.AccommodationTypeID,
+      ActivityTypeID: null,
+      Forward: true,
+      BaseDate: base,
+      EndDate: end
     };
-    this.bsModalRef = this.modalService.show(AddBookingComponent,
-      {
-        class: 'modal-lg modal-dialog-centered',
-        backdrop: 'static',
-        initialState: {initialData}
+
+
+    this.serv.checkSpecificAvailability(availableData, this.global.GetServer())
+      .subscribe(res => {
+        this.loading = false;
+        initialData.Dates = res.Dates;
+        localStorage.setItem('Date', JSON.stringify(initialData.Dates));
+        const avail = res.AvailableResults[0].AccommodationTypes[0].Availability;
+        localStorage.setItem('avail', JSON.stringify(avail));
+        console.log(this.tableDates);
+        const initialState = {
+          backdrop: 'static'
+        };
+        this.bsModalRef = this.modalService.show(AddBookingComponent,
+          {
+            class: 'modal-lg modal-dialog-centered',
+            backdrop: 'static',
+            initialState: {initialData}
+          });
+        this.bsModalRef.content.closeBtnName = 'Close';
       });
-    this.bsModalRef.content.closeBtnName = 'Close';
     }
 
   bookWeek(bookingData, campID) { // For accommodation booking adding
