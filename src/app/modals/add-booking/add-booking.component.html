@@ -28,18 +28,22 @@
                      [maxDate]="maxDate"
                      placement="bottom"
                      [(ngModel)]="bsRangeValue"
+                     (ngModelChange)="ChangedDate()"
                      [bsConfig]="{ isAnimated: true, adaptivePosition: true, displayOneMonthRange: true }"
                      >
                   </div>
-                <div class="col-md-12 checks">
+                <div class="col-md-12 checks" *ngIf="maxQuantity">
                     <label class="end">How Many {{initialData.AccommodationTypeName}}'s Would You Like To Book? </label>
+                    <div>
+                      <span class="warn">Maximum Units for Range Selected: {{maxQuantity}}</span>
+                    </div>
                     <div>
                         <button type="button" class="btn btn-success" (click)="subtractQuantity()">-</button>
                         <p>{{quantity}}</p>
                         <button type="button" class="btn btn-success" (click)="addQuantity()">+</button>
                     </div>
                 </div>
-                <div class="col-md-12 checks">
+                <div class="col-md-12 checks" *ngIf="maxQuantity">
                     <label class="end">Number of Child Guests: </label>
                     <div>
                       <span class="warn">Base Children Per Unit: {{initialData.BaseChild}}</span>
@@ -51,7 +55,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-12 checks">
+                <div class="col-md-12 checks" *ngIf="maxQuantity">
                   <label class="end">Number of Adult Guests: </label>
                   <div>
                     <span class="warn">Base Adults Per Unit: {{initialData.BaseAdult}}</span>
@@ -63,7 +67,7 @@
                   </div>
               </div>
 
-                <button class="btn btn-light btnGuest" matStepperNext >Enter Guest Details</button>
+                <button class="btn btn-light btnGuest" matStepperNext [disabled]="!maxQuantity">Enter Guest Details</button>
               </div>
             </div>
       </mat-step>

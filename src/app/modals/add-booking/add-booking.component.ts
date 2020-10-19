@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { AddGuestComponent } from '../add-guest/add-guest.component';
@@ -17,7 +17,7 @@ import { GlobalConfirmComponent } from '../global-confirm/global-confirm.compone
   templateUrl: './add-booking.component.html',
   styleUrls: ['./add-booking.component.scss']
 })
-export class AddBookingComponent implements OnInit{
+export class AddBookingComponent implements OnInit, AfterViewInit{
 
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
@@ -26,6 +26,7 @@ export class AddBookingComponent implements OnInit{
   adultGuests = 1;
   totalGuests = 2;
 
+  maxQuantity: number;
   enterGuest = true;
   config = {
     animated: true,
@@ -38,6 +39,7 @@ export class AddBookingComponent implements OnInit{
   maxDate: Date;
   minDate: Date;
 
+  availability: any[] = [];
   bookingGuests: any[] = [];
   httpError = false;
   httpMessage = '';
@@ -48,7 +50,7 @@ export class AddBookingComponent implements OnInit{
 
   constructor(private bsModalRef: BsModalRef, private formBuilder: FormBuilder, private service: BsModalService,
               private serv: AvailabilityService, private global: GlobalService, private router: Router) {
-    const Dates = JSON.parse(localStorage.getItem('Dates'));
+    const Dates = JSON.parse(localStorage.getItem('Date'));
     this.minDate = this.parseDate(Dates[0].Date);
     this.maxDate = this.parseDate(Dates[Dates.length - 1].Date);
    }
@@ -56,7 +58,8 @@ export class AddBookingComponent implements OnInit{
   ngOnInit(): void {
     console.log(this.initialData);
 
-    const Dates = JSON.parse(localStorage.getItem('Dates'));
+    this.availability = JSON.parse(localStorage.getItem('avail'));
+    const Dates = JSON.parse(localStorage.getItem('Date'));
     this.bsRangeValue = Dates.map(zz => zz.Date);
     this.bsRangeValue = this.bsRangeValue.map(zz => this.parseDate(zz));
     console.log(this.minDate, this.maxDate);
@@ -67,6 +70,22 @@ export class AddBookingComponent implements OnInit{
       secondCtrl: ['', Validators.required]
     });
   }
+
+  ngAfterViewInit() {
+    this.bsRangeValue = [new Date(), new Date()];
+    const minimum = this.availability.filter(zz => this.parseDate(zz.Date) <= this.bsRangeValue[this.bsRangeValue.length - 1] &&
+    this.parseDate(zz.Date) >= this.bsRangeValue[0])
+      .map(zz => zz.AvailableAmount);
+  }
+  ChangedDate() {
+    const minimum = this.availability.filter(zz => this.parseDate(zz.Date) <= this.bsRangeValue[this.bsRangeValue.length - 1] &&
+    this.parseDate(zz.Date) >= this.bsRangeValue[0])
+      .map(zz => zz.AvailableAmount);
+
+    console.log(minimum);
+    this.maxQuantity = Math.min(...minimum);
+  }
+
 
   parseDate(input) {
     const parts = input.match(/(\d+)/g);
@@ -148,7 +167,7 @@ export class AddBookingComponent implements OnInit{
   }
 
   addQuantity() {
-    if (this.quantity < Math.min(...this.initialData.Availability.map(zz => zz.AvailableAmount))) {
+    if (this.quantity < this.maxQuantity) {
       this.quantity++;
     }
     else {
