@@ -5,7 +5,8 @@ import { Injectable } from '@angular/core';
 })
 export class GlobalService {
 
-  server = 'https://localhost:44371';
+  // https://sanparksapi.azurewebsites.net/
+  server = 'https://sanparksapi.azurewebsites.net';
   constructor() { }
 
   GetServer(): string {

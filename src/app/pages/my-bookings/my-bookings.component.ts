@@ -193,9 +193,7 @@ export class MyBookingsComponent implements OnInit {
       {
         class: 'modal-md modal-dialog-centered',
         initialState: {
-          data: {
-            message: modalString
-          }
+          successMessage: modalString
         }
       });
     this.bsModalRef.content.closeBtnName = 'Close';
