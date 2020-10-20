@@ -13,6 +13,7 @@ import { LoginModalComponent } from 'src/app/modals/login-modal/login-modal.comp
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-itinerary',
@@ -37,9 +38,10 @@ export class ItineraryComponent implements OnInit, AfterViewInit {
   invalid = false;
   constructor(private modalService: BsModalService, private formBuilder: FormBuilder,
               private serv: BookingService, private global: GlobalService,
-              private snack: MatSnackBar, private router: Router) { }
+              private snack: MatSnackBar, private router: Router, private title: Title) { }
 
   ngOnInit(): void {
+    this.title.setTitle('Itinerary | South African National Parks');
     this.bookingData = JSON.parse(localStorage.getItem('itinerary'));
     // map BaseRates
     if (this.bookingData) {
@@ -95,30 +97,46 @@ export class ItineraryComponent implements OnInit, AfterViewInit {
   }
 
   initialiseAmounts(): void {
-    this.bookingData = JSON.parse(localStorage.getItem('itinerary'));
     // map BaseRates
+    this.totalDue = 0;
     if (this.bookingData) {
+      this.bookingData.AccommodationBookings.map(el => el.BaseRate = 0);
       this.bookingData.AccommodationBookings.map((el) => {
         this.serv.getItineraryAccommodationData(this.global.GetServer(), el).subscribe(res => {
           el.BaseRate = res;
+          this.totalDue += el.BaseRate;
+          this.payAmount = this.payPerc * this.totalDue;
         });
       });
 
+      this.bookingData.ActivityBookings.map(zz => zz.ActivityRate = 0);
       this.bookingData.ActivityBookings.map((el) => {
         this.serv.getItineraryActivityData(this.global.GetServer(), el).subscribe(res => {
+          console.log(res);
           if (res === null) {
             el.ActivityRate = 0;
           } else {
             el.ActivityRate = res;
+            this.totalDue += el.ActivityRate;
           }
         });
       });
 
-      this.totalDue += this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
-      this.totalDue += this.bookingData.DayVisits.map(zz => zz.Rate).reduce((index, accum) => index + accum);
-      this.totalDue += this.bookingData.ActivityBookings.map(zz => zz.ActivityRate).reduce((index, accum) => index + accum);
+      console.log(this.bookingData.AccommodationBookings.length);
+      if (this.bookingData.AccommodationBookings.length > 0 ) {
+        const amount: number =  this.bookingData.AccommodationBookings.map(zz => zz.BaseRate).reduce((index, accum) => index + accum);
+        this.totalDue += amount;
+        console.log(amount);
+      }
+      // this.totalDue += this.bookingData.DayVisits.map(zz => zz.Rate).reduce((index, accum) => index + accum);
+      if (this.bookingData.ActivityBookings.length > 0) {
+        const amountActivity: number =  this.bookingData.ActivityBookings.map(zz => zz.ActivityRate)
+        .reduce((index, accum) => index + accum);
+        this.totalDue += amountActivity;
+      }
 
       this.payAmount = this.payPerc * this.totalDue;
+      console.log(this.payAmount);
     }
     console.log(this.bookingData.AccommodationBookings);
   }

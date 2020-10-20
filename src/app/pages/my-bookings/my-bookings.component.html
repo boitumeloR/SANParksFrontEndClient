@@ -3,9 +3,9 @@
 <div class="cover">
     <div class="head">
       <h1>My Bookings</h1>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore aut nesciunt, laborum 
-        architecto sed modi natus molestias nulla nisi facere sapiente mollitia quas tempore, adipisci 
-        labore reiciendis neque tempora eveniet.</p>
+      <p>Here's where you come to look for the bookings you've made. Don't want to come anymore? Cancel your booking.
+        But we'll be sad to see you leave.
+      </p>
     </div>
     <img src="assets/images/results.svg" loading = "lazy" alt="">
 </div>
@@ -36,12 +36,12 @@
   </div> -->
   
   <div class="btn-group first" role="group" aria-label="Basic example">
-      <button class="btn btn-success view" [routerLink]="[ '/bookingPayment' ]"
+      <!-- <button class="btn btn-success view" [routerLink]="[ '/bookingPayment' ]"
       [disabled] = "booking.AmountOutStanding > 0 && booking.ValidCancel === true ? false: true"
-      >Pay Booking</button>
-      <button class="btn btn-success "  [routerLink]="[ '/availableResults' ]"
+      >Pay Booking</button> -->
+      <!-- <button class="btn btn-success "  [routerLink]="[ '/availableResults' ]"
       [disabled] = "booking.ValidCancel === true ? false: true"
-      >Add A Booking</button>
+      >Add A Booking</button> -->
       <!-- <button class="btn btn-success " disabled [routerLink]="[ '/claimRefund' ]">Claim Refund</button> -->
       <button class="btn btn-success renew"
       [disabled] = "booking.ValidCancel === true ? false: true" 
@@ -59,7 +59,6 @@
           <th scope="col">Accommodation Type</th>
           <th scope="col">Date Range</th>
           <th scope="col">Booking Status</th>
-          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -69,14 +68,6 @@
           <td>{{acc.AccommodationTypeName}}</td>
           <td>{{ acc.StartDate | date: 'mediumDate' }} - {{ acc.EndDate | date: 'mediumDate' }}</td>
           <td>{{acc.BookingStatus}}</td>
-          <td>
-              <div class="btn-group" role="group" aria-label="Basic example">
-                  <button class="btn btn-info view" (click)="viewBooking()">View More</button>
-                  <button class="btn btn-info renew" (click)="UpdateAccommodationBooking(acc)"
-                  [disabled] = "booking.ValidCancel === true ? false: true"
-                  >Update Booking</button>
-              </div>
-          </td>
         </tr>
       </tbody>
     </table>
@@ -93,7 +84,6 @@
           <th scope="col">Slot Time</th>
           <th scope="col">Date</th>
           <th scope="col">Booking Status</th>
-          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -104,14 +94,6 @@
           <td>{{act.SlotTime}}</td>
           <td>{{ act.StartDate | date: 'mediumDate' }}</td>
           <td>{{act.BookingStatus}}</td>
-          <td>
-              <div class="btn-group" role="group" aria-label="Basic example">
-                  <button class="btn btn-info view" (click)="viewBooking()">View More</button>
-                  <button class="btn btn-info renew" [routerLink]="[ '/updateAccommodation' ]"
-                  [disabled] = "booking.ValidCancel === true ? false: true"
-                  >Update Booking</button>
-              </div>
-          </td>
         </tr>
       </tbody>
     </table>
@@ -121,12 +103,11 @@
     <h6>DayVisits</h6>
     <table class="table table-hover">
       <thead>
-        <tr>
+        <tr>bg
           <th scope="col">Park</th>
           <th scope="col">Park Gate</th>
           <th scope="col">Date</th>
           <th scope="col">Booking Status</th>
-          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -135,14 +116,6 @@
           <td>{{day.ParkGateName}}</td>
           <td>{{ day.VisitDate | date: 'mediumDate' }}</td>
           <td>{{day.BookingStatus}}</td>
-          <td>
-              <div class="btn-group" role="group" aria-label="Basic example">
-                  <button class="btn btn-info view" (click)="viewBooking()">View More</button>
-                  <button class="btn btn-info renew" [routerLink]="[ '/updateAccommodation' ]"
-                  [disabled] = "booking.ValidCancel === true ? false: true"
-                  >Update Booking</button>
-              </div>
-          </td>
         </tr>
       </tbody>
     </table>

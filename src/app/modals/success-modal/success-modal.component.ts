@@ -14,7 +14,6 @@ export class SuccessModalComponent implements OnInit {
   constructor(private bsModalRef: BsModalRef) { }
 
   ngOnInit(): void {
-    this.successMessage = this.data.message;
     console.log(this.successMessage);
   }
 

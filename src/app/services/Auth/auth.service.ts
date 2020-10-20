@@ -77,4 +77,12 @@ export class AuthService {
   UpdateClient(server, Client) {
     return this.http.post<any>(`${server}/api/Auth/UpdateClient`, Client, this.httpOptions);
   }
+
+  SendLink(server: string, email: string) {
+    return this.http.get<any>(`${server}/api/Auth/SendResetEmail?emailAddress=${email}`);
+  }
+
+  ResetPassword(server: string, password: any) {
+    return this.http.post<any>(`${server}/api/Auth/ResetPassword`, password, this.httpOptions);
+  }
 }

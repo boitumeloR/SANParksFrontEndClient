@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ViewBookingComponent } from 'src/app/modals/view-booking/view-booking.component';
 import { AddGuestComponent } from 'src/app/modals/add-guest/add-guest.component';
 import { GlobalConfirmComponent } from 'src/app/modals/global-confirm/global-confirm.component';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-booking-success',
@@ -14,9 +15,11 @@ export class BookingSuccessComponent implements OnInit {
 
 
   bsModalRef: BsModalRef;
-  constructor(private modalService: BsModalService, private router: Router) { }
+  constructor(private modalService: BsModalService, private router: Router,
+              private title: Title) { }
   quantity = 1;
   ngOnInit(): void {
+    this.title.setTitle('SuccesssFul Booking');
   }
 
   viewBooking(): void {

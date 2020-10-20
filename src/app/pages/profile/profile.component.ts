@@ -28,6 +28,7 @@ export class ProfileComponent implements OnInit {
         this.clientInfo = res.Client;
         sessionStorage.setItem('session', JSON.stringify(res.Session));
       } else {
+        sessionStorage.removeItem('session');
         this.router.navigateByUrl('Login');
       }
     });
