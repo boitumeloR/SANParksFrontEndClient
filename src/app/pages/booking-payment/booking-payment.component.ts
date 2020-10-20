@@ -6,6 +6,7 @@ import { Booking, BookingService } from 'src/app/services/booking/booking.servic
 import { Router } from '@angular/router';
 import { GlobalService } from 'src/app/services/global/global.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-booking-payment',
@@ -34,10 +35,12 @@ export class BookingPaymentComponent implements OnInit {
   }
   constructor(private fb: FormBuilder, private stripeService: StripeService,
               private snack: MatSnackBar, private router: Router,
-              private serv: BookingService, private global: GlobalService) { }
+              private serv: BookingService, private global: GlobalService,
+              private title: Title) { }
 
   ngOnInit(): void {
 
+    this.title.setTitle('Pay Booking');
     this.loader = false;
     this.stripeTest = this.fb.group({
       name: ['' , Validators.required]

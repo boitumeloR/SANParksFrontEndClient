@@ -10,17 +10,19 @@ import { validateHorizontalPosition } from '@angular/cdk/overlay';
 import { GlobalService } from 'src/app/services/global/global.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
+import { resetFakeAsyncZone } from '@angular/core/testing';
+import { SuccessModalComponent } from 'src/app/modals/success-modal/success-modal.component';
 import { Title } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-login-client',
-  templateUrl: './login-client.component.html',
-  styleUrls: ['./login-client.component.scss']
+  selector: 'app-forgot-password',
+  templateUrl: './forgot-password.component.html',
+  styleUrls: ['./forgot-password.component.scss']
 })
-export class LoginClientComponent implements OnInit {
+export class ForgotPasswordComponent implements OnInit {
+
 
   formGroup: FormGroup;
-  private user: SocialUser;
   private loggedIn: boolean;
   bsModalRef: BsModalRef;
   loader = false;
@@ -29,26 +31,35 @@ export class LoginClientComponent implements OnInit {
               private global: GlobalService, private snack: MatSnackBar, private title: Title) { }
 
   ngOnInit(): void {
-
-    this.title.setTitle('Login');
-    this.authService.authState.subscribe((user) => {
-      this.user = user;
-      localStorage.setItem('googleUser', JSON.stringify(user));
-      console.log(this.user);
-      this.loggedIn = (user != null);
-    });
-
+    this.title.setTitle('Forgot Password | South African National Parks');
     this.formGroup = this.formBuilder.group({
-      email: ['', Validators.compose([Validators.required, Validators.email])],
-      password: ['', Validators.required]
+      email: ['', Validators.compose([Validators.required, Validators.email])]
     });
   }
 
-  signInWithGoogle(): void {
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then((user: SocialUser) => {
-      if (this.loggedIn) {
-        localStorage.setItem('googleUser', JSON.stringify(user));
-        this.router.navigateByUrl('');
+  SendEmailLink() {
+    const email = this.formGroup.get('email').value;
+
+    this.serv.SendLink(this.global.GetServer(), email).subscribe(res => {
+      if (res.Success) {
+        this.modalService.show(SuccessModalComponent, {
+          class: 'modal-md modal-dialog-centered',
+          initialState: {successMessage: 'A link has been sent to you for you to your reset password'}
+        });
+      } else {
+        if (res.Found === false) {
+          this.snack.open('A user with that email was not found on our system', 'OK', {
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+            duration: 2000
+          });
+        } else {
+          this.snack.open('Unknown error occured, try again', 'OK', {
+            horizontalPosition: 'center',
+            verticalPosition: 'bottom',
+            duration: 2000
+          });
+        }
       }
     });
   }
@@ -114,4 +125,5 @@ export class LoginClientComponent implements OnInit {
       });
     this.bsModalRef.content.closeBtnName = 'Close';
   }
+
 }

@@ -27,11 +27,16 @@ export class DependentsComponent implements OnInit {
 
   childLimit: number;
   adultLimit: number;
-  Dependents: Dependent[] = [];
+  total: number;
+  Dependents: any[] = [];
   ngOnInit(): void {
     const obj = JSON.parse(localStorage.getItem('dependents'));
-    this.childLimit = obj.children;
-    this.adultLimit = obj.adults;
+    this.childLimit = Number(obj.children);
+    this.adultLimit = Number(obj.adults);
+
+    console.log(this.childLimit, this.adultLimit);
+    this.total = this.childLimit + this.adultLimit;
+    console.log(this.childLimit, this.adultLimit);
   }
 
   AddAdult(): void {
@@ -47,6 +52,8 @@ export class DependentsComponent implements OnInit {
       console.log(this.Dependents);
       this.Dependents.push(res.FormSubmit);
       this.adultCount++;
+
+      console.log(this.adultCount, this.adultLimit);
     });
   }
 
@@ -61,6 +68,8 @@ export class DependentsComponent implements OnInit {
     this.bsModalRef.content.closeBtnName = 'Close';
     this.bsModalRef.content.event.subscribe(res => {
       this.Dependents.push(res.FormSubmit);
+
+      console.log(this.Dependents);
       this.childCount++;
     });
   }

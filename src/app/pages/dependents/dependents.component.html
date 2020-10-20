@@ -2,9 +2,7 @@
 <div class="cover">
     <div class="head">
         <h1>Add Your Wildcard Dependents</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur quos hic
-             provident enim temporibus excepturi! Similique, debitis, porro dolore eligendi,
-             laudantium ex eveniet blanditiis maxime incidunt ullam cum dicta fugit.</p>    
+        <p>Add your wildcard Dependents, why would you want to enjoy the South African National Parks alone?</p>    
     </div>
     <img src="assets/images/wc-dependent.jpg" loading = "lazy" alt="">
 </div>
@@ -17,24 +15,16 @@
     >Add AdultDependent</button>
   </div>
 <table class="table table-hover">
-    <thead>
-      <tr>
-        <th scope="col">First Name</th>
-        <th scope="col">Last Name</th>
-        <th scope="col">ID Number</th>
-        <th scope="col">Cellphone Number</th>
-        <th scope="col">Email Address</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of Dependents">
-        <th scope="row">{{item.DependentName}}</th>
-        <td>{{item.DependentSurname}}</td>
-        <td>{{item.DependentIDCode}}</td>
-        <td>{{item.DependentCellphone}}</td>
-        <td>{{item.DependentEmailAddress}}</td>
-      </tr>
-    </tbody>
+    <tr>
+      <th scope="col">First Name</th>
+      <th scope="col">Last Name</th>
+      <th scope="col">ID Number</th>
+    </tr>
+    <tr *ngFor="let item of Dependents">
+      <td>{{item.DependentName}}</td>
+      <td>{{item.DependentSurname}}</td>
+      <td>{{item.DependentIDCode}}</td>
+    </tr>
   </table>
 
   <div class="parent">
@@ -42,7 +32,7 @@
         <button type="button" class="btn btn-secondary child" [routerLink]="[ '/wildcardPricing' ]"> <i class="fa fa-arrow-left" aria-hidden="true"></i>
             Go Back</button>
         <button type="button" (click)="PayWildcard()" class="btn btn-success adult"
-        [disabled] = "Dependents.length == adultLimit + childLimit ? true: false"
+        [disabled] = "Dependents.length === total ? false: true"
         >Proceed To Payment <i class="fa fa-credit-card" aria-hidden="true"></i>
 
         </button>

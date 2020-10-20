@@ -32,7 +32,6 @@ export class MyBookingsComponent implements OnInit {
 
   ngOnInit(): void {
     const session = JSON.parse(sessionStorage.getItem('session'));
-    this.loading = true;
     if (session) {
       this.serv.getClientFromSession(session, this.global.GetServer()).subscribe(res => {
         if (!res.Error) {
@@ -73,6 +72,7 @@ export class MyBookingsComponent implements OnInit {
         }
       });
     } else {
+      sessionStorage.removeItem('session');
       this.router.navigateByUrl('Login');
     }
   }
