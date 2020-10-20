@@ -11,7 +11,7 @@ import { Dependent } from 'src/app/services/Wildcard/wildcard.service';
 export class AddChildDependentComponent implements OnInit {
 
   firstFormGroup: FormGroup;
-  public event: EventEmitter<Dependent> = new EventEmitter<Dependent>();
+  public event: EventEmitter<any> = new EventEmitter<any>();
   constructor(private bsModalRef: BsModalRef, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
@@ -33,15 +33,13 @@ export class AddChildDependentComponent implements OnInit {
   Save() {
     if (this.firstFormGroup.valid) {
 
-      const obj: Dependent = {
-        DependentCellphone: null,
-        DependentEmailAddress: null,
+      const obj = {
         DependentIDCode: this.firstFormGroup.get('DependentIDCode').value,
         DependentName: this.firstFormGroup.get('DependentName').value,
         DependentSurname: this.firstFormGroup.get('DependentSurname').value,
       };
 
-      this.event.emit(obj);
+      this.event.emit({FormSubmit: this.firstFormGroup.value});
       this.close();
     }
   }

@@ -18,9 +18,7 @@ export class AddDependentsComponent implements OnInit {
     this.firstFormGroup = this.formBuilder.group({
       DependentIDCode: ['', Validators.required],
       DependentName: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
-      DependentSurname: ['', Validators.compose([Validators.required, Validators.maxLength(50)])],
-      DependentEmailAddress: ['', Validators.compose([Validators.required, Validators.maxLength(50), Validators.email])],
-      DependentCellphone: ['', Validators.compose([Validators.required, Validators.maxLength(15)])]
+      DependentSurname: ['', Validators.compose([Validators.required, Validators.maxLength(50)])]
     });
   }
 

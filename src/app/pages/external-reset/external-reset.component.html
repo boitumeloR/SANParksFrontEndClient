@@ -4,8 +4,8 @@
 </div>
 <div class="cover">
   <div class="head">
-    <h1>Sign In</h1>
-    <p>Login securely to be able to access bookings and wildcards.You can also update your personal details!!</p>
+    <h1>Reset Password</h1>
+    <p>Forgot your password? No problem. Reset your password here.</p>
   </div>
   <img src="assets/images/auth.svg" loading = "lazy" alt="">
 </div>
@@ -14,7 +14,7 @@
     <div class="loginForm">
       <div class="card">
         <div class="card-body">
-          <h1 class="card-title">Sign In</h1>
+          <h1 class="card-title">Reset Password</h1>
           <div class="col-lg-12">
             <!--
             <button class="btn btn-light form-control btn btn-lg btn-block btn-outline google" (click)="signInWithGoogle()">
@@ -31,40 +31,25 @@
           <form [formGroup]="formGroup">
             <div class="col-lg-12">
               <div class="form-group">
-                <label for="exampleInputEmail1">Email address / Username</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName="email">
-              </div>
-              <div class="form-group">
                 <label for="exampleInputEmail1">Password</label>
                 <input type="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName="password">
               </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Confirm Password</label>
+                <input type="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName="confirm">
+              </div>
             </div>
             <div class="col-lg-12">
-              <button class="btn btn-success form-control btn btn-lg btn-google btn-block btn-outline" (click)="Login()">
-                Sign In &nbsp; 
+              <button class="btn btn-success form-control btn btn-lg btn-google btn-block btn-outline"
+              [disable]= "this.formGroup.valid ? false: true"
+              (click)="ResetPassword()">
+                Reset Password &nbsp; 
                 <div class="spinner-border" role="status" *ngIf="loader">
                   <span class="sr-only">Loading...</span>
               </div>
               </button>
             </div>
           </form>
-          <div class="col-lg-12">
-            <button class="btn btn-info form-control btn btn-lg btn-block btn-outline" 
-            data-toggle="modal" 
-            data-target="#staticBackdrop"
-            (click)="SignUp()"
-            >
-              No Account? Sign Up
-            </button>
-          </div>
-
-          <div class="col-lg-12">
-            <button class="btn btn-info form-control btn btn-lg btn-block btn-outline" 
-            [routerLink]="[ '/forgotPassword' ]"
-            >
-              Forgot Password
-            </button>
-          </div>
         </div>
       </div>
     </div>

@@ -23,6 +23,8 @@ import { TableResultsComponent } from './pages/table-results/table-results.compo
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ExternalBookingPaymentComponent } from './pages/external-booking-payment/external-booking-payment.component';
 import { ExternalWildcardPaymentComponent } from './pages/external-wildcard-payment/external-wildcard-payment.component';
+import { ExternalResetComponent } from './pages/external-reset/external-reset.component';
+import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 
 
 const routes: Routes = [
@@ -109,6 +111,14 @@ const routes: Routes = [
   {
     path: 'payExternalWildcard/:id',
     component: ExternalWildcardPaymentComponent
+  },
+  {
+    path: 'externalReset/:id',
+    component: ExternalResetComponent
+  },
+  {
+    path: 'forgotPassword',
+    component: ForgotPasswordComponent
   }
 ];
 
