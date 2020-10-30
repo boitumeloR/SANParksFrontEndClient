@@ -98,6 +98,10 @@ export class BookingService {
     return this.http.post<any>(`${server}/api/Booking/SaveBooking`, bookingData, this.httpOptions);
   }
 
+  PayPayableBoooking(bookingData, server) {
+    return this.http.post<any>(`${server}/api/Booking/PayResidual`, bookingData, this.httpOptions);
+  }
+
   PayOutstanding(bookingData, server) {
     return this.http.post<any>(`${server}/api/Booking/PayOutstanding`, bookingData, this.httpOptions);
   }

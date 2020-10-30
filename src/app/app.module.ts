@@ -83,6 +83,7 @@ import { ExternalWildcardPaymentComponent } from './pages/external-wildcard-paym
 import { UpdateAccommodationBookingComponent } from './modals/update-accommodation-booking/update-accommodation-booking.component';
 import { ExternalResetComponent } from './pages/external-reset/external-reset.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
+import { LastPaymentComponent } from './pages/last-payment/last-payment.component';
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
   dayGridPlugin,
@@ -157,7 +158,8 @@ export function provideConfig() {
     ExternalWildcardPaymentComponent,
     UpdateAccommodationBookingComponent,
     ExternalResetComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    LastPaymentComponent
   ],
   imports: [
     MatSnackBarModule,

@@ -27,6 +27,7 @@ export class WildcardPricingComponent implements OnInit {
   ngOnInit(): void {
     this.serv.getCategories(this.global.GetServer()).subscribe(res => {
       this.Categories = res.Categories;
+      console.log(this.Categories);
     }, (error: HttpErrorResponse) => {
       const s = this.snack.open('An error occured on our servers, try again later', 'OK', {
         horizontalPosition: 'center',
