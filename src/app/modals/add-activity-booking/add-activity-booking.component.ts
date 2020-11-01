@@ -214,6 +214,7 @@ export class AddActivityBookingComponent implements OnInit {
   }
 
   addToItinerary() {
+    console.log('Booked Date: ' , this.bsValue);
     if (this.bookingGuests.length === this.adultGuests) {
       this.loader = true;
       console.log('here2');
