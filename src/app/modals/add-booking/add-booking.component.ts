@@ -84,6 +84,11 @@ export class AddBookingComponent implements OnInit, AfterViewInit{
 
     console.log(minimum);
     this.maxQuantity = Math.min(...minimum);
+
+    if (this.maxQuantity === 0) {
+      this.httpError = true;
+      this.httpMessage = 'There are no units in the range picked, please try another date range.';
+    }
   }
 
 

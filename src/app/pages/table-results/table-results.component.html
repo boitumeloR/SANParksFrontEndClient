@@ -126,7 +126,7 @@
                                        >
                                 </div>
                             </th>
-                            <th *ngFor="let item of tableDates">{{item.Date |date:'mediumDate'}}</th>
+                            <th *ngFor="let item of tableDates">{{item.Date | date:'fullDate'}}</th>
                             <th>Make Your Booking</th>
                         </tr>
                     </ng-template>
@@ -140,7 +140,7 @@
                             </td>
                             <td *ngFor="let amount of acc.Availability">{{amount.AvailableAmount}} Available</td>
                             <td>
-                                <button class="btn btn-success" (click)="bookWeek(acc, avail.CampID)">Book This Week &nbsp;
+                                <button class="btn btn-success" (click)="bookWeek(acc, avail.CampID)">Book {{acc.AccommodationTypeName}} &nbsp;
                                     <div class="spinner-border" role="status" *ngIf="mapLoader">
                                         <span class="sr-only">Loading...</span>
                                     </div>
@@ -187,7 +187,7 @@
                                    >
                             </div>
                         </th>
-                        <th *ngFor="let item of tableDates">{{item.Date |date:'mediumDate'}}</th>
+                        <th *ngFor="let item of tableDates">{{item.Date |date:'fullDate'}}</th>
                         <th>Make Your Booking</th>
                     </tr>
                 </ng-template>
@@ -244,7 +244,7 @@
                                        >
                                 </div>
                             </th>
-                            <th *ngFor="let item of tableDates">{{item.Date |date:'mediumDate'}}</th>
+                            <th *ngFor="let item of tableDates">{{item.Date | date:'fullDate'}}</th>
                             <th>Make Your Booking</th>
                         </tr>
                     </ng-template>

@@ -25,6 +25,8 @@ export class AddDayVisitComponent implements OnInit {
   adultGuests = 1;
   totalGuests = 2;
 
+  maxQuantity: number;
+  availability: any[] = [];
   enterGuest = true;
   config = {
     animated: true,
@@ -32,7 +34,7 @@ export class AddDayVisitComponent implements OnInit {
   };
   initialData: any;
   initialDate: Date[];
-  bsValue = new Date();
+  bsValue: Date;
   maxDate: Date;
   minDate: Date;
 
@@ -53,6 +55,7 @@ export class AddDayVisitComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.initialData);
+    this.availability = this.initialData.Dates;
     const Dates = JSON.parse(localStorage.getItem('Dates'));
     console.log(this.minDate, this.maxDate);
     this.firstFormGroup = this.formBuilder.group({
@@ -63,7 +66,7 @@ export class AddDayVisitComponent implements OnInit {
     });
   }
 
-  parseDate(input) {
+  parseDate(input): Date {
     const parts = input.match(/(\d+)/g);
     // new Date(year, month [, date [, hours[, minutes[, seconds[, ms]]]]])
     return new Date(parts[0], parts[1] - 1, parts[2]); // months are 0-based
@@ -93,6 +96,19 @@ export class AddDayVisitComponent implements OnInit {
     } else {
       this.httpError = true;
       this.httpMessage = `You may only add ${this.guests} children for your visit`;
+    }
+  }
+
+  ChangeDate() {
+    console.log(this.availability);
+    const avail: number = this.availability.findIndex(zz => this.bsValue);
+    console.log(this.parseDate(this.initialData.Dates[3].Date));
+    console.log(this.bsValue);
+    console.log(avail);
+    this.maxQuantity = this.availability[avail].SlotsAvailable;
+    if (this.maxQuantity === 0) {
+      this.httpError = true;
+      this.httpMessage = 'There are no slots available on this date, pick another date.';
     }
   }
 

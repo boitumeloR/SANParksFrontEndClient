@@ -1,7 +1,7 @@
 
 <div class="modal-content">
   <div class="modal-header">
-      <h3>Add {{initialData.ParkGateName}}</h3>
+      <h3>Visit {{initialData.ParkGate}}</h3>
       <button type="button" class="close pull-right" aria-label="Close" (click)="close()">
           <span aria-hidden="true">&times;</span>
       </button>
@@ -28,18 +28,24 @@
                      [maxDate]="maxDate"
                      placement="bottom"
                      [(ngModel)]="bsValue"
+                     (ngModelChange) = "ChangeDate()"
                      [bsConfig]="{ isAnimated: true, adaptivePosition: true, displayOneMonthRange: true }"
                      >
-                  </div>
-                <div class="col-md-12 checks">
-                  <label class="end">Number of Guests: </label>
-                  <div>
-                      <button type="button" class="btn btn-success" (click)="subtractAdultGuest()">-</button>
-                      <p>{{adultGuests}}</p>
-                      <button type="button" class="btn btn-success" (click)="addAdultGuest()">+</button>
-                  </div>
-              </div>
-              <button class="btn btn-light btnGuest" matStepperNext >Enter Guest Details</button>
+                </div>
+                <div *ngIf="maxQuantity">
+                  <div class="col-md-12 checks">
+                    <label class="end">Number of Guests: </label>
+                    <div>
+                      <span class="warn">Maximum Guests: {{maxQuantity}}</span>
+                    </div>
+                    <div>
+                        <button type="button" class="btn btn-success" (click)="subtractAdultGuest()">-</button>
+                        <p>{{adultGuests}}</p>
+                        <button type="button" class="btn btn-success" (click)="addAdultGuest()">+</button>
+                    </div>
+                </div>
+                <button class="btn btn-light btnGuest" matStepperNext >Enter Guest Details</button>
+                </div>
               </div>
             </div>
       </mat-step>

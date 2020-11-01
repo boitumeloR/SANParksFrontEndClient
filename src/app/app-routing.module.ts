@@ -25,6 +25,7 @@ import { ExternalBookingPaymentComponent } from './pages/external-booking-paymen
 import { ExternalWildcardPaymentComponent } from './pages/external-wildcard-payment/external-wildcard-payment.component';
 import { ExternalResetComponent } from './pages/external-reset/external-reset.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
+import { LastPaymentComponent } from './pages/last-payment/last-payment.component';
 
 
 const routes: Routes = [
@@ -119,6 +120,10 @@ const routes: Routes = [
   {
     path: 'forgotPassword',
     component: ForgotPasswordComponent
+  },
+  {
+    path: 'lastPayment',
+    component: LastPaymentComponent
   }
 ];
 

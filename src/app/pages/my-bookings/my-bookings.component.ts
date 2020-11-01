@@ -77,6 +77,19 @@ export class MyBookingsComponent implements OnInit {
     }
   }
 
+  PayBooking(booking) {
+    const payAmount = Number(booking.AmountOutStanding);
+    const BookingID = Number(booking.BookingID);
+
+    const payObj = {
+      BookingID,
+      PaymentAmount: payAmount
+    };
+
+    localStorage.setItem('lastPayment', JSON.stringify(payObj));
+    this.router.navigateByUrl('lastPayment');
+  }
+
   viewBooking(): void {
     const initialState = {
       backdrop: 'static'
