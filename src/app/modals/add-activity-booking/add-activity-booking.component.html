@@ -32,23 +32,28 @@
                   </div>
                   <div class="form-group col-md-8 checks">
                       <label for="exampleFormControlSelect1">Activity Slot</label>
-                      <select class="form-control" id="exampleFormControlSelect1" aria-placeholder="Park" [(ngModel)]="selectedSlot">
-                      <option *ngFor="let item of ActivitySlots" value="{{item.SlotID}}">{{item.SlotTime}}</option>
+                      <select class="form-control" id="exampleFormControlSelect1" aria-placeholder="Park" [(ngModel)]="selectedSlot"
+                      (ngModelChange)="SlotAvailability()"
+                      >
+                      <option value="0"></option>
+                      <option *ngFor="let item of ActivitySlots" [value]="item.SlotID">{{item.SlotTime}}</option>
                       </select>
                   </div>
-                <div class="col-md-12 checks">
-                  <br>
-                  <h6 class="checks"> You may add {{initialData.MaxCapacity}} guests.</h6>
-                  <label class="end">Number of Guests: </label>
-                  <br>
-                  <div>
-                      <button type="button" class="btn btn-success" (click)="subtractAdultGuest()">-</button>
-                      <p>{{adultGuests}}</p>
-                      <button type="button" class="btn btn-success" (click)="addAdultGuest()">+</button>
-                  </div>
-              </div>
 
-                <button class="btn btn-light btnGuest" matStepperNext >Enter Guest Details</button>
+                  <div *ngIf="maxGuests > 0">
+                    <div class="col-md-12 checks">
+                      <br>
+                      <h6 class="checks"> You may add {{maxGuests}} guests.</h6>
+                      <label class="end">Number of Guests: </label>
+                      <br>
+                      <div>
+                          <button type="button" class="btn btn-success" (click)="subtractAdultGuest()">-</button>
+                          <p>{{adultGuests}}</p>
+                          <button type="button" class="btn btn-success" (click)="addAdultGuest()">+</button>
+                      </div>
+                    </div>
+                    <button class="btn btn-light btnGuest" matStepperNext >Enter Guest Details</button>
+                  </div>
               </div>
             </div>
       </mat-step>

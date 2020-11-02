@@ -42,6 +42,10 @@ export class AvailabilityService {
     return this.http.post<any>(`${server}/api/Booking/CheckSpecificAvailability`, availableData, this.httpOptions);
   }
 
+  checkSlotAvailability(data: any, server: string) {
+    return this.http.post<number>(`${server}/api/Booking/CheckSlotAvailability`, data, this.httpOptions);
+  }
+
   checkDistances(distanceCamps, server) {
     return this.http.post(`${server}/api/Booking/CheckDistance`, distanceCamps, this.httpOptions);
   }

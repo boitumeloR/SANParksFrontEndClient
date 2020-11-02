@@ -7,6 +7,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { GlobalService } from 'src/app/services/global/global.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-update-client',
@@ -62,7 +63,8 @@ export class UpdateClientComponent implements OnInit {
   firstError = 'Enter all fields correctly & make sure your password matches in both fields';
   constructor(private bsModalRef: BsModalRef, private formBuilder: FormBuilder,
               private modalService: BsModalService, private serv: AuthService,
-              private global: GlobalService, private snack: MatSnackBar) { }
+              private global: GlobalService, private snack: MatSnackBar,
+              private router: Router) { }
 
   ngOnInit(): void {
     console.log(this.clientInfo);
@@ -85,7 +87,7 @@ export class UpdateClientComponent implements OnInit {
         ClientSurname: this.clientGroup.get('surname').value,
         ClientIDCode: this.clientGroup.get('id').value,
         Address1: this.clientGroup.get('address1').value,
-        Address2: this.clientGroup.get('address1').value,
+        Address2: this.clientGroup.get('address2').value,
         PostalCode: this.clientGroup.get('post').value,
         Session: JSON.parse(sessionStorage.getItem('session'))
       };
@@ -95,7 +97,7 @@ export class UpdateClientComponent implements OnInit {
           this.loader2 = false;
           sessionStorage.setItem('session', JSON.stringify(res.Session));
           this.bsModalRef.hide();
-
+          this.router.navigateByUrl('');
           this.snack.open('You have successfully updated', 'OK', {
             horizontalPosition: 'center',
             verticalPosition: 'bottom',
