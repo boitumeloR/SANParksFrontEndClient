@@ -25,6 +25,7 @@ export class AddActivityBookingComponent implements OnInit {
   adultGuests = 1;
   totalGuests = 2;
 
+  maxGuests = 0;
   enterGuest = true;
   config = {
     animated: true,
@@ -44,7 +45,7 @@ export class AddActivityBookingComponent implements OnInit {
 
   ActivitySlots: any[];
   addModalRef: BsModalRef;
-  selectedSlot = 1;
+  selectedSlot = 0;
 
   constructor(private bsModalRef: BsModalRef, private formBuilder: FormBuilder, private service: BsModalService,
               private serv: AvailabilityService, private global: GlobalService, private router: Router,
@@ -112,9 +113,26 @@ export class AddActivityBookingComponent implements OnInit {
     }
   }
 
+  SlotAvailability() {
+    if (this.selectedSlot > 0) {
+      const checkObj = {
+        BaseDate: this.bsValue,
+        SlotID: this.selectedSlot,
+        CampID: this.initialData.CampID
+      };
+      this.serv.checkSlotAvailability(checkObj, this.global.GetServer()).subscribe(res => {
+        this.maxGuests = res;
+        if (res === 0) {
+          this.httpError = true;
+          this.httpMessage = `There are no more spaces available in this time slot`;
+        }
+      });
+    }
+  }
+
   addAdultGuest() {
     console.log(Math.min(...this.initialData.Availability.map(zz => zz.AvailableAmount)));
-    if (this.adultGuests < this.initialData.MaxCapacity) {
+    if (this.adultGuests < this.maxGuests) {
       this.adultGuests++;
       this.totalGuests++;
     } else {

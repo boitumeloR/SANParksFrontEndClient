@@ -172,3 +172,7 @@ $buttonColor: rgb(61, 116, 61);
  a {
      margin-left: 15px;
  }
+
+ ::ng-deep .mat-horizontal-stepper-header{
+    pointer-events: none !important;
+}
