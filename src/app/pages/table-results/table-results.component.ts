@@ -58,9 +58,12 @@ export class TableResultsComponent implements OnInit {
   mapLoader = false;
   isOpen = true;
   bsModalRef: BsModalRef;
+  minDate: Date;
   constructor(private router: Router, private serv: AvailabilityService,
               private global: GlobalService, private snack: MatSnackBar,
-              private modalService: BsModalService, private formBuilder: FormBuilder) { }
+              private modalService: BsModalService, private formBuilder: FormBuilder) {
+                this.minDate = new Date();
+               }
 
   ngOnInit(): void {
     this.dropDowns$ = this.serv.getDropDowns(this.global.GetServer());
@@ -324,9 +327,14 @@ export class TableResultsComponent implements OnInit {
   }
   // end
 
+  addDays(date, days: number): Date {
+    const result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+  }
 
   chooseDate(event: Event) {
-    this.searchData.BaseDate = event;
+    this.searchData.BaseDate = this.addDays(event, 1);
     this.searchData.Forward = true;
     this.loader = true;
 
@@ -378,26 +386,33 @@ export class TableResultsComponent implements OnInit {
   }
 
   pastWeek() {
-    this.loader = true;
-    this.searchData.Forward = false;
-    this.searchData.BaseDate = this.tableDates[0].Date;
+    const now = new Date();
 
-    this.checkAvailability$ = this.serv.checkAvailability(this.searchData, this.global.GetServer());
-    this.checkAvailability$.subscribe(res => {
-      this.availableResults = res.AvailableResults;
-      this.tableDates = res.Dates;
-      this.loader = false;
-      localStorage.setItem('availableResults', JSON.stringify(res));
-      localStorage.setItem('searchData', JSON.stringify(this.searchData));
-    }, (error: HttpErrorResponse) => {
-      this.snack.open(`An error occured on our servers: ${error.message}`, 'OK', {
-        horizontalPosition: 'center',
-        verticalPosition: 'bottom',
-        duration: 5000
+    now.setHours(0, 0, 0, 0);
+    console.log(this.tableDates[0].Date);
+    console.log(this.addDays(now, 8));
+    if (new Date(this.tableDates[0].Date) >= this.addDays(now, 7) ) {
+      this.loader = true;
+      this.searchData.Forward = false;
+      this.searchData.BaseDate = this.tableDates[0].Date;
+
+      this.checkAvailability$ = this.serv.checkAvailability(this.searchData, this.global.GetServer());
+      this.checkAvailability$.subscribe(res => {
+        this.availableResults = res.AvailableResults;
+        this.tableDates = res.Dates;
+        this.loader = false;
+        localStorage.setItem('availableResults', JSON.stringify(res));
+        localStorage.setItem('searchData', JSON.stringify(this.searchData));
+      }, (error: HttpErrorResponse) => {
+        this.snack.open(`An error occured on our servers: ${error.message}`, 'OK', {
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+          duration: 5000
+        });
+        this.httpError = true;
+        this.httpMessage = error.message;
       });
-      this.httpError = true;
-      this.httpMessage = error.message;
-    });
+    }
   }
 
 
@@ -540,8 +555,8 @@ parseDate(input) {
   addAccommodationBookingModal(initialData): void {
 
     const start = this.parseDate(String(initialData.StartDate));
-    const base: Date = new Date();
-    const end: Date = new Date(start.setMonth(base.getMonth() + 1));
+    const base: Date = this.tableDates[0].Date;
+    const end: Date = new Date();
 
     console.log(end);
     console.log(base);

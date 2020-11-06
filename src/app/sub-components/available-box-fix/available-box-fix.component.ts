@@ -200,6 +200,7 @@ export class AvailableBoxFixComponent implements OnInit {
           BaseDate: new Date()
         };
 
+        console.log(new Date());
         console.log(availableData);
         this.checkAvailability$ = this.serv.checkAvailability(availableData, this.global.GetServer());
         this.checkAvailability$.subscribe(res => {
