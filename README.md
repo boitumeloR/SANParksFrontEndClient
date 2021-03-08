@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 # SANParksFrontEndWeb
+<a href="https://imgflip.com/gif/50txi0"><img src = "https://i.imgflip.com/50txi0.gif" /></a>
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.5.
 
