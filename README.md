@@ -2,8 +2,7 @@
 # SANParksFrontEndWeb
 <a href="https://imgflip.com/gif/50txi0"><img src = "https://i.imgflip.com/50txi0.gif" /></a>
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.5.
-
+[Link to the Live Site (API Currently down due to cost issues)](https://sanparksfrontoffice.web.app)
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
